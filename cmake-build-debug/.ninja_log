@@ -1,0 +1,15 @@
+# ninja log v5
+4628	4656	1676450987101373000	lib/libgmockd.a	19725d22864fc11a
+2076	3850	1676450986287293913	lib/googletest-master/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o	d90c7cf71e645760
+9	27	0	/Users/tonevanda/Downloads/DA-QuickStart/cmake-build-debug/CMakeFiles/cmake.verify_globs	c8e24563d009e179
+2305	4591	1676450987022102062	lib/googletest-master/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	c42a28ba826a2182
+4628	4649	1676450987094115000	lib/libgtest_maind.a	4426640b232c17b3
+2155	3364	1676450985802121218	lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o	61b658dc7b0d1097
+1608	1715	1677055416009781000	libCLOSEST_POINT_PAIR.a	48ed10e5cbbd3813
+4591	4628	1676450987073113000	lib/libgtestd.a	dc2a295d2a5481aa
+936	1101	1678226493736177091	TP3	b5a6e6313c56011
+4656	4676	1676450987121172000	lib/libgmock_maind.a	85887daed4806519
+649	721	1676834054041236499	TP1	c5684ef1e202340c
+3101	3900	1676450986340486908	lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	6bef4a1f6cd906d
+1376	1453	1677258225103537606	TP2	e57a13dbc42a7538
+947	1129	1676450983573560000	libDATA_STRUCTURES.a	ee1b5ecbee4519f4

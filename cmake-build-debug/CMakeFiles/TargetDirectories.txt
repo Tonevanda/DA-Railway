@@ -1,0 +1,3 @@
+/Users/tonevanda/Documents/GitHub/Projeto-DA-1/cmake-build-debug/CMakeFiles/Projeto_DA_1.dir
+/Users/tonevanda/Documents/GitHub/Projeto-DA-1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/tonevanda/Documents/GitHub/Projeto-DA-1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
