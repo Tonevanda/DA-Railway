@@ -10,78 +10,83 @@
 #include <algorithm>
 #include "MutablePriorityQueue.h"
 
-class Edge;
+class Segment;
 
 #define INF std::numeric_limits<double>::max()
 
-/************************* Vertex  **************************/
+/************************* Station  **************************/
 
-class Vertex {
+class Station {
 public:
-    Vertex(int id);
-    bool operator<(Vertex & vertex) const; // // required by MutablePriorityQueue
+    Station(int id, );
+    bool operator<(Station& Station) const; // // required by MutablePriorityQueue
 
     int getId() const;
-    std::vector<Edge *> getAdj() const;
+    std::vector<Segment *> getAdj() const;
     bool isVisited() const;
     bool isProcessing() const;
     unsigned int getIndegree() const;
     double getDist() const;
-    Edge *getPath() const;
-    std::vector<Edge *> getIncoming() const;
+    Segment *getPath() const;
+    std::vector<Segment *> getIncoming() const;
 
     void setId(int info);
     void setVisited(bool visited);
     void setProcesssing(bool processing);
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
-    void setPath(Edge *path);
-    Edge * addEdge(Vertex *dest, double w);
-    bool removeEdge(int destID);
+    void setPath(Segment *path);
+    Segment * addSegment(Station *dest, double w, int serv);
+    bool removeSegment(int destID);
 
-    friend class MutablePriorityQueue<Vertex>;
+    friend class MutablePriorityQueue<Station>;
 protected:
     int id;                // identifier
-    std::vector<Edge *> adj;  // outgoing edges
+    std::string name;
+    std::string district;
+    std::string municipality;
+    std::string township;
+    std::vector<Segment *> adj;  // outgoing edges
 
     // auxiliary fields
     bool visited = false; // used by DFS, BFS, Prim ...
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     unsigned int indegree; // used by topsort
     double dist = 0;
-    Edge *path = nullptr;
+    Segment *path = nullptr;
 
-    std::vector<Edge *> incoming; // incoming edges
+    std::vector<Segment *> incoming; // incoming edges
 
     int queueIndex = 0; 		// required by MutablePriorityQueue and UFDS
 };
 
-/********************** Edge  ****************************/
+/********************** Segment  ****************************/
 
-class Edge {
+class Segment {
 public:
-    Edge(Vertex *orig, Vertex *dest, double w);
+    Segment(Station *orig, Station *dest, double w, int service);
 
-    Vertex * getDest() const;
-    double getWeight() const;
+    Station* getDest() const;
+    double getCapacity() const;
     bool isSelected() const;
-    Vertex * getOrig() const;
-    Edge *getReverse() const;
+    Station* getOrig() const;
+    Segment *getReverse() const;
     double getFlow() const;
 
     void setSelected(bool selected);
-    void setReverse(Edge *reverse);
+    void setReverse(Segment *reverse);
     void setFlow(double flow);
 protected:
-    Vertex * dest; // destination vertex
-    double weight; // edge weight, can also be used for capacity
+    Station* dest; // destination vertex
+    double capacity; // edge weight, can also be used for capacity
+    int service;
 
     // auxiliary fields
     bool selected = false;
 
     // used for bidirectional edges
-    Vertex *orig;
-    Edge *reverse = nullptr;
+    Station *orig;
+    Segment *reverse = nullptr;
 
     double flow; // for flow-related problems
 };

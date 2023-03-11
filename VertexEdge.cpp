@@ -2,35 +2,35 @@
 
 #include "VertexEdge.h"
 
-/************************* Vertex  **************************/
+/************************* Station  **************************/
 
-Vertex::Vertex(int id): id(id) {}
+Station::Station(int id): id(id) {}
 
 /*
- * Auxiliary function to add an outgoing edge to a vertex (this),
- * with a given destination vertex (d) and edge weight (w).
+ * Auxiliary function to add an outgoing Segment to a Station (this),
+ * with a given destination StatioFn (d) and Segment weight (w).
  */
-Edge * Vertex::addEdge(Vertex *d, double w) {
-    auto newEdge = new Edge(this, d, w);
-    adj.push_back(newEdge);
-    d->incoming.push_back(newEdge);
-    return newEdge;
+Segment * Station::addSegment(Station *d, double w, int serv) {
+    auto newSegment = new Segment(this, d, w, serv);
+    adj.push_back(newSegment);
+    d->incoming.push_back(newSegment);
+    return newSegment;
 }
 
 /*
- * Auxiliary function to remove an outgoing edge (with a given destination (d))
- * from a vertex (this).
- * Returns true if successful, and false if such edge does not exist.
+ * Auxiliary function to remove an outgoing Segment (with a given destination (d))
+ * from a Station (this).
+ * Returns true if successful, and false if such Segment does not exist.
  */
-bool Vertex::removeEdge(int destID) {
-    bool removedEdge = false;
+bool Station::removeSegment(int destID) {
+    bool removedSegment = false;
     auto it = adj.begin();
     while (it != adj.end()) {
-        Edge *edge = *it;
-        Vertex *dest = edge->getDest();
+        Segment *Segment = *it;
+        Station *dest = Segment->getDest();
         if (dest->getId() == destID) {
             it = adj.erase(it);
-            // Also remove the corresponding edge from the incoming list
+            // Also remove the corresponding Segment from the incoming list
             auto it2 = dest->incoming.begin();
             while (it2 != dest->incoming.end()) {
                 if ((*it2)->getOrig()->getId() == id) {
@@ -40,112 +40,112 @@ bool Vertex::removeEdge(int destID) {
                     it2++;
                 }
             }
-            delete edge;
-            removedEdge = true; // allows for multiple edges to connect the same pair of vertices (multigraph)
+            delete Segment;
+            removedSegment = true; // allows for multiple Segments to connect the same pair of vertices (multigraph)
         }
         else {
             it++;
         }
     }
-    return removedEdge;
+    return removedSegment;
 }
 
-bool Vertex::operator<(Vertex & vertex) const {
-    return this->dist < vertex.dist;
+bool Station::operator<(Station & Station) const {
+    return this->dist < Station.dist;
 }
 
-int Vertex::getId() const {
+int Station::getId() const {
     return this->id;
 }
 
-std::vector<Edge*> Vertex::getAdj() const {
+std::vector<Segment*> Station::getAdj() const {
     return this->adj;
 }
 
-bool Vertex::isVisited() const {
+bool Station::isVisited() const {
     return this->visited;
 }
 
-bool Vertex::isProcessing() const {
+bool Station::isProcessing() const {
     return this->processing;
 }
 
-unsigned int Vertex::getIndegree() const {
+unsigned int Station::getIndegree() const {
     return this->indegree;
 }
 
-double Vertex::getDist() const {
+double Station::getDist() const {
     return this->dist;
 }
 
-Edge *Vertex::getPath() const {
+Segment *Station::getPath() const {
     return this->path;
 }
 
-std::vector<Edge *> Vertex::getIncoming() const {
+std::vector<Segment *> Station::getIncoming() const {
     return this->incoming;
 }
 
-void Vertex::setId(int id) {
+void Station::setId(int id) {
     this->id = id;
 }
 
-void Vertex::setVisited(bool visited) {
+void Station::setVisited(bool visited) {
     this->visited = visited;
 }
 
-void Vertex::setProcesssing(bool processing) {
+void Station::setProcesssing(bool processing) {
     this->processing = processing;
 }
 
-void Vertex::setIndegree(unsigned int indegree) {
+void Station::setIndegree(unsigned int indegree) {
     this->indegree = indegree;
 }
 
-void Vertex::setDist(double dist) {
+void Station::setDist(double dist) {
     this->dist = dist;
 }
 
-void Vertex::setPath(Edge *path) {
+void Station::setPath(Segment *path) {
     this->path = path;
 }
 
-/********************** Edge  ****************************/
+/********************** Segment  ****************************/
 
-Edge::Edge(Vertex *orig, Vertex *dest, double w): orig(orig), dest(dest), weight(w) {}
+Segment::Segment(Station *orig, Station *dest, double w, int service): orig(orig), dest(dest), capacity(w) , service(service){}
 
-Vertex * Edge::getDest() const {
+Station * Segment::getDest() const {
     return this->dest;
 }
 
-double Edge::getWeight() const {
-    return this->weight;
+double Segment::getCapacity() const {
+    return this->capacity;
 }
 
-Vertex * Edge::getOrig() const {
+Station * Segment::getOrig() const {
     return this->orig;
 }
 
-Edge *Edge::getReverse() const {
+Segment *Segment::getReverse() const {
     return this->reverse;
 }
 
-bool Edge::isSelected() const {
+bool Segment::isSelected() const {
     return this->selected;
 }
 
-double Edge::getFlow() const {
+double Segment::getFlow() const {
     return flow;
 }
 
-void Edge::setSelected(bool selected) {
+void Segment::setSelected(bool selected) {
     this->selected = selected;
 }
 
-void Edge::setReverse(Edge *reverse) {
+void Segment::setReverse(Segment *reverse) {
     this->reverse = reverse;
 }
 
-void Edge::setFlow(double flow) {
+void Segment::setFlow(double flow) {
     this->flow = flow;
 }

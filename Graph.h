@@ -16,35 +16,35 @@ class Graph {
 public:
     ~Graph();
     /*
-    * Auxiliary function to find a vertex with a given ID.
+    * Auxiliary function to find a Station with a given ID.
     */
-    Vertex *findVertex(const int &id) const;
+    Station *findStation(const int &id) const;
     /*
-     *  Adds a vertex with a given content or info (in) to a graph (this).
-     *  Returns true if successful, and false if a vertex with that content already exists.
+     *  Adds a Station with a given content or info (in) to a graph (this).
+     *  Returns true if successful, and false if a Station with that content already exists.
      */
-    bool addVertex(const int &id);
+    bool addStation(const int &id);
 
     /*
-     * Adds an edge to a graph (this), given the contents of the source and
-     * destination vertices and the edge weight (w).
-     * Returns true if successful, and false if the source or destination vertex does not exist.
+     * Adds a Segment to a graph (this), given the contents of the source and
+     * destination vertices and the Segment weight (w).
+     * Returns true if successful, and false if the source or destination Station does not exist.
      */
-    bool addEdge(const int &sourc, const int &dest, double w);
-    bool addBidirectionalEdge(const int &sourc, const int &dest, double w);
+    bool addSegment(const int &sourc, const int &dest, double w, int serv);
+    bool addBidirectionalSegment(const int &sourc, const int &dest, double w, int serv);
 
-    int getNumVertex() const;
-    std::vector<Vertex *> getVertexSet() const;
+    int getNumStation() const;
+    std::vector<Station *> getStationSet() const;
 protected:
-    std::vector<Vertex *> vertexSet;    // vertex set
+    std::vector<Station *> StationSet;    // Station set
 
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
 
     /*
-     * Finds the index of the vertex with a given content.
+     * Finds the index of the Station with a given content.
      */
-    int findVertexIdx(const int &id) const;
+    int findStationIdx(const int &id) const;
 };
 
 void deleteMatrix(int **m, int n);
