@@ -6,8 +6,8 @@
  *      Author: João Pascoal Faria
  */
 
-#ifndef DA_TP_CLASSES_MUTABLEPRIORITYQUEUE
-#define DA_TP_CLASSES_MUTABLEPRIORITYQUEUE
+#ifndef PROJETO_DA_1_MPQ_H
+#define PROJETO_DA_1_MPQ_H
 
 #include <vector>
 
@@ -101,4 +101,4 @@ void MutablePriorityQueue<T>::set(unsigned i, T * x) {
 	x->queueIndex = i;
 }
 
-#endif /* DA_TP_CLASSES_MUTABLEPRIORITYQUEUE */
+#endif //PROJETO_DA_1_MPQ_H

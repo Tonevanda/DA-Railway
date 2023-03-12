@@ -4,7 +4,8 @@
 
 /************************* Station  **************************/
 
-Station::Station(int id): id(id) {}
+Station::Station(std::string name, std::string district, std::string municipality, std::string township, std::string line): name(name), district(district),
+municipality(municipality), township(township), line(line){}
 
 /*
  * Auxiliary function to add an outgoing Segment to a Station (this),
@@ -22,18 +23,18 @@ Segment * Station::addSegment(Station *d, double w, int serv) {
  * from a Station (this).
  * Returns true if successful, and false if such Segment does not exist.
  */
-bool Station::removeSegment(int destID) {
+bool Station::removeSegment(std::string destName) {
     bool removedSegment = false;
     auto it = adj.begin();
     while (it != adj.end()) {
         Segment *Segment = *it;
         Station *dest = Segment->getDest();
-        if (dest->getId() == destID) {
+        if (dest->getName() == destName) {
             it = adj.erase(it);
             // Also remove the corresponding Segment from the incoming list
             auto it2 = dest->incoming.begin();
             while (it2 != dest->incoming.end()) {
-                if ((*it2)->getOrig()->getId() == id) {
+                if ((*it2)->getOrig()->getName() == name) {
                     it2 = dest->incoming.erase(it2);
                 }
                 else {
@@ -54,9 +55,16 @@ bool Station::operator<(Station & Station) const {
     return this->dist < Station.dist;
 }
 
+/*
 int Station::getId() const {
     return this->id;
-}
+}*/
+
+std::string Station::getName() const {return this->name;}
+std::string Station::getDistrict() const {return this->district;}
+std::string Station::getMunicipality() const {return this->municipality;}
+std::string Station::getTownship() const {return this->township;}
+std::string Station::getLine() const {return this->line;}
 
 std::vector<Segment*> Station::getAdj() const {
     return this->adj;
@@ -86,9 +94,6 @@ std::vector<Segment *> Station::getIncoming() const {
     return this->incoming;
 }
 
-void Station::setId(int id) {
-    this->id = id;
-}
 
 void Station::setVisited(bool visited) {
     this->visited = visited;
@@ -136,6 +141,17 @@ bool Segment::isSelected() const {
 
 double Segment::getFlow() const {
     return flow;
+}
+
+int Segment::getService() const {
+    return service;
+}
+
+string Segment::getServiceName() const {
+    switch (service) {
+        case 2: {return "STANDARD";}
+        case 4: {return "ALFA PENDULAR";}
+    }
 }
 
 void Segment::setSelected(bool selected) {

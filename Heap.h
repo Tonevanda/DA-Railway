@@ -1,8 +1,8 @@
 // By: Gonçalo Leão
 // Based on MutablePriorityQueue.h
 
-#ifndef DA_TP_CLASSES_HEAP
-#define DA_TP_CLASSES_HEAP
+#ifndef PROJETO_DA_1_HEAP_H
+#define PROJETO_DA_1_HEAP_H
 
 #include <vector>
 
@@ -19,4 +19,4 @@ private:
     void heapifyDown(unsigned int i);
 };
 
-#endif /* DA_TP_CLASSES_HEAP */
+#endif //PROJETO_DA_1_HEAP_H

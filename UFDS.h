@@ -6,8 +6,8 @@
  *      Author: Gonçalo Leão
  */
 
-#ifndef DA_TP_CLASSES_UFDS
-#define DA_TP_CLASSES_UFDS
+#ifndef PROJETO_DA_1_UFDS_H
+#define PROJETO_DA_1_UFDS_H
 
 #include <vector>
 
@@ -23,4 +23,4 @@ private:
 };
 
 
-#endif //DA_TP_CLASSES_UFDS
+#endif //PROJETO_DA_1_UFDS_H

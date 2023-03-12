@@ -1,7 +1,7 @@
 // By: Gonçalo Leão
 
-#ifndef DA_TP_CLASSES_VERTEX_EDGE
-#define DA_TP_CLASSES_VERTEX_EDGE
+#ifndef PROJETO_DA_1_VERTEXEDGE_H
+#define PROJETO_DA_1_VERTEXEDGE_H
 
 #include <iostream>
 #include <vector>
@@ -9,6 +9,8 @@
 #include <limits>
 #include <algorithm>
 #include "MutablePriorityQueue.h"
+
+using namespace std;
 
 class Segment;
 
@@ -18,35 +20,41 @@ class Segment;
 
 class Station {
 public:
-    Station(int id, );
+    Station(std::string name, std::string district, std::string municipality, std::string township, std::string line);
     bool operator<(Station& Station) const; // // required by MutablePriorityQueue
 
-    int getId() const;
-    std::vector<Segment *> getAdj() const;
+    //int getId() const;
+    string getName() const;
+    string getDistrict() const;
+    string getMunicipality() const;
+    string getTownship() const;
+    string getLine() const;
+
+    vector<Segment *> getAdj() const;
     bool isVisited() const;
     bool isProcessing() const;
     unsigned int getIndegree() const;
     double getDist() const;
     Segment *getPath() const;
-    std::vector<Segment *> getIncoming() const;
+    vector<Segment *> getIncoming() const;
 
-    void setId(int info);
     void setVisited(bool visited);
     void setProcesssing(bool processing);
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
     void setPath(Segment *path);
     Segment * addSegment(Station *dest, double w, int serv);
-    bool removeSegment(int destID);
+    bool removeSegment(std::string destName);
 
     friend class MutablePriorityQueue<Station>;
 protected:
-    int id;                // identifier
-    std::string name;
-    std::string district;
-    std::string municipality;
-    std::string township;
-    std::vector<Segment *> adj;  // outgoing edges
+    //int id;                // identifier
+    string name;
+    string district;
+    string municipality;
+    string township;
+    string line;
+    vector<Segment *> adj;  // outgoing edges
 
     // auxiliary fields
     bool visited = false; // used by DFS, BFS, Prim ...
@@ -55,7 +63,7 @@ protected:
     double dist = 0;
     Segment *path = nullptr;
 
-    std::vector<Segment *> incoming; // incoming edges
+    vector<Segment *> incoming; // incoming edges
 
     int queueIndex = 0; 		// required by MutablePriorityQueue and UFDS
 };
@@ -72,7 +80,8 @@ public:
     Station* getOrig() const;
     Segment *getReverse() const;
     double getFlow() const;
-
+    int getService() const;
+    string getServiceName() const;
     void setSelected(bool selected);
     void setReverse(Segment *reverse);
     void setFlow(double flow);
@@ -80,15 +89,10 @@ protected:
     Station* dest; // destination vertex
     double capacity; // edge weight, can also be used for capacity
     int service;
-
-    // auxiliary fields
     bool selected = false;
-
-    // used for bidirectional edges
     Station *orig;
     Segment *reverse = nullptr;
-
     double flow; // for flow-related problems
 };
 
-#endif /* DA_TP_CLASSES_VERTEX_EDGE */
+#endif //PROJETO_DA_1_VERTEXEDGE_H
