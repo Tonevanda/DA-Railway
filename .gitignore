@@ -32,3 +32,8 @@
 *.app
 
 cmake-build-debug
+*.log
+*.json
+*.json
+*.cmake
+*.ninja
