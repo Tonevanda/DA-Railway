@@ -8,16 +8,14 @@ int main() {
     Graph graph = Graph();
     readStations(&graph, "dataset/stations.csv");
     readNetwork(&graph, "dataset/network.csv");
-    cout << "Reached the end!";
+    double maxFlow = graph.edmondsKarp("Porto Campanhã", "Aveiro - Vouga");
+    cout << "Maximo numero de comboios simultaneos: " << maxFlow << "\n";
+
+    //graph.printTopK("municipality", 5);
+
+    cout << "Reached the end!\n";
     return 0;
 }
-
-
-
-
-
-
-
 
 
 /*Menu prototype
@@ -34,8 +32,8 @@ int main() {
  *
  *  1.3-Doxygen
  *
- *  2.1-Calculate the maximum number of trains that can simultaneously travel between
-    two specific stations.
+ *  DONE 2.1-Calculate the maximum number of trains that can simultaneously travel between
+    two specific stations. -> Max Flow ig -> graph.edmondsKarp("Porto Campanhã", "Estarreja");
  *
  *  2.2-Determine, from all pairs of stations, which ones (if more than one) require the
     most amount of trains when taking full advantage of the existing network capacity;

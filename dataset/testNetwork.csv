@@ -1,0 +1,10 @@
+Station_A,Station_B,Capacity,Service
+Porto Campanhã,Lisboa Oriente,10,STANDARD
+Porto Campanhã,Pombal,10,STANDARD
+Pombal,Lisboa Oriente,2,STANDARD
+Pombal,Vila Nova de Gaia-Devesas,4,STANDARD
+Pombal,Vila Nova da Raínha,8,STANDARD
+Lisboa Oriente,Vila Nova da Raínha,9,STANDARD
+Vila Nova de Gaia-Devesas,Estarreja,10,STANDARD
+Vila Nova da Raínha,Vila Nova de Gaia-Devesas,6,STANDARD
+Vila Nova da Raínha,Estarreja,10,STANDARD

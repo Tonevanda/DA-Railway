@@ -2,8 +2,14 @@
 
 #include "Graph.h"
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
+
+Graph::~Graph() {
+    deleteMatrix(distMatrix, StationSet.size());
+    deleteMatrix(pathMatrix, StationSet.size());
+}
 
 int Graph::getNumStation() const {
     return StationSet.size();
@@ -48,6 +54,93 @@ int Graph::findStationIdx(const string &name) const {
         if (StationSet[i]->getName() == name)
             return i;
     return -1;
+}
+
+bool Graph::edmondsKarpBFS(string s, string t){
+    for(auto st : StationSet){
+        st->setVisited(false);
+    }
+
+    Station* v = findStation(s);
+    Station* sink = findStation(t);
+    v->setVisited(true);
+    v->setPath(nullptr);
+    std::queue<Station* > q;
+    q.push(v);
+
+    while(!q.empty()){
+        Station* u = q.front();
+        q.pop();
+
+        for(auto e: u->getAdj()){
+            Station* w = e->getDest();
+            if(!w->isVisited() && (e->getCapacity() - e->getFlow()) > 0) {
+                if(w->getName() == sink->getName()){
+                    w->setPath(e);
+                    return true;
+                }
+                q.push(w);
+                w->setPath(e);
+                w->setVisited(true);
+            }
+        }
+        for(auto edge : u->getIncoming()){
+            Station* w = edge->getOrig();
+            if(!w->isVisited() && edge->getFlow()>0){
+                w->setVisited(true);
+                w->setPath(edge);
+                edge->setSelected(true);
+                q.push(w);
+                if(w->getName()==sink->getName()){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+int Graph::edmondsKarp(string source, string target){
+    for(Station* station : StationSet){
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+    double maxFlow = 0;
+
+    while(edmondsKarpBFS(source, target)){
+        double bottleneck = INF;
+
+        Station* currentVertex = findStation(target);
+        while (currentVertex->getPath() != nullptr) {
+            Segment* e = currentVertex->getPath();
+
+            if(e->isSelected()){
+                bottleneck = std::min(bottleneck, e->getFlow());
+                currentVertex = e->getDest();
+            }
+            else{
+                bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
+                currentVertex = e->getOrig();
+            }
+
+        }
+
+        currentVertex = findStation(target);
+        while (currentVertex->getPath() != nullptr) {
+            Segment* e = currentVertex->getPath();
+            if(e->isSelected()){
+                e->setFlow(e->getFlow() - bottleneck);
+                currentVertex = e->getDest();
+            }
+            else{
+                e->setFlow(e->getFlow() + bottleneck);
+                currentVertex = e->getOrig();
+            }
+        }
+        maxFlow+=bottleneck;
+    }
+    return maxFlow;
 }
 
 /*
@@ -105,7 +198,21 @@ void deleteMatrix(double **m, int n) {
     }
 }
 
-Graph::~Graph() {
-    deleteMatrix(distMatrix, StationSet.size());
-    deleteMatrix(pathMatrix, StationSet.size());
+
+void Graph::printTopK(string filter, int k) const {
+    unordered_map<string, int> map;
+
+    for(auto station : StationSet){
+        for(auto s : station->getAdj()){
+            if(filter == "municipality"){
+                string name = station->getMunicipality();
+                if(map.find(name)==map.end()){
+                    map.insert(pair<string,int>(name,s->getFlow() * s->getService()));
+                }
+                else{
+                    map[station->getMunicipality()] += s->getFlow() * s->getService();
+                }
+            }
+        }
+    }
 }
