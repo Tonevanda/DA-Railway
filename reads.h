@@ -46,7 +46,7 @@ void readNetwork(Graph* graph, string file){
         else{
             serv = 2;
         }
-        graph->addSegment(Station_A,Station_B,cap,serv);
+        graph->addBidirectionalSegment(Station_A,Station_B,cap,serv);
     }
     fout.close();
 }

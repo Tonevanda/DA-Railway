@@ -55,6 +55,7 @@ protected:
     string township;
     string line;
     vector<Segment *> adj;  // outgoing edges
+    vector<Segment *> incoming; // incoming edges
 
     // auxiliary fields
     bool visited = false; // used by DFS, BFS, Prim ...
@@ -63,7 +64,6 @@ protected:
     double dist = 0;
     Segment *path = nullptr;
 
-    vector<Segment *> incoming; // incoming edges
 
     int queueIndex = 0; 		// required by MutablePriorityQueue and UFDS
 };

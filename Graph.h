@@ -29,6 +29,8 @@ public:
     void printTopK(string filter, int k) const;
     int edmondsKarp(string source, string target);
     bool edmondsKarpBFS(string s, string t);
+    void pairs();
+    void sinks();
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall

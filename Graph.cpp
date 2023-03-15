@@ -3,6 +3,7 @@
 #include "Graph.h"
 #include <iostream>
 #include <unordered_map>
+#include <stack>
 
 using namespace std;
 
@@ -198,6 +199,46 @@ void deleteMatrix(double **m, int n) {
     }
 }
 
+void Graph::sinks(){
+    for(auto s : StationSet)   {
+        if(s->getAdj().size()==0){
+            cout << s->getName() << " is a sink\n";
+        }
+        if(s->getIncoming().size()==0){
+            cout << s->getName() << " is a source\n";
+        }
+    }
+}
+
+void Graph::pairs(){
+    double max =0;
+    stack<pair<string,string>> s;
+
+    for(int i = 0; i < StationSet.size(); i++){
+        for(int j = i+1; j < StationSet.size(); j++){
+            Station* source = StationSet[i];
+            Station* sink = StationSet[j];
+            
+            double flow = edmondsKarp(source->getName(),sink->getName());
+            pair<string,string> cur = pair<string, string> (source->getName(), sink->getName());
+            if(flow == max){
+                s.push(cur);
+            }
+            if(flow > max){
+               while(!s.empty()){
+                   s.pop();
+               }
+               max = flow;
+               s.push(cur);
+            }
+        }
+    }
+    while(!s.empty()){
+        pair<string, string> top = s.top();
+        s.pop();
+        cout << top.first << " and " << top.second  << " Flow : " << max << "\n";
+    }
+}
 
 void Graph::printTopK(string filter, int k) const {
     unordered_map<string, int> map;

@@ -8,8 +8,10 @@ int main() {
     Graph graph = Graph();
     readStations(&graph, "dataset/stations.csv");
     readNetwork(&graph, "dataset/network.csv");
-    double maxFlow = graph.edmondsKarp("Porto Campanhã", "Aveiro - Vouga");
-    cout << "Maximo numero de comboios simultaneos: " << maxFlow << "\n";
+    //double maxFlow = graph.edmondsKarp("Porto Campanhã", "Estarreja");//2.1
+    //cout << "Máximo número de comboios simultâneos: " << maxFlow << "\n";
+    graph.pairs();
+    //graph.sinks();
 
     //graph.printTopK("municipality", 5);
 
