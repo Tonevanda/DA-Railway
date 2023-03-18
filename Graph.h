@@ -31,6 +31,19 @@ public:
     bool edmondsKarpBFS(string s, string t);
     void pairs();
     void sinks();
+
+    //Test
+    void DFS(string node);
+    void DFSUtil(string station);
+    double dinicMaxFlow(const string& source, const string& sink);
+
+    void testAndVisit(std::queue<Station*> &q, Segment *e, Station *w, double residual);
+    bool findAugmentingPath(Station *s, Station *t);
+    double findMinResidualAlongPath(Station *s, Station *t);
+    void augmentFlowAlongPath(Station *s, Station *t, double f);
+    double edmondsKarpStor(string source, string target);
+
+
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
