@@ -199,6 +199,14 @@ void deleteMatrix(double **m, int n) {
     }
 }
 
+int Graph::maxTrainsInStation(string station) {
+    int trainCount = 0;
+    for(auto segment : findStation(station)->getIncoming()){
+        trainCount += segment->getCapacity();
+    }
+    return trainCount;
+}
+
 void Graph::sinks(){
     for(auto s : StationSet)   {
         if(s->getAdj().size()==0){
@@ -209,9 +217,9 @@ void Graph::sinks(){
         }
     }
 }
-
+/*
 double Graph::dinicMaxFlow(const string& source, const string& sink) {
-    /*// Initialize the flow network
+    // Initialize the flow network
     for(auto st : StationSet){
         for(auto seg: st->getAdj()){
             seg->setFlow(0);
@@ -242,10 +250,10 @@ double Graph::dinicMaxFlow(const string& source, const string& sink) {
             for(auto seg : u->getAdj()){
 
             }
-            for (auto& edge : residualGraph.getAdj(u)) {
-                string v = edge->getSink()->getName();
-                if (edge->getResidualCapacity(u) > 0 && !level.count(v)) {
-                    level[v] = level[u] + 1;
+            for (auto& edge : u->getAdj()) {
+                string v = edge->getDest()->getName();
+                if (edge->getCapacity() > 0 && !level.count(v)) {
+                    level[v] = level[u->getName()] + 1;
                     q.push(v);
                 }
             }
@@ -258,18 +266,19 @@ double Graph::dinicMaxFlow(const string& source, const string& sink) {
 
         // Compute the blocking flow using DFS
         unordered_map<string, int> ptr;
-        function<double(string, double)> dfs = [&](string u, double bottleneck) {
-            if (u == sink) {
+        function<double(string, double)> dfs = [&](string n, double bottleneck) {
+            Station* u = findStation(n);
+            if (u->getName() == sink) {
                 return bottleneck;
             }
-            for (int& i = ptr[u]; i < residualGraph.getOutgoingEdges(u).size(); i++) {
-                auto& edge = residualGraph.getOutgoingEdges(u)[i];
-                string v = edge->getSink()->getName();
-                if (level[v] == level[u] + 1 && edge->getResidualCapacity(u) > 0) {
-                    double residualCapacity = edge->getResidualCapacity(u);
+            for (int& i = ptr[u->getName()]; i < u->getAdj().size(); i++) {
+                auto& edge = u->getAdj()[i];
+                string v = edge->getDest()->getName();
+                if (level[v] == level[u->getName()] + 1 && edge->getCapacity() > 0) {
+                    double residualCapacity = edge->getCapacity();
                     double flow = dfs(v, min(bottleneck, residualCapacity));
                     if (flow > 0) {
-                        edge->addFlow(u, flow);
+                        edge->setFlow(edge->getFlow()+flow);
                         return flow;
                     }
                 }
@@ -277,7 +286,7 @@ double Graph::dinicMaxFlow(const string& source, const string& sink) {
             return 0.0;
         };
         while (true) {
-            double bottleneck = dfs(source, INFINITY);
+            double bottleneck = DFS(source, INF);
             if (bottleneck == 0) {
                 break;
             }
@@ -285,9 +294,33 @@ double Graph::dinicMaxFlow(const string& source, const string& sink) {
         }
     }
 
-    return maxFlow;*/
+    return maxFlow;
+}
+void Graph::DFS(string node) {
+    unordered_map<string, bool> visited;
+
+    // Mark all the vertices as not visited
+    for (auto i : StationSet)
+        visited[i->getName()] = false;
+
+    // Call the recursive helper function to print DFS traversal
+    DFSUtil(node, visited);
 }
 
+void Graph::DFSUtil(string station, unordered_map<string, bool>& visited) {
+    // Mark the current node as visited and print it
+    visited[node] = true;
+    cout << node << " ";
+
+    // Recur for all the vertices adjacent to this vertex
+    for (auto i : adjList[node]) {
+        string neighbor = i.first;
+        if (!visited[neighbor]) {
+            DFSUtil(neighbor, visited);
+        }
+    }
+}
+*/
 void Graph::pairs(){
     double max =0;
     stack<pair<string,string>> s;
@@ -318,9 +351,9 @@ void Graph::pairs(){
     }
 }
 
-void Graph::printTopK(string filter, int k) const {
+void Graph::printTopK(const string &filter, int k) {
     unordered_map<string, int> map;
-
+    edmondsKarpStor("Porto Campanhã", "Estarreja");
     for(auto station : StationSet){
         for(auto s : station->getAdj()){
             if(filter == "municipality"){
@@ -332,7 +365,24 @@ void Graph::printTopK(string filter, int k) const {
                     map[station->getMunicipality()] += s->getFlow() * s->getService();
                 }
             }
+            else if(filter == "district"){
+                string name = station->getDistrict();
+                if(map.find(name) == map.end()){
+                    map.insert(pair<string, int>(name,s->getFlow() * s->getService()));
+                }
+                else{
+                    map[station->getDistrict()] += s->getFlow() * s->getService();
+                }
+            }
         }
+    }
+    vector<pair<string, int>> top(map.begin(), map.end());
+    sort(top.begin(), top.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+    for(int i = 0; i < k; i++){
+        if(i >= StationSet.size()){
+            break;
+        }
+        cout << top[i].first << ": " << top[i].second << "\n";
     }
 }
 /* TEST FUNCTIONS */
@@ -340,8 +390,10 @@ double Graph::edmondsKarpStor(string source, string target) {
     Station* s = findStation(source);
     Station* t = findStation(target);
     double count = 0;
-    if (s == nullptr || t == nullptr || s == t)
-        cout << "Invalid source and/or target vertex";
+    if (s == nullptr || t == nullptr || s == t) {
+        cout << "Invalid source and/or target station!\n";
+        return 0.0;
+    }
 
     // Reset the flows
     for (auto v : StationSet) {
@@ -353,23 +405,27 @@ double Graph::edmondsKarpStor(string source, string target) {
     // Loop to find augmentation paths
     while(findAugmentingPath(s, t)) {
         double f = findMinResidualAlongPath(s, t);
-        count+=f;
+        count += f;
         augmentFlowAlongPath(s, t, f);
     }
+
     return count;
 }
 
+
 void Graph::augmentFlowAlongPath(Station *s, Station *t, double f) {
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
+    //vai atualizar os flows
+    for (auto v = t; v != s; ) { //vai do fim ao inicio
+        auto e = v->getPath(); // e = segment que chega à station v
         double flow = e->getFlow();
-        if (e->getDest() == v) {
-            e->setFlow(flow + f);
-            v = e->getOrig();
+
+        if (e->getDest() == v) { // se não for residuo
+            e->setFlow(flow + f); // adiciona flow ao flow atual
+            v = e->getOrig(); // v avança para o atual
         }
-        else {
-            e->setFlow(flow - f);
-            v = e->getDest();
+        else { // se for residual
+            e->setFlow(flow - f); //retira o flow
+            v = e->getDest(); // v avança para o proximo (ao contrario por ser residuo)
         }
     }
 }
@@ -391,19 +447,20 @@ double Graph::findMinResidualAlongPath(Station *s, Station *t) {
 }
 
 bool Graph::findAugmentingPath(Station *s, Station *t) {
+    //bfs
     for(auto v : StationSet) {
         v->setVisited(false);
     }
     s->setVisited(true);
     std::queue<Station *> q;
     q.push(s);
-    while( ! q.empty() && ! t->isVisited()) {
-        auto v = q.front();
+    while(!q.empty() && !t->isVisited()) {
+        Station* v = q.front();
         q.pop();
-        for(auto e: v->getAdj()) {
+        for(Segment* e: v->getAdj()) {
             testAndVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
         }
-        for(auto e: v->getIncoming()) {
+        for(Segment* e: v->getIncoming()) {
             testAndVisit(q, e, e->getOrig(), e->getFlow());
         }
     }
@@ -411,7 +468,7 @@ bool Graph::findAugmentingPath(Station *s, Station *t) {
 }
 
 void Graph::testAndVisit(std::queue<Station*> &q, Segment *e, Station *w, double residual) {
-    if (! w->isVisited() && residual > 0) {
+    if (!w->isVisited() && residual > 0) {
         w->setVisited(true);
         w->setPath(e);
         q.push(w);

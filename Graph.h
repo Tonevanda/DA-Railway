@@ -26,15 +26,16 @@ public:
     void printStations() const;
     void printNetwork() const;
     int findStationIdx(const string &name) const;
-    void printTopK(string filter, int k) const;
+    void printTopK(const string &filter, int k);
     int edmondsKarp(string source, string target);
     bool edmondsKarpBFS(string s, string t);
+    int maxTrainsInStation(string station);
     void pairs();
     void sinks();
 
     //Test
     void DFS(string node);
-    void DFSUtil(string station);
+    void DFSUtil(string station, unordered_map<string, bool>& visited);
     double dinicMaxFlow(const string& source, const string& sink);
 
     void testAndVisit(std::queue<Station*> &q, Segment *e, Station *w, double residual);
