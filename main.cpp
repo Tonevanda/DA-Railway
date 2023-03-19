@@ -47,9 +47,9 @@ void menu(Graph graph) {
                         cin.clear();
                         cin.ignore(INT_MAX, '\n');
                         cout << "What areas do you wish to inspect?\n"
-                                "1: 2.1\n"
+                                "1: 2.1 Flow maximo\n"
                                 "2: 2.2\n"
-                                "3: 2.4\n"
+                                "3: 2.4 Numero maximo de comboios que podem chegar numa estação em simultaneo\n"
                                 "4: 4.1\n"
                                 "9: Go back\n"
                                 "0: End Program\n";
@@ -98,7 +98,7 @@ void menu(Graph graph) {
                             }
                             cin.clear();
                             cin.ignore(INT_MAX, '\n');
-                            //add 2.4
+                            graph.maxTrainsInStation("Estarreja");
                             break;
                         }
                         case 4:{
@@ -134,8 +134,9 @@ void menu(Graph graph) {
             case 2:{
                 while(canRun1) {
                     cout << "What areas do you wish to inspect?\n"
-                            "1: 2.3\n"
-                            "2: 3.1\n"
+                            "1: 2.3 top k municipality\n"
+                            "2: 2.3 top k district\n"
+                            "3: 3.1\n"
                             "9: Go back\n"
                             "0: End Program\n";
                     while (!(cin >> input2)) {
@@ -143,8 +144,9 @@ void menu(Graph graph) {
                         cin.clear();
                         cin.ignore(INT_MAX, '\n');
                         cout << "What areas do you wish to inspect?\n"
-                                "1: 2.3\n"
-                                "2: 3.1\n"
+                                "1: 2.3 municipality\n"
+                                "2: 2.3 district\n"
+                                "3: 3.1\n"
                                 "9: Go back\n"
                                 "0: End Program\n";
                     }
@@ -166,10 +168,24 @@ void menu(Graph graph) {
                             }
                             cin.clear();
                             cin.ignore(INT_MAX, '\n');
-                            graph.printTopK("municipality", 100);
+                            graph.printTopK("municipality", k);
                             break;
                         }
                         case 2:{
+                            int k;
+                            cout << "Input K:\n";
+                            while (!(cin >> k)) {
+                                cout << "Invalid input!\n\n";
+                                cin.clear();
+                                cin.ignore(INT_MAX, '\n');
+                                cout << "Input K:\n";
+                            }
+                            cin.clear();
+                            cin.ignore(INT_MAX, '\n');
+                            graph.printTopK("district", k);
+                            break;
+                        }
+                        case 3:{
                             cout << "Input First Station:\n";
                             while (!(cin >> start)) {
                                 cout << "Invalid input!\n\n";
@@ -253,6 +269,7 @@ int main() {
     Graph graph = Graph();
     readStations(&graph, "dataset/testStations.csv");
     readNetwork(&graph, "dataset/testNetwork.csv");
+    //cout<<graph.maxTrainsInStation("Estarreja");
     menu(graph);
     //double maxFlow = graph.edmondsKarp("Porto Campanhã", "Estarreja");//2.1
     //cout << "Máximo número de comboios simultâneos: " << maxFlow << "\n";
