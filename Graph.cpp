@@ -57,6 +57,14 @@ int Graph::findStationIdx(const string &name) const {
     return -1;
 }
 
+void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual){
+    if(!w->isVisited() && (residual) > 0){
+        w->setPath(e);
+        w->setVisited(true);
+        q.push(w);
+    }
+}
+
 bool Graph::edmondsKarpBFS(string s, string t){
     for(auto st : StationSet){
         st->setVisited(false);
@@ -69,76 +77,71 @@ bool Graph::edmondsKarpBFS(string s, string t){
     std::queue<Station* > q;
     q.push(v);
 
-    while(!q.empty()){
+    while(!q.empty() && !sink->isVisited()){
         Station* u = q.front();
         q.pop();
 
         for(auto e: u->getAdj()){
-            Station* w = e->getDest();
-            if(!w->isVisited() && (e->getCapacity() - e->getFlow()) > 0) {
-                if(w->getName() == sink->getName()){
-                    w->setPath(e);
-                    return true;
-                }
-                q.push(w);
-                w->setPath(e);
-                w->setVisited(true);
-            }
+            testVisit(q, e, e->getDest(), sink, e->getCapacity() - e->getFlow());
         }
         for(auto edge : u->getIncoming()){
-            Station* w = edge->getOrig();
-            if(!w->isVisited() && edge->getFlow()>0){
-                w->setVisited(true);
-                w->setPath(edge);
-                edge->setSelected(true);
-                q.push(w);
-                if(w->getName()==sink->getName()){
-                    return true;
-                }
-            }
+            testVisit(q, edge, edge->getOrig(), sink, edge->getFlow());
         }
     }
-    return false;
+    return sink->isVisited();
+}
+double Graph::findMinResidual(Station* source, Station* target){
+    double bottleneck = INF;
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
+
+        if(e->getDest()==currentVertex){
+            bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
+            currentVertex = e->getOrig();
+        }
+        else{
+            bottleneck = std::min(bottleneck, e->getFlow());
+            currentVertex = e->getDest();
+        }
+
+    }
+    return bottleneck;
 }
 
-int Graph::edmondsKarp(string source, string target){
+void Graph::updateFlow(Station* source, Station* target, double bottleneck){
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
+
+        if(e->getDest()==currentVertex){
+            e->setFlow(e->getFlow() + bottleneck);
+            currentVertex = e->getOrig();
+        }
+        else{
+            e->setFlow(e->getFlow() - bottleneck);
+            currentVertex = e->getDest();
+        }
+    }
+}
+
+double Graph::edmondsKarp(string source, string target){
     for(Station* station : StationSet){
         for(Segment *edge : station->getAdj()){
             edge->setFlow(0.0);
         }
     }
     double maxFlow = 0;
+    Station* s = findStation(source);
+    Station* t = findStation(target);
+    if (s == nullptr || t == nullptr || s == t) {
+        cout << "Invalid source and/or target station!\n";
+        return 0.0;
+    }
 
     while(edmondsKarpBFS(source, target)){
-        double bottleneck = INF;
-
-        Station* currentVertex = findStation(target);
-        while (currentVertex->getPath() != nullptr) {
-            Segment* e = currentVertex->getPath();
-
-            if(e->isSelected()){
-                bottleneck = std::min(bottleneck, e->getFlow());
-                currentVertex = e->getDest();
-            }
-            else{
-                bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
-                currentVertex = e->getOrig();
-            }
-
-        }
-
-        currentVertex = findStation(target);
-        while (currentVertex->getPath() != nullptr) {
-            Segment* e = currentVertex->getPath();
-            if(e->isSelected()){
-                e->setFlow(e->getFlow() - bottleneck);
-                currentVertex = e->getDest();
-            }
-            else{
-                e->setFlow(e->getFlow() + bottleneck);
-                currentVertex = e->getOrig();
-            }
-        }
+        double bottleneck = findMinResidual(s, t);
+        updateFlow(s, t, bottleneck);
         maxFlow+=bottleneck;
     }
     return maxFlow;
@@ -217,110 +220,7 @@ void Graph::sinks(){
         }
     }
 }
-/*
-double Graph::dinicMaxFlow(const string& source, const string& sink) {
-    // Initialize the flow network
-    for(auto st : StationSet){
-        for(auto seg: st->getAdj()){
-            seg->setFlow(0);
-        }
-    }
 
-    // Initialize the residual graph
-    Graph residualGraph;
-    for (auto& station : StationSet) {
-        residualGraph.addStation(station->getName(), station->getDistrict(), station->getMunicipality(), station->getTownship(),station->getLine());
-        for(auto seg: station->getAdj()){
-            residualGraph.addBidirectionalSegment(station->getName(), seg->getDest()->getName(), seg->getCapacity(), seg->getService());
-        }
-    }
-
-    // Compute the maximum flow using the Dinic's algorithm
-    double maxFlow = 0;
-    while (true) {
-        // Compute the level graph using BFS
-        unordered_map<string, int> level;
-        queue<string> q;
-        level[source] = 0;
-        q.push(source);
-        while (!q.empty()) {
-            string front = q.front();
-            Station* u = findStation(front);
-            q.pop();
-            for(auto seg : u->getAdj()){
-
-            }
-            for (auto& edge : u->getAdj()) {
-                string v = edge->getDest()->getName();
-                if (edge->getCapacity() > 0 && !level.count(v)) {
-                    level[v] = level[u->getName()] + 1;
-                    q.push(v);
-                }
-            }
-        }
-
-        // If the sink is not reachable, stop
-        if (!level.count(sink)) {
-            break;
-        }
-
-        // Compute the blocking flow using DFS
-        unordered_map<string, int> ptr;
-        function<double(string, double)> dfs = [&](string n, double bottleneck) {
-            Station* u = findStation(n);
-            if (u->getName() == sink) {
-                return bottleneck;
-            }
-            for (int& i = ptr[u->getName()]; i < u->getAdj().size(); i++) {
-                auto& edge = u->getAdj()[i];
-                string v = edge->getDest()->getName();
-                if (level[v] == level[u->getName()] + 1 && edge->getCapacity() > 0) {
-                    double residualCapacity = edge->getCapacity();
-                    double flow = dfs(v, min(bottleneck, residualCapacity));
-                    if (flow > 0) {
-                        edge->setFlow(edge->getFlow()+flow);
-                        return flow;
-                    }
-                }
-            }
-            return 0.0;
-        };
-        while (true) {
-            double bottleneck = DFS(source, INF);
-            if (bottleneck == 0) {
-                break;
-            }
-            maxFlow += bottleneck;
-        }
-    }
-
-    return maxFlow;
-}
-void Graph::DFS(string node) {
-    unordered_map<string, bool> visited;
-
-    // Mark all the vertices as not visited
-    for (auto i : StationSet)
-        visited[i->getName()] = false;
-
-    // Call the recursive helper function to print DFS traversal
-    DFSUtil(node, visited);
-}
-
-void Graph::DFSUtil(string station, unordered_map<string, bool>& visited) {
-    // Mark the current node as visited and print it
-    visited[node] = true;
-    cout << node << " ";
-
-    // Recur for all the vertices adjacent to this vertex
-    for (auto i : adjList[node]) {
-        string neighbor = i.first;
-        if (!visited[neighbor]) {
-            DFSUtil(neighbor, visited);
-        }
-    }
-}
-*/
 void Graph::pairs(){
     double max =0;
     stack<pair<string,string>> s;
@@ -330,7 +230,7 @@ void Graph::pairs(){
             Station* source = StationSet[i];
             Station* sink = StationSet[j];
             
-            double flow = edmondsKarpStor(source->getName(),sink->getName());
+            double flow = edmondsKarp(source->getName(),sink->getName());
             pair<string,string> cur = pair<string, string> (source->getName(), sink->getName());
             if(flow == max){
                 s.push(cur);
@@ -385,6 +285,7 @@ void Graph::printTopK(const string &filter, int k) {
         cout << top[i].first << ": " << top[i].second << "\n";
     }
 }
+
 /* TEST FUNCTIONS */
 double Graph::edmondsKarpStor(string source, string target) {
     Station* s = findStation(source);
@@ -415,6 +316,7 @@ double Graph::edmondsKarpStor(string source, string target) {
 
 void Graph::augmentFlowAlongPath(Station *s, Station *t, double f) {
     //vai atualizar os flows
+    // segundo loop edmonds karp
     for (auto v = t; v != s; ) { //vai do fim ao inicio
         auto e = v->getPath(); // e = segment que chega à station v
         double flow = e->getFlow();
@@ -431,6 +333,7 @@ void Graph::augmentFlowAlongPath(Station *s, Station *t, double f) {
 }
 
 double Graph::findMinResidualAlongPath(Station *s, Station *t) {
+    //primeiro loop edmonds karp
     double f = INF;
     for (auto v = t; v != s; ) {
         auto e = v->getPath();

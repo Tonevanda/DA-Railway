@@ -27,7 +27,7 @@ public:
     void printNetwork() const;
     int findStationIdx(const string &name) const;
     void printTopK(const string &filter, int k);
-    int edmondsKarp(string source, string target);
+    double edmondsKarp(string source, string target);
     bool edmondsKarpBFS(string s, string t);
     int maxTrainsInStation(string station);
     void pairs();
@@ -38,12 +38,21 @@ public:
     void DFSUtil(string station, unordered_map<string, bool>& visited);
     double dinicMaxFlow(const string& source, const string& sink);
 
+    void updateFlow(Station* source, Station* target, double bottleneck);
+    double findMinResidual(Station* source, Station* target);
+    void testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual);
+
     void testAndVisit(std::queue<Station*> &q, Segment *e, Station *w, double residual);
     bool findAugmentingPath(Station *s, Station *t);
     double findMinResidualAlongPath(Station *s, Station *t);
     void augmentFlowAlongPath(Station *s, Station *t, double f);
     double edmondsKarpStor(string source, string target);
 
+    double edmondsKarpStorMoney(string source, string target);
+    void testAndVisitMoney(std::queue<Station*> &q, Segment *e, Station *w, double residual);
+    bool findAugmentingPathMoney(Station *s, Station *t);
+    double findMinResidualAlongPathMoney(Station *s, Station *t);
+    void augmentFlowAlongPathMoney(Station *s, Station *t, double f);
 
 protected:
     vector<Station *> StationSet;    // Station set
