@@ -154,6 +154,10 @@ string Segment::getServiceName() const {
     }
 }
 
+double Segment::getCost() const {
+    return cost;
+}
+
 void Segment::setSelected(bool selected) {
     this->selected = selected;
 }
@@ -164,4 +168,8 @@ void Segment::setReverse(Segment *reverse) {
 
 void Segment::setFlow(double flow) {
     this->flow = flow;
+}
+
+void Segment::setCost(double cost) {
+    this->cost = cost;
 }

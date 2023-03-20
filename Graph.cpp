@@ -1,9 +1,11 @@
 // By: Gonçalo Leão
 
 #include "Graph.h"
+#include "UFDS.h"
 #include <iostream>
 #include <unordered_map>
 #include <stack>
+#include <sstream>
 
 using namespace std;
 
@@ -65,13 +67,10 @@ void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* 
     }
 }
 
-bool Graph::edmondsKarpBFS(string s, string t){
+bool Graph::edmondsKarpBFS(Station* v, Station* sink){
     for(auto st : StationSet){
         st->setVisited(false);
     }
-
-    Station* v = findStation(s);
-    Station* sink = findStation(t);
     v->setVisited(true);
     v->setPath(nullptr);
     std::queue<Station* > q;
@@ -139,7 +138,7 @@ double Graph::edmondsKarp(string source, string target){
         return 0.0;
     }
 
-    while(edmondsKarpBFS(source, target)){
+    while(edmondsKarpBFS(s, t)){
         double bottleneck = findMinResidual(s, t);
         updateFlow(s, t, bottleneck);
         maxFlow+=bottleneck;
@@ -253,7 +252,7 @@ void Graph::pairs(){
 
 void Graph::printTopK(const string &filter, int k) {
     unordered_map<string, int> map;
-    edmondsKarpStor("Porto Campanhã", "Estarreja");
+    edmondsKarp("Valongo", "Trofa");
     for(auto station : StationSet){
         for(auto s : station->getAdj()){
             if(filter == "municipality"){
@@ -286,94 +285,94 @@ void Graph::printTopK(const string &filter, int k) {
     }
 }
 
-/* TEST FUNCTIONS */
-double Graph::edmondsKarpStor(string source, string target) {
+void Graph::updateFlowMoney(Station* source, Station* target, double bottleneck){
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
+
+        if(e->getDest()==currentVertex){
+            e->setFlow(e->getFlow() + bottleneck);
+            e->setCost((e->getFlow() + bottleneck)*e->getService());
+            currentVertex = e->getOrig();
+        }
+        else{
+            e->setFlow(e->getFlow() - bottleneck);
+            e->setCost((e->getFlow() - bottleneck)*e->getService());
+            currentVertex = e->getDest();
+        }
+    }
+}
+
+double Graph::edmondsKarpMoney(string source, string target){
+    for(Station* station : StationSet){
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+    double maxFlow = 0;
     Station* s = findStation(source);
     Station* t = findStation(target);
-    double count = 0;
     if (s == nullptr || t == nullptr || s == t) {
         cout << "Invalid source and/or target station!\n";
         return 0.0;
     }
 
-    // Reset the flows
+    while(edmondsKarpBFS(s, t)){
+        double bottleneck = findMinResidual(s, t);
+        updateFlowMoney(s, t, bottleneck);
+        maxFlow+=bottleneck;
+    }
+    return maxFlow;
+}
+
+std::vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id no UFDS para string name? mas tou demasiado cansado para pensar em como fazer isso
     for (auto v : StationSet) {
-        for (auto e: v->getAdj()) {
-            e->setFlow(0);
+        for (auto e : v->getAdj()) {
+            e->setSelected(false);
         }
     }
 
-    // Loop to find augmentation paths
-    while(findAugmentingPath(s, t)) {
-        double f = findMinResidualAlongPath(s, t);
-        count += f;
-        augmentFlowAlongPath(s, t, f);
+    UFDS ufds(StationSet.size());
+    std::vector<Segment*> sortedEdges;
+
+    for (auto v : StationSet) {
+        for (auto e : v->getAdj()) {
+            if(!e->isSelected()){
+                sortedEdges.push_back(e);
+                e->setSelected(true);
+                Segment* e2 = e->getReverse();
+                e2->setSelected(true);
+            }
+        }
     }
 
-    return count;
+    std::sort(sortedEdges.begin(), sortedEdges.end(), [](const Segment* e1, const Segment* e2) {
+        return e1->getCost() < e2->getCost();
+    });
+
+    for(auto e :sortedEdges){
+        if(!ufds.isSameSet(findStationIdx(e->getDest()->getName()), findStationIdx(e->getOrig()->getName()))){
+            Station* v = e->getDest();
+            Station* u = e->getOrig();
+            v->setPath(e);
+            ufds.linkSets(findStationIdx(u->getName()), findStationIdx(v->getName()));
+        }
+    }
+    return StationSet;
 }
 
-
-void Graph::augmentFlowAlongPath(Station *s, Station *t, double f) {
-    //vai atualizar os flows
-    // segundo loop edmonds karp
-    for (auto v = t; v != s; ) { //vai do fim ao inicio
-        auto e = v->getPath(); // e = segment que chega à station v
-        double flow = e->getFlow();
-
-        if (e->getDest() == v) { // se não for residuo
-            e->setFlow(flow + f); // adiciona flow ao flow atual
-            v = e->getOrig(); // v avança para o atual
+void Graph::maxTrainsMinCost(string source, string target){
+    int min = INT_MAX;
+    edmondsKarpMoney(source, target);
+    vector<Station*> res = kruskal();
+    std::stringstream ss;
+    for(const auto v : res) {
+        ss << v->getName() << " <- ";
+        if ( v->getPath() != nullptr ) {
+            ss << v->getPath()->getOrig()->getName();
         }
-        else { // se for residual
-            e->setFlow(flow - f); //retira o flow
-            v = e->getDest(); // v avança para o proximo (ao contrario por ser residuo)
-        }
+        ss << " // ";
     }
-}
+    std::cout << ss.str() << std::endl;
 
-double Graph::findMinResidualAlongPath(Station *s, Station *t) {
-    //primeiro loop edmonds karp
-    double f = INF;
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
-        if (e->getDest() == v) {
-            f = min(f, e->getCapacity() - e->getFlow());
-            v = e->getOrig();
-        }
-        else {
-            f = min(f, e->getFlow());
-            v = e->getDest();
-        }
-    }
-    return f;
-}
-
-bool Graph::findAugmentingPath(Station *s, Station *t) {
-    //bfs
-    for(auto v : StationSet) {
-        v->setVisited(false);
-    }
-    s->setVisited(true);
-    std::queue<Station *> q;
-    q.push(s);
-    while(!q.empty() && !t->isVisited()) {
-        Station* v = q.front();
-        q.pop();
-        for(Segment* e: v->getAdj()) {
-            testAndVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
-        }
-        for(Segment* e: v->getIncoming()) {
-            testAndVisit(q, e, e->getOrig(), e->getFlow());
-        }
-    }
-    return t->isVisited();
-}
-
-void Graph::testAndVisit(std::queue<Station*> &q, Segment *e, Station *w, double residual) {
-    if (!w->isVisited() && residual > 0) {
-        w->setVisited(true);
-        w->setPath(e);
-        q.push(w);
-    }
 }

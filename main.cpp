@@ -264,17 +264,19 @@ void menu(Graph graph) {
         }
     }
 }
+
 int main() {
     auto start = chrono::steady_clock::now();
     Graph graph = Graph();
-    readStations(&graph, "dataset/stations.csv");
-    readNetwork(&graph, "dataset/network.csv");
+    readStations(&graph, "dataset/testStations.csv");
+    readNetwork(&graph, "dataset/testNetwork.csv");
     //cout<<graph.maxTrainsInStation("Estarreja");
     //menu(graph);
     //double maxFlow = graph.edmondsKarp("Porto Campanhã", "Estarreja");//2.1
     //cout << "Máximo número de comboios simultâneos: " << maxFlow << "\n";
-    graph.pairs();
-    //graph.printTopK("municipality", 100);
+    //graph.pairs();
+    graph.maxTrainsMinCost("Porto Campanhã", "Estarreja");
+    //graph.printTopK("municipality", 5);
     //graph.sinks();
     //graph.printTopK("municipality", 5);
     auto end = chrono::steady_clock::now();
@@ -312,7 +314,7 @@ int main() {
  *
  *  3.1-Calculate the maximum amount of trains that can simultaneously travel between
     two specific stations with minimum cost for the company. Note that your system should also take any
-    valid source and destination stations as input; -budget // calculamos tp a média por quanto fica por comboio?
+    valid source and destination stations as input; -budget //
  *
  *  4.1-Calculate the maximum number of trains that can simultaneously travel between
     two specific stations in a network of reduced connectivity. Reduced connectivity is understood as being - trains
@@ -320,7 +322,7 @@ int main() {
     also take any valid source and destination stations as input; // max flow num subgrafo? qual é a diferença para o 2.1?
  *
  *  4.2-Provide a report on the stations that are the most affected by each segment failure, - failure
-    i.e., the top-k most affected stations for each segment to be considered.
+    i.e., the top-k most affected stations for each segment to be considered. //perguntar se é percorrer todos os segmentos e ver todas as estações afetadas ou ver quais os segmentos mais frágeis
  *
  *  5.1-Use the (hopefully) user-friendly interface you have developed to illustrate the
     various algorithm results for a sample set of railway grids which you should develop specifically for the - failure

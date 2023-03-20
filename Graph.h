@@ -26,33 +26,23 @@ public:
     void printStations() const;
     void printNetwork() const;
     int findStationIdx(const string &name) const;
+
     void printTopK(const string &filter, int k);
+
     double edmondsKarp(string source, string target);
-    bool edmondsKarpBFS(string s, string t);
-    int maxTrainsInStation(string station);
-    void pairs();
-    void sinks();
-
-    //Test
-    void DFS(string node);
-    void DFSUtil(string station, unordered_map<string, bool>& visited);
-    double dinicMaxFlow(const string& source, const string& sink);
-
+    bool edmondsKarpBFS(Station* v, Station* sink);
     void updateFlow(Station* source, Station* target, double bottleneck);
     double findMinResidual(Station* source, Station* target);
     void testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual);
 
-    void testAndVisit(std::queue<Station*> &q, Segment *e, Station *w, double residual);
-    bool findAugmentingPath(Station *s, Station *t);
-    double findMinResidualAlongPath(Station *s, Station *t);
-    void augmentFlowAlongPath(Station *s, Station *t, double f);
-    double edmondsKarpStor(string source, string target);
+    double edmondsKarpMoney(string source, string target);
+    void updateFlowMoney(Station* source, Station* target, double bottleneck);
+    std::vector<Station*> kruskal();
+    void maxTrainsMinCost(string source, string target);
 
-    double edmondsKarpStorMoney(string source, string target);
-    void testAndVisitMoney(std::queue<Station*> &q, Segment *e, Station *w, double residual);
-    bool findAugmentingPathMoney(Station *s, Station *t);
-    double findMinResidualAlongPathMoney(Station *s, Station *t);
-    void augmentFlowAlongPathMoney(Station *s, Station *t, double f);
+    int maxTrainsInStation(string station);
+    void pairs();
+    void sinks();
 
 protected:
     vector<Station *> StationSet;    // Station set

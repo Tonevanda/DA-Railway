@@ -82,9 +82,11 @@ public:
     double getFlow() const;
     int getService() const;
     string getServiceName() const;
+    double getCost() const;
     void setSelected(bool selected);
     void setReverse(Segment *reverse);
     void setFlow(double flow);
+    void setCost(double cost);
 protected:
     Station* dest; // destination vertex
     double capacity; // edge weight, can also be used for capacity
@@ -93,6 +95,7 @@ protected:
     Station *orig;
     Segment *reverse = nullptr;
     double flow; // for flow-related problems
+    double cost; // flow * service
 };
 
 #endif //PROJETO_DA_1_STATIONSEGMENT_H
