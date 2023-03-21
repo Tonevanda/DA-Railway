@@ -22,7 +22,7 @@ public:
     bool addSegment(const string &sourc, const string &dest, double w, int serv);
     bool addBidirectionalSegment(const string &sourc, const string &dest, double w, int serv);
     int getNumStation() const;
-    std::vector<Station *> getStationSet() const;
+    vector<Station *> getStationSet() const;
     void printStations() const;
     void printNetwork() const;
     int findStationIdx(const string &name) const;
@@ -37,9 +37,10 @@ public:
 
     double edmondsKarpMoney(string source, string target);
     void updateFlowMoney(Station* source, Station* target, double bottleneck);
-    std::vector<Station*> kruskal();
-    void maxTrainsMinCost(string source, string target);
+    vector<Station*> kruskal();
+    vector<Station*> dijkstra(string source, string dest);
 
+    void maxTrainsMinCost(string source, string target);
     int maxTrainsInStation(string station);
     void pairs();
     void sinks();

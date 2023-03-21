@@ -325,7 +325,36 @@ double Graph::edmondsKarpMoney(string source, string target){
     return maxFlow;
 }
 
-std::vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id no UFDS para string name? mas tou demasiado cansado para pensar em como fazer isso
+vector<Station*> Graph::dijkstra(string source, string dest) {
+    Station* s = findStation(source);
+    Station* t = findStation(dest);
+    vector<Station *> optimalPath;
+
+    priority_queue<Station*> q;
+    q.push(s);
+    while(!q.empty()){
+        Station* current = q.top();
+        q.pop();
+        int min = INT_MAX;
+
+        if(current=t)break;
+
+
+        for(auto seg : current->getAdj()){
+            Station* next = seg->getDest();
+            int cost = seg->getCost();
+            int alt_distance =
+
+            if(cost < min){
+                min = cost;
+            }
+        }
+    }
+    cout << "The path with the minimum cost for the company has a cost of " << min << "€";
+    return optimalPath;
+}
+
+vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id no UFDS para string name? mas tou demasiado cansado para pensar em como fazer isso
     for (auto v : StationSet) {
         for (auto e : v->getAdj()) {
             e->setSelected(false);
@@ -362,17 +391,16 @@ std::vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de i
 }
 
 void Graph::maxTrainsMinCost(string source, string target){
-    int min = INT_MAX;
     edmondsKarpMoney(source, target);
-    vector<Station*> res = kruskal();
-    std::stringstream ss;
+    vector<Station*> res = dijkstra(source, target);
+    stringstream ss;
+    ss << "This is the following path:\n";
     for(const auto v : res) {
-        ss << v->getName() << " <- ";
+        ss << v->getName();
         if ( v->getPath() != nullptr ) {
-            ss << v->getPath()->getOrig()->getName();
+            ss << " -> " << v->getPath()->getDest()->getName();
         }
-        ss << " // ";
     }
-    std::cout << ss.str() << std::endl;
-
+    ss << " | Arrived at destination.";
+    cout << ss.str() <<endl;
 }
