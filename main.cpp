@@ -168,7 +168,7 @@ void menu(Graph graph) {
                             }
                             cin.clear();
                             cin.ignore(INT_MAX, '\n');
-                            graph.printTopK("municipality", k);
+                            graph.printTopKHigherBudget("municipality", k);
                             break;
                         }
                         case 2:{
@@ -182,7 +182,7 @@ void menu(Graph graph) {
                             }
                             cin.clear();
                             cin.ignore(INT_MAX, '\n');
-                            graph.printTopK("district", k);
+                            graph.printTopKHigherBudget("district", k);
                             break;
                         }
                         case 3:{
@@ -267,18 +267,23 @@ void menu(Graph graph) {
 
 int main() {
     auto start = chrono::steady_clock::now();
-    Graph graph = Graph();
+    Graph graph;
     readStations(&graph, "dataset/testStations.csv");
     readNetwork(&graph, "dataset/testNetwork.csv");
+    //Graph g1(graph);
     //cout<<graph.maxTrainsInStation("Estarreja");
     //menu(graph);
     //double maxFlow = graph.edmondsKarp("Porto Campanhã", "Estarreja");//2.1
     //cout << "Máximo número de comboios simultâneos: " << maxFlow << "\n";
     //graph.pairs();
-    graph.maxTrainsMinCost("Porto Campanhã", "Estarreja");
+    //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja");
     //graph.printTopK("municipality", 5);
     //graph.sinks();
     //graph.printTopK("municipality", 5);
+    stack<pair<string, string>> failedSegments;
+    failedSegments.push(make_pair("Porto Campanhã","Lisboa Oriente"));
+    graph.maxTrainsFailure("Porto Campanhã", "Estarreja",failedSegments);
+    graph.maxTrains("Porto Campanhã","Estarreja");
     auto end = chrono::steady_clock::now();
     double elapsed_time = double(chrono::duration_cast<chrono::milliseconds>(end - start).count());
     cout << "Took " << elapsed_time << " milliseconds to finish!\n";

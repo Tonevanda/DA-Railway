@@ -9,19 +9,15 @@
 
 using namespace std;
 
+
+Graph::Graph(const Graph &graph){
+    this->StationSet=graph.StationSet;
+}   
+
 Graph::~Graph() {
     deleteMatrix(distMatrix, StationSet.size());
     deleteMatrix(pathMatrix, StationSet.size());
 }
-
-int Graph::getNumStation() const {
-    return StationSet.size();
-}
-
-std::vector<Station *> Graph::getStationSet() const {
-    return StationSet;
-}
-
 /*
  * Auxiliary function to find a Station with a given content.
  */
@@ -30,23 +26,6 @@ Station* Graph::findStation(const string &name) const {
         if (v->getName() == name)
             return v;
     return nullptr;
-}
-
-void Graph::printStations() const {
-    for(auto Station : StationSet){
-        cout << "Name: " << Station->getName() << ", \n" << "Municipality: " <<  Station->getMunicipality() << "\n";
-    }
-}
-
-void Graph::printNetwork() const{
-    int count = 0;
-    for(auto Station : StationSet){
-        for(auto seg : Station->getAdj()){
-            cout << "Orig: " << seg->getOrig()->getName() << ", Dest: " << seg->getDest()->getName() << ", cap: "<< seg->getCapacity() << ", service: "<< seg->getServiceName() <<"\n";
-            count++;
-        }
-    }
-    cout << "Count: " << count << "\n";
 }
 
 /*
@@ -59,91 +38,12 @@ int Graph::findStationIdx(const string &name) const {
     return -1;
 }
 
-void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual){
-    if(!w->isVisited() && (residual) > 0){
-        w->setPath(e);
-        w->setVisited(true);
-        q.push(w);
-    }
+int Graph::getNumStation() const {
+    return StationSet.size();
 }
 
-bool Graph::edmondsKarpBFS(Station* v, Station* sink){
-    for(auto st : StationSet){
-        st->setVisited(false);
-    }
-    v->setVisited(true);
-    v->setPath(nullptr);
-    std::queue<Station* > q;
-    q.push(v);
-
-    while(!q.empty() && !sink->isVisited()){
-        Station* u = q.front();
-        q.pop();
-
-        for(auto e: u->getAdj()){
-            testVisit(q, e, e->getDest(), sink, e->getCapacity() - e->getFlow());
-        }
-        for(auto edge : u->getIncoming()){
-            testVisit(q, edge, edge->getOrig(), sink, edge->getFlow());
-        }
-    }
-    return sink->isVisited();
-}
-double Graph::findMinResidual(Station* source, Station* target){
-    double bottleneck = INF;
-    Station* currentVertex = target;
-    while (currentVertex != source) {
-        Segment* e = currentVertex->getPath();
-
-        if(e->getDest()==currentVertex){
-            bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
-            currentVertex = e->getOrig();
-        }
-        else{
-            bottleneck = std::min(bottleneck, e->getFlow());
-            currentVertex = e->getDest();
-        }
-
-    }
-    return bottleneck;
-}
-
-void Graph::updateFlow(Station* source, Station* target, double bottleneck){
-    Station* currentVertex = target;
-    while (currentVertex != source) {
-        Segment* e = currentVertex->getPath();
-
-        if(e->getDest()==currentVertex){
-            e->setFlow(e->getFlow() + bottleneck);
-            currentVertex = e->getOrig();
-        }
-        else{
-            e->setFlow(e->getFlow() - bottleneck);
-            currentVertex = e->getDest();
-        }
-    }
-}
-
-double Graph::edmondsKarp(string source, string target){
-    for(Station* station : StationSet){
-        for(Segment *edge : station->getAdj()){
-            edge->setFlow(0.0);
-        }
-    }
-    double maxFlow = 0;
-    Station* s = findStation(source);
-    Station* t = findStation(target);
-    if (s == nullptr || t == nullptr || s == t) {
-        cout << "Invalid source and/or target station!\n";
-        return 0.0;
-    }
-
-    while(edmondsKarpBFS(s, t)){
-        double bottleneck = findMinResidual(s, t);
-        updateFlow(s, t, bottleneck);
-        maxFlow+=bottleneck;
-    }
-    return maxFlow;
+std::vector<Station *> Graph::getStationSet() const {
+    return StationSet;
 }
 
 /*
@@ -171,6 +71,15 @@ bool Graph::addSegment(const string &sourc, const string &dest, double w, int se
     return true;
 }
 
+bool Graph::removeBidirectionalSegment(const string &source, const string &dest) {
+    auto v1 = findStation(source);
+    auto v2 = findStation(dest);
+    if(v1 == nullptr || v2 == nullptr) return false;
+    v1->removeSegment(dest);
+    v2->removeSegment(source);
+    return true;
+}
+
 bool Graph::addBidirectionalSegment(const string &sourc, const string &dest, double w, int serv) {
     auto v1 = findStation(sourc);
     auto v2 = findStation(dest);
@@ -183,121 +92,62 @@ bool Graph::addBidirectionalSegment(const string &sourc, const string &dest, dou
     return true;
 }
 
-void deleteMatrix(int **m, int n) {
-    if (m != nullptr) {
-        for (int i = 0; i < n; i++)
-            if (m[i] != nullptr)
-                delete [] m[i];
-        delete [] m;
-    }
-}
 
-void deleteMatrix(double **m, int n) {
-    if (m != nullptr) {
-        for (int i = 0; i < n; i++)
-            if (m[i] != nullptr)
-                delete [] m[i];
-        delete [] m;
-    }
-}
-
-int Graph::maxTrainsInStation(string station) {
-    int trainCount = 0;
-    for(auto segment : findStation(station)->getIncoming()){
-        trainCount += segment->getCapacity();
-    }
-    return trainCount;
-}
-
-void Graph::sinks(){
-    for(auto s : StationSet)   {
-        if(s->getAdj().size()==0){
-            cout << s->getName() << " is a sink\n";
-        }
-        if(s->getIncoming().size()==0){
-            cout << s->getName() << " is a source\n";
+double Graph::edmondsKarp(string source, string target){
+    for(Station* station : StationSet){
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
         }
     }
+    double maxFlow = 0;
+    Station* s = findStation(source);
+    Station* t = findStation(target);
+    if (s == nullptr || t == nullptr || s == t) {
+        cout << "Invalid source and/or target station!\n";
+        return 0.0;
+    }
+
+    while(edmondsKarpBFS(s, t)){
+        double bottleneck = findMinResidual(s, t);
+        updateFlow(s, t, bottleneck);
+        maxFlow+=bottleneck;
+    }
+    return maxFlow;
 }
+bool Graph::edmondsKarpBFS(Station* v, Station* sink){
+    for(auto st : StationSet){
+        st->setVisited(false);
+    }
+    v->setVisited(true);
+    v->setPath(nullptr);
+    std::queue<Station* > q;
+    q.push(v);
 
-void Graph::pairs(){
-    double max =0;
-    stack<pair<string,string>> s;
+    while(!q.empty() && !sink->isVisited()){
+        Station* u = q.front();
+        q.pop();
 
-    for(int i = 0; i < StationSet.size(); i++){
-        for(int j = i+1; j < StationSet.size(); j++){
-            Station* source = StationSet[i];
-            Station* sink = StationSet[j];
-            
-            double flow = edmondsKarp(source->getName(),sink->getName());
-            pair<string,string> cur = pair<string, string> (source->getName(), sink->getName());
-            if(flow == max){
-                s.push(cur);
-            }
-            if(flow > max){
-               while(!s.empty()){
-                   s.pop();
-               }
-               max = flow;
-               s.push(cur);
-            }
+        for(auto e: u->getAdj()){
+            testVisit(q, e, e->getDest(), sink, e->getCapacity() - e->getFlow());
+        }
+        for(auto edge : u->getIncoming()){
+            testVisit(q, edge, edge->getOrig(), sink, edge->getFlow());
         }
     }
-    while(!s.empty()){
-        pair<string, string> top = s.top();
-        s.pop();
-        cout << top.first << " and " << top.second  << " Flow : " << max << "\n";
-    }
+    return sink->isVisited();
 }
 
-void Graph::printTopK(const string &filter, int k) {
-    unordered_map<string, int> map;
-    edmondsKarp("Valongo", "Trofa");
-    for(auto station : StationSet){
-        for(auto s : station->getAdj()){
-            if(filter == "municipality"){
-                string name = station->getMunicipality();
-                if(map.find(name)==map.end()){
-                    map.insert(pair<string,int>(name,s->getFlow() * s->getService()));
-                }
-                else{
-                    map[station->getMunicipality()] += s->getFlow() * s->getService();
-                }
-            }
-            else if(filter == "district"){
-                string name = station->getDistrict();
-                if(map.find(name) == map.end()){
-                    map.insert(pair<string, int>(name,s->getFlow() * s->getService()));
-                }
-                else{
-                    map[station->getDistrict()] += s->getFlow() * s->getService();
-                }
-            }
-        }
-    }
-    vector<pair<string, int>> top(map.begin(), map.end());
-    sort(top.begin(), top.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
-    for(int i = 0; i < k; i++){
-        if(i >= StationSet.size()){
-            break;
-        }
-        cout << top[i].first << ": " << top[i].second << "\n";
-    }
-}
-
-void Graph::updateFlowMoney(Station* source, Station* target, double bottleneck){
+void Graph::updateFlow(Station* source, Station* target, double bottleneck){
     Station* currentVertex = target;
     while (currentVertex != source) {
         Segment* e = currentVertex->getPath();
 
         if(e->getDest()==currentVertex){
             e->setFlow(e->getFlow() + bottleneck);
-            e->setCost((e->getFlow() + bottleneck)*e->getService());
             currentVertex = e->getOrig();
         }
         else{
             e->setFlow(e->getFlow() - bottleneck);
-            e->setCost((e->getFlow() - bottleneck)*e->getService());
             currentVertex = e->getDest();
         }
     }
@@ -325,33 +175,50 @@ double Graph::edmondsKarpMoney(string source, string target){
     return maxFlow;
 }
 
-vector<Station*> Graph::dijkstra(string source, string dest) {
-    Station* s = findStation(source);
-    Station* t = findStation(dest);
-    vector<Station *> optimalPath;
+void Graph::updateFlowMoney(Station* source, Station* target, double bottleneck){
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
 
-    priority_queue<Station*> q;
-    q.push(s);
-    while(!q.empty()){
-        Station* current = q.top();
-        q.pop();
-        int min = INT_MAX;
-
-        if(current=t)break;
-
-
-        for(auto seg : current->getAdj()){
-            Station* next = seg->getDest();
-            int cost = seg->getCost();
-            int alt_distance =
-
-            if(cost < min){
-                min = cost;
-            }
+        if(e->getDest()==currentVertex){
+            e->setFlow(e->getFlow() + bottleneck);
+            e->setCost((e->getFlow() + bottleneck)*e->getService());
+            currentVertex = e->getOrig();
+        }
+        else{
+            e->setFlow(e->getFlow() - bottleneck);
+            e->setCost((e->getFlow() - bottleneck)*e->getService());
+            currentVertex = e->getDest();
         }
     }
-    cout << "The path with the minimum cost for the company has a cost of " << min << "€";
-    return optimalPath;
+}
+
+
+double Graph::findMinResidual(Station* source, Station* target){
+    double bottleneck = INF;
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
+
+        if(e->getDest()==currentVertex){
+            bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
+            currentVertex = e->getOrig();
+        }
+        else{
+            bottleneck = std::min(bottleneck, e->getFlow());
+            currentVertex = e->getDest();
+        }
+
+    }
+    return bottleneck;
+}
+
+void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual){
+    if(!w->isVisited() && (residual) > 0){
+        w->setPath(e);
+        w->setVisited(true);
+        q.push(w);
+    }
 }
 
 vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id no UFDS para string name? mas tou demasiado cansado para pensar em como fazer isso
@@ -390,6 +257,42 @@ vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id
     return StationSet;
 }
 
+/*
+vector<Station*> Graph::dijkstra(string source, string dest) {
+    Station* s = findStation(source);
+    Station* t = findStation(dest);
+    vector<Station *> optimalPath;
+
+    priority_queue<Station*> q;
+    q.push(s);
+    while(!q.empty()){
+        Station* current = q.top();
+        q.pop();
+        int min = INT_MAX;
+
+        if(current=t)break;
+
+
+        for(auto seg : current->getAdj()){
+            Station* next = seg->getDest();
+            int cost = seg->getCost();
+
+            if(cost < min){
+                min = cost;
+            }
+        }
+    }
+    cout << "The path with the minimum cost for the company has a cost of " << min << "€";
+    return optimalPath;
+}
+*/
+
+void Graph::maxTrains(string source, string target) {
+    int flow = edmondsKarp(source, target);
+    cout << "The maximum numbers of trains that can simultaneously travel between " << source << " and " << target << " is " << flow << endl;
+}
+
+/*
 void Graph::maxTrainsMinCost(string source, string target){
     edmondsKarpMoney(source, target);
     vector<Station*> res = dijkstra(source, target);
@@ -403,4 +306,125 @@ void Graph::maxTrainsMinCost(string source, string target){
     }
     ss << " | Arrived at destination.";
     cout << ss.str() <<endl;
+}
+*/
+
+void Graph::maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments) {
+    Graph* subgraph = (this);
+    //Graph graph = Graph();
+    //graph = *this;
+    while(!failedSegments.empty()){
+        auto segment = failedSegments.top();
+        failedSegments.pop();
+        removeBidirectionalSegment(segment.first,segment.second);
+    }
+    int flow = edmondsKarp(source, target);
+    cout << "The maximum numbers of trains that can simultaneously travel between " << source << " and " << target << ",in a network of reduced connectivity, is " << flow << endl;
+}
+
+int Graph::maxTrainsInStation(string station) {
+    int trainCount = 0;
+    auto incoming = findStation(station)->getIncoming();
+    for(auto segment : incoming){
+        trainCount += segment->getCapacity();
+    }
+    return trainCount;
+}
+
+void Graph::stationPairs(){
+    double max =0;
+    stack<pair<string,string>> s;
+
+    for(int i = 0; i < StationSet.size(); i++){
+        for(int j = i+1; j < StationSet.size(); j++){
+            Station* source = StationSet[i];
+            Station* sink = StationSet[j];
+
+            double flow = edmondsKarp(source->getName(),sink->getName());
+            pair<string,string> cur = pair<string, string> (source->getName(), sink->getName());
+            if(flow == max){
+                s.push(cur);
+            }
+            if(flow > max){
+               while(!s.empty()){
+                   s.pop();
+               }
+               max = flow;
+               s.push(cur);
+            }
+        }
+    }
+    while(!s.empty()){
+        pair<string, string> top = s.top();
+        s.pop();
+        cout << top.first << " and " << top.second  << " Flow : " << max << "\n";
+    }
+}
+
+void Graph::printTopKHigherBudget(const string &filter, int k) {
+    unordered_map<string, int> map;
+    edmondsKarp("Valongo", "Trofa");
+    for(auto station : StationSet){
+        for(auto s : station->getAdj()){
+            if(filter == "municipality"){
+                string name = station->getMunicipality();
+                if(map.find(name)==map.end()){
+                    map.insert(pair<string,int>(name,s->getFlow() * s->getService()));
+                }
+                else{
+                    map[station->getMunicipality()] += s->getFlow() * s->getService();
+                }
+            }
+            else if(filter == "district"){
+                string name = station->getDistrict();
+                if(map.find(name) == map.end()){
+                    map.insert(pair<string, int>(name,s->getFlow() * s->getService()));
+                }
+                else{
+                    map[station->getDistrict()] += s->getFlow() * s->getService();
+                }
+            }
+        }
+    }
+    vector<pair<string, int>> top(map.begin(), map.end());
+    sort(top.begin(), top.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+    for(int i = 0; i < k; i++){
+        if(i >= StationSet.size()){
+            break;
+        }
+        cout << top[i].first << ": " << top[i].second << "\n";
+    }
+}
+
+///TODO
+
+
+void Graph::printTopKMostAffected(stack<Segment *> failedSegments, int k) {
+    vector<Station*> mostAffected;
+
+
+    int counter = 1;
+    cout << "The top k  most affected stations with the provided segment failures are:\n";
+    for(auto station : mostAffected){
+        cout << counter << ": " << station->getName() << endl;
+    }
+}
+
+
+void deleteMatrix(int **m, int n) {
+    if (m != nullptr) {
+        for (int i = 0; i < n; i++)
+            if (m[i] != nullptr)
+                delete [] m[i];
+        delete [] m;
+    }
+}
+
+void deleteMatrix(double **m, int n) {
+    if (m != nullptr) {
+        for (int i = 0; i < n; i++)
+            if (m[i] != nullptr)
+                delete [] m[i];
+        delete [] m;
+    }
 }
