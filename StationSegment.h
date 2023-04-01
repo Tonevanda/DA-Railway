@@ -34,16 +34,18 @@ public:
     bool isVisited() const;
     bool isProcessing() const;
     unsigned int getIndegree() const;
-    double getDist() const;
+    int getCost() const;
+    int getFlow() const;
     Segment *getPath() const;
     vector<Segment *> getIncoming() const;
 
     void setVisited(bool visited);
     void setProcesssing(bool processing);
     void setIndegree(unsigned int indegree);
-    void setDist(double dist);
+    void setCost(int cost);
+    void setFlow(int flow);
     void setPath(Segment *path);
-    Segment * addSegment(Station *dest, double w, int serv);
+    Segment* addSegment(Station *dest, double w, int serv);
     bool removeSegment(std::string destName);
 
     friend class MutablePriorityQueue<Station>;
@@ -61,7 +63,8 @@ protected:
     bool visited = false; // used by DFS, BFS, Prim ...
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     unsigned int indegree; // used by topsort
-    double dist = 0;
+    int cost = 0;
+    double flow = 0;
     Segment *path = nullptr;
 
 

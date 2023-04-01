@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <stack>
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -44,6 +45,26 @@ int Graph::getNumStation() const {
 
 std::vector<Station *> Graph::getStationSet() const {
     return StationSet;
+}
+
+int Graph::getSegmentCapacity(string source, string target) const {
+    auto sourceStation = findStation(source);
+    int capacity = 0;
+    for(auto segment : sourceStation->getAdj()){
+        if(segment->getDest()->getName() == target)
+            capacity = segment->getCapacity();
+    }
+    return capacity;
+}
+
+int Graph::getSegmentService(string source, string target) const {
+    auto sourceStation = findStation(source);
+    int service = 0;
+    for(auto segment : sourceStation->getAdj()){
+        if(segment->getDest()->getName() == target)
+            service = segment->getService();
+    }
+    return service;
 }
 
 /*
@@ -112,6 +133,16 @@ double Graph::edmondsKarp(string source, string target){
         updateFlow(s, t, bottleneck);
         maxFlow+=bottleneck;
     }
+
+    //can possibly be done inside the edmondsKarp algorithm and become more efficient
+    for(auto station : StationSet){
+        int flow = 0;
+        for(auto segment : station->getIncoming()){
+            flow += segment->getFlow();
+        }
+        station->setFlow(flow);
+    }
+
     return maxFlow;
 }
 bool Graph::edmondsKarpBFS(Station* v, Station* sink){
@@ -221,6 +252,7 @@ void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* 
     }
 }
 
+//para que é que isto servia mesmo??
 vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id no UFDS para string name? mas tou demasiado cansado para pensar em como fazer isso
     for (auto v : StationSet) {
         for (auto e : v->getAdj()) {
@@ -257,42 +289,46 @@ vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id
     return StationSet;
 }
 
-/*
+///TODO
 vector<Station*> Graph::dijkstra(string source, string dest) {
     Station* s = findStation(source);
     Station* t = findStation(dest);
+    s->setVisited(true);
+    s->setCost(0);
     vector<Station *> optimalPath;
-
+    optimalPath.push_back(s);
+    int min;
     priority_queue<Station*> q;
     q.push(s);
     while(!q.empty()){
         Station* current = q.top();
         q.pop();
-        int min = INT_MAX;
-
-        if(current=t)break;
-
-
+        if(current==t)break;
         for(auto seg : current->getAdj()){
             Station* next = seg->getDest();
             int cost = seg->getCost();
-
-            if(cost < min){
-                min = cost;
+            if(!next->isVisited()){
+                next->setCost(current->getCost()+cost);
+                next->setVisited(true);
+                q.push(next);
+            }
+            else if(current->getCost()+cost < next->getCost()){
+                next->setCost(current->getCost()+cost);
+                q.push(next);
             }
         }
     }
-    cout << "The path with the minimum cost for the company has a cost of " << min << "€";
+    //cout << "The path with the minimum cost for the company has a cost of " << min << "€";
     return optimalPath;
 }
-*/
+
 
 void Graph::maxTrains(string source, string target) {
     int flow = edmondsKarp(source, target);
     cout << "The maximum numbers of trains that can simultaneously travel between " << source << " and " << target << " is " << flow << endl;
 }
 
-/*
+
 void Graph::maxTrainsMinCost(string source, string target){
     edmondsKarpMoney(source, target);
     vector<Station*> res = dijkstra(source, target);
@@ -307,19 +343,61 @@ void Graph::maxTrainsMinCost(string source, string target){
     ss << " | Arrived at destination.";
     cout << ss.str() <<endl;
 }
-*/
+
 
 void Graph::maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments) {
-    Graph* subgraph = (this);
-    //Graph graph = Graph();
-    //graph = *this;
+    stack<pair<string, string>> reallocateSegments; //copy failedSegments before removing them from the graph to add them later
+    stack<pair<int, int>> values; //vector to keep track of the values of the segments we remove
+
     while(!failedSegments.empty()){
         auto segment = failedSegments.top();
         failedSegments.pop();
+        int capacity = getSegmentCapacity(segment.first, segment.second);
+        int service = getSegmentService(segment.first, segment.second);
+        values.push(make_pair(capacity, service));
+        reallocateSegments.push(segment);
         removeBidirectionalSegment(segment.first,segment.second);
     }
+
     int flow = edmondsKarp(source, target);
-    cout << "The maximum numbers of trains that can simultaneously travel between " << source << " and " << target << ",in a network of reduced connectivity, is " << flow << endl;
+
+    while(!reallocateSegments.empty()){
+        auto segment = reallocateSegments.top();
+        reallocateSegments.pop();
+        auto value = values.top();
+        values.pop();
+        addBidirectionalSegment(segment.first,segment.second,value.first,value.second);
+    }
+    cout << "The maximum numbers of trains that can simultaneously travel between " << source << " and " << target << ", in a network of reduced connectivity, is " << flow << endl;
+}
+
+///TODO
+
+bool compare(Station s1, Station s2){
+    return s1.getFlow() > s2.getFlow();
+}
+
+void Graph::printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k) {
+    edmondsKarp(source, target);
+    vector<Station> mostAffected;
+
+    mostAffected.reserve(StationSet.size());
+    for(auto & i : StationSet){
+        mostAffected.push_back(*i);
+    }
+
+    maxTrainsFailure(source, target, failedSegments);
+
+    for(int i = 0; i<StationSet.size();i++){ //get the difference between before and after the failed segments
+        mostAffected[i].setFlow(abs(mostAffected[i].getFlow() - StationSet[i]->getFlow()));
+    }
+
+    sort(mostAffected.begin(), mostAffected.end(), compare);
+
+    cout << "The top k most affected stations with the provided segment failures are:\n";
+    for(int i = 1; i<k+1;i++){
+        cout << i << ": " << mostAffected[i-1].getName() << " with a difference in flow of " << mostAffected[i-1].getFlow() << endl;
+    }
 }
 
 int Graph::maxTrainsInStation(string station) {
@@ -396,19 +474,6 @@ void Graph::printTopKHigherBudget(const string &filter, int k) {
     }
 }
 
-///TODO
-
-
-void Graph::printTopKMostAffected(stack<Segment *> failedSegments, int k) {
-    vector<Station*> mostAffected;
-
-
-    int counter = 1;
-    cout << "The top k  most affected stations with the provided segment failures are:\n";
-    for(auto station : mostAffected){
-        cout << counter << ": " << station->getName() << endl;
-    }
-}
 
 
 void deleteMatrix(int **m, int n) {

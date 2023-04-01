@@ -17,13 +17,15 @@ using namespace std;
 
 class Graph {
 public:
-    Graph(){};
+    Graph()= default;
     Graph(const Graph &graph);
     ~Graph();
-    Station *findStation(const string &name) const;
-    int findStationIdx(const string &name) const;
-    int getNumStation() const;
-    vector<Station *> getStationSet() const;
+    [[nodiscard]] Station *findStation(const string &name) const;
+    [[nodiscard]] int findStationIdx(const string &name) const;
+    [[nodiscard]] int getNumStation() const;
+    [[nodiscard]] vector<Station *> getStationSet() const;
+    [[nodiscard]] int getSegmentCapacity(string source, string target) const;
+    int getSegmentService(string source, string target) const;
 
     bool addStation(const string &name, const string &district, const string &municipality, const string &township, const string &line);
     bool addSegment(const string &sourc, const string &dest, double w, int serv);
@@ -42,13 +44,13 @@ public:
     vector<Station*> dijkstra(string source, string dest);
 
     void maxTrains(string source, string target); //edmondskarp
-    void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra
     void maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments); //not tested
     int maxTrainsInStation(string station); //capacidade
     void stationPairs();
     void printTopKHigherBudget(const string &filter, int k);
     ///TODO
-    void printTopKMostAffected(stack<Segment*> failedSegments, int k);
+    void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k);
+    void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall

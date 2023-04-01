@@ -7,6 +7,8 @@
 Station::Station(std::string name, std::string district, std::string municipality, std::string township, std::string line): name(name), district(district),
 municipality(municipality), township(township), line(line){}
 
+
+
 /*
  * Auxiliary function to add an outgoing Segment to a Station (this),
  * with a given destination StatioFn (d) and Segment weight (w).
@@ -52,7 +54,7 @@ bool Station::removeSegment(std::string destName) {
 }
 
 bool Station::operator<(Station & Station) const {
-    return this->dist < Station.dist;
+    return this->cost < Station.cost;
 }
 
 /*
@@ -82,8 +84,12 @@ unsigned int Station::getIndegree() const {
     return this->indegree;
 }
 
-double Station::getDist() const {
-    return this->dist;
+int Station::getCost() const {
+    return this->cost;
+}
+
+int Station::getFlow() const {
+    return this->flow;
 }
 
 Segment *Station::getPath() const {
@@ -107,8 +113,12 @@ void Station::setIndegree(unsigned int indegree) {
     this->indegree = indegree;
 }
 
-void Station::setDist(double dist) {
-    this->dist = dist;
+void Station::setCost(int cost) {
+    this->cost = cost;
+}
+
+void Station::setFlow(int flow) {
+    this->flow = flow;
 }
 
 void Station::setPath(Segment *path) {
