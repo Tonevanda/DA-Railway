@@ -64,7 +64,7 @@ protected:
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     unsigned int indegree; // used by topsort
     int cost = 0;
-    double flow = 0;
+    int flow = 0;
     Segment *path = nullptr;
 
 
@@ -88,7 +88,7 @@ public:
     double getCost() const;
     void setSelected(bool selected);
     void setReverse(Segment *reverse);
-    void setFlow(double flow);
+    void setFlow(int flow);
     void setCost(double cost);
 protected:
     Station* dest; // destination vertex
@@ -97,7 +97,7 @@ protected:
     bool selected = false;
     Station *orig;
     Segment *reverse = nullptr;
-    double flow; // for flow-related problems
+    int flow; // for flow-related problems
     double cost; // flow * service
 };
 

@@ -176,7 +176,7 @@ void Segment::setReverse(Segment *reverse) {
     this->reverse = reverse;
 }
 
-void Segment::setFlow(double flow) {
+void Segment::setFlow(int flow) {
     this->flow = flow;
 }
 

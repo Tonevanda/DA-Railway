@@ -43,15 +43,16 @@ public:
     vector<Station*> kruskal();
     vector<Station*> dijkstra(string source, string dest);
 
-    void maxTrains(string source, string target); //edmondskarp
-    void maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments); //not tested
-    int maxTrainsInStation(string station); //capacidade
-    void stationPairs();
-    void printTopKHigherBudget(const string &filter, int k);
-    ///TODO
-    void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k);
-    void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra
+    void maxTrains(string source, string target); //edmondskarp 2.1
+    void stationPairs(); // 2.2
+    void printTopKHigherBudget(const string &filter, int k); //2.3
+    int maxTrainsInStation(string station); //capacidade 2.4
+    void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra 3.1
+    void maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments); //not tested 4.1
+    void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k); //4.2
+
     void topKIncoming(int k);
+
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
