@@ -368,10 +368,9 @@ void Graph::maxTrainsFailure(string source, string target, stack<pair<string, st
         values.pop();
         addBidirectionalSegment(segment.first,segment.second,value.first,value.second);
     }
+
     cout << "The maximum numbers of trains that can simultaneously travel between " << source << " and " << target << ", in a network of reduced connectivity, is " << flow << endl;
 }
-
-///TODO
 
 bool compare(Station s1, Station s2){
     return s1.getFlow() > s2.getFlow();
@@ -474,6 +473,22 @@ void Graph::printTopKHigherBudget(const string &filter, int k) {
     }
 }
 
+bool compare2(pair<string, int> p1,pair<string, int> p2){
+    return p1.second > p2.second;
+}
+
+void Graph::topKIncoming(int k){
+    int before = 0;
+    vector<pair<string, int>> top;
+    for(auto station : StationSet){
+        int incoming = maxTrainsInStation(station->getName());
+        top.push_back(make_pair(station->getName(), incoming));
+    }
+    sort(top.begin(), top.end(), compare2);
+    for(int i = 1; i < k+1; i++){
+        cout << i << ": " << top[i-1].first << " | Capacity: " << top[i-1].second << endl;
+    }
+}
 
 
 void deleteMatrix(int **m, int n) {

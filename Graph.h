@@ -51,6 +51,7 @@ public:
     ///TODO
     void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k);
     void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra
+    void topKIncoming(int k);
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall

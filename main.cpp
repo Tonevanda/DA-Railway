@@ -268,8 +268,8 @@ void menu(Graph graph) {
 int main() {
     auto start = chrono::steady_clock::now();
     Graph graph;
-    readStations(&graph, "dataset/testStations.csv");
-    readNetwork(&graph, "dataset/testNetwork.csv");
+    readStations(&graph, "dataset/stations.csv");
+    readNetwork(&graph, "dataset/network.csv");
     //Graph g1(graph);
     //cout<<graph.maxTrainsInStation("Estarreja");
     //menu(graph);
@@ -285,8 +285,9 @@ int main() {
     //graph.maxTrainsFailure("Porto Campanhã", "Estarreja",failedSegments);
     //graph.maxTrains("Porto Campanhã","Estarreja");
     //graph.dijkstra("Porto Campanhã","Estarreja");
-    graph.printTopKMostAffected("Porto Campanhã", "Estarreja", failedSegments, 4);
+    //graph.printTopKMostAffected("Porto Campanhã", "Estarreja", failedSegments, 4);
     //cout<<"cost:"<<graph.findStation("Estarreja")->getCost()<<endl;
+    graph.topKIncoming(5);
     auto end = chrono::steady_clock::now();
     double elapsed_time = double(chrono::duration_cast<chrono::milliseconds>(end - start).count());
     cout << "Took " << elapsed_time << " milliseconds to finish!\n";
@@ -318,7 +319,7 @@ int main() {
  *  2.3-Top-k municipalities and districts with higher budget;Kinda done, mas tp, falta saber source e sink ig :thumbs_down:    -budget
  *
  *  DONE (?) 2.4-Report the maximum number of trains that can simultaneously arrive at a given station,    -trains
-    taking into consideration the entire railway grid. // capacidade :thumbs_up:
+    taking into consideration the entire railway grid. //  not capacidade rip
  *
  *  3.1-Calculate the maximum amount of trains that can simultaneously travel between
     two specific stations with minimum cost for the company. Note that your system should also take any     -budget
