@@ -270,6 +270,7 @@ int main() {
     Graph graph;
     readStations(&graph, "dataset/stations.csv");
     readNetwork(&graph, "dataset/network.csv");
+    graph.oneGetAdj();
     //menu(graph);
     //graph.maxTrains("Porto Campanhã", "Estarreja"); //2.1
     //graph.stationPairs(); //2.2

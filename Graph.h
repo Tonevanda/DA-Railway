@@ -53,6 +53,9 @@ public:
 
     void topKIncoming(int k);
 
+    vector<Station*> oneGetAdj();
+    void createSuperSource(vector<Station*> nascentes);
+
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall

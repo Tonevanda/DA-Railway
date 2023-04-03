@@ -513,3 +513,30 @@ void deleteMatrix(double **m, int n) {
         delete [] m;
     }
 }
+
+/*Isto vai retornar todas as estações com 1 de adj ig para dps fazermos edmonds karp*/
+vector<Station*> Graph::oneGetAdj(){
+    vector<Station*> nascentes;
+    for(auto st : StationSet){
+        int count = 0;
+        for(auto adj : st->getAdj()){
+            if(adj->getDest()->getLine()==st->getLine() && st->getLine()=="Linha do Norte"){
+                count++;
+            }
+        }
+        if(count==1){
+            nascentes.push_back(st);
+            cout << st->getName() << " ------- " << st->getLine() << endl;
+        }
+    }
+    return nascentes;
+}
+
+/*cria uma supersource chamada SuperSource, cap=INF, serv=0*/
+void Graph::createSuperSource(vector<Station*> nascentes){
+    this->addStation("SuperSource","", "","","");
+    for(auto source : nascentes){
+        this->addSegment("SuperSource", source->getName(),INF, 0);
+    }
+
+}
