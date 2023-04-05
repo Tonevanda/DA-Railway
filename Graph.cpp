@@ -538,5 +538,4 @@ void Graph::createSuperSource(vector<Station*> nascentes){
     for(auto source : nascentes){
         this->addSegment("SuperSource", source->getName(),INF, 0);
     }
-
 }
