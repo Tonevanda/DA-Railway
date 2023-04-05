@@ -159,10 +159,10 @@ bool Graph::edmondsKarpBFS(Station* v, Station* sink){
         q.pop();
 
         for(auto e: u->getAdj()){
-            testVisit(q, e, e->getDest(), sink, e->getCapacity() - e->getFlow());
+            testVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
         }
         for(auto edge : u->getIncoming()){
-            testVisit(q, edge, edge->getOrig(), sink, edge->getFlow());
+            testVisit(q, edge, edge->getOrig(), edge->getFlow());
         }
     }
     return sink->isVisited();
@@ -244,7 +244,7 @@ double Graph::findMinResidual(Station* source, Station* target){
     return bottleneck;
 }
 
-void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual){
+void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, double residual){
     if(!w->isVisited() && (residual) > 0){
         w->setPath(e);
         w->setVisited(true);
@@ -402,6 +402,7 @@ int Graph::maxTrainsInStation(string station) {
     for(auto segment : incoming){
         trainCount += segment->getCapacity();
     }
+    cout << trainCount << " trains can arrive simultaneosly in station " << station << endl;
     return trainCount;
 }
 
@@ -520,7 +521,25 @@ vector<Station*> Graph::oneGetAdj(){
     for(auto st : StationSet){
         int count = 0;
         for(auto adj : st->getAdj()){
-            if(adj->getDest()->getLine()==st->getLine() && st->getLine()=="Linha do Norte"){
+            if(adj->getDest()->getLine()==st->getLine()){
+                count++;
+            }
+        }
+        if(count==1){
+            nascentes.push_back(st);
+            cout << st->getName() << " ------- " << st->getLine() << endl;
+        }
+    }
+    return nascentes;
+}
+
+vector<Station*> Graph::oneGetAdjLine(string line){
+    vector<Station*> nascentes;
+    for(auto st : StationSet){
+        if(st->getLine()!=line) continue;
+        int count = 0;
+        for(auto adj : st->getAdj()){
+            if(adj->getDest()->getLine()==st->getLine()){
                 count++;
             }
         }
@@ -538,4 +557,87 @@ void Graph::createSuperSource(vector<Station*> nascentes){
     for(auto source : nascentes){
         this->addSegment("SuperSource", source->getName(),INF, 0);
     }
+}
+
+double Graph::edmondsKarpArea(string source){
+    for(Station* station : StationSet){
+        station->setVisited(false);
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+    double maxFlow = 0;
+    Station* s = findStation(source);
+    if(s == nullptr){
+        cout << "Invalid source!\n";
+        return 0.0;
+    }
+    stack<Station*> end;
+    while(edmondsKarpBFSArea(s, &end)){
+        maxFlow += findMinResidualandUpdateFlowArea(s,&end);
+    }
+    return maxFlow;
+}
+
+bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
+    source->setVisited(true);
+    source->setPath(nullptr);
+    std::queue<Station* > q;
+    q.push(source);
+
+    while(!q.empty()){
+        Station* u = q.front();
+        q.pop();
+        for(auto e: u->getAdj()){
+            testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), end);
+        }
+        for(auto edge : u->getIncoming()){
+            testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), end);
+        }
+    }
+}
+void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end){
+    if(!w->isVisited() && (residual) > 0){
+        w->setPath(e);
+        w->setVisited(true);
+        q.push(w);
+    }
+    else{
+        end->push(e->getOrig());
+    }
+}
+
+double Graph::findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end){
+    int maxFlow = 0;
+    while(!end->empty()){
+        double bottleneck = INF;
+        Station* current = end->top();
+
+        while(current != s){
+            Segment* e = current->getPath();
+            if(e->getDest()==current){
+                bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
+                current = e->getOrig();
+            }
+            else{
+                bottleneck = std::min(bottleneck, e->getFlow());
+                current = e->getDest();
+            }
+        }
+        current = end->top();
+        while(current != s){
+            Segment* e = current->getPath();
+            if(e->getDest()==current){
+                e->setFlow(e->getFlow()+bottleneck);
+                current = e->getOrig();
+            }
+            else{
+                e->setFlow(e->getFlow()-bottleneck);
+                current = e->getDest();
+            }
+        }
+        maxFlow+=bottleneck;
+        end->pop();
+    }
+    return maxFlow;
 }

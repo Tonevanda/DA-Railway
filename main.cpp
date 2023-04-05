@@ -7,13 +7,13 @@ using namespace std;
 void menu(Graph graph) {
     bool canRun = true;
     bool canRun1 = true;
-    string start,end;
+    string start = "",end="";
     while(canRun){
         int input;
         cout << "What areas do you wish to inspect?\n"
                 "1: Number of trains\n"
                 "2: Budget\n"
-                "3: failiures\n"
+                "3: Failures\n"
                 "0: End Program\n";
         while (!(cin >> input)) {
             cout << "Invalid input!\n\n";
@@ -54,7 +54,7 @@ void menu(Graph graph) {
                     }
                     cin.clear();
                     cin.ignore(INT_MAX, '\n');
-                    switch (input) {
+                    switch (input2) {
                         case 0:
                             canRun = false;
                             canRun1 = false;
@@ -63,25 +63,20 @@ void menu(Graph graph) {
                             cout << "Input First Station:\n";
                             getline(cin, start);
                             cin.clear();
-                            cin.ignore(INT_MAX, '\n');
                             while (graph.findStation(start)==nullptr) {
-                                cout << start << endl;
                                 cout << "Invalid input!\n\n";
                                 cout << "Input First Station:\n";
                                 getline(cin, start);
                                 cin.clear();
-                                cin.ignore(INT_MAX, '\n');
                             }
                             cout << "Input Second Station:\n";
                             getline(cin, end);
                             cin.clear();
-                            cin.ignore(INT_MAX, '\n');
                             while (graph.findStation(end)==nullptr) {
                                 cout << "Invalid input!\n\n";
                                 cout << "Input Second Station:\n";
                                 getline(cin, end);
                                 cin.clear();
-                                cin.ignore(INT_MAX, '\n');
                             }
                             double maxFlow = graph.edmondsKarp(start, end);
                             cout << "Máximo número de comboios simultâneos: " << maxFlow << "\n";
@@ -93,15 +88,15 @@ void menu(Graph graph) {
                         }
                         case 3:{
                             cout << "Input Station:\n";
-                            while (!(cin >> end)) {
-                                cout << "Invalid input!\n\n";
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                cout << "Input Station:\n";
-                            }
+                            getline(cin, start);
                             cin.clear();
-                            cin.ignore(INT_MAX, '\n');
-                            graph.maxTrainsInStation("Estarreja");
+                            while (graph.findStation(start)==nullptr) {
+                                cout << "Invalid input!\n\n";
+                                cout << "Input Station:\n";
+                                getline(cin, start);
+                                cin.clear();
+                            }
+                            graph.maxTrainsInStation(start);
                             break;
                         }
                         case 9:{
@@ -168,23 +163,23 @@ void menu(Graph graph) {
                         }
                         case 3:{
                             cout << "Input First Station:\n";
-                            while (!(cin >> start)) {
+                            getline(cin, start);
+                            cin.clear();
+                            while (graph.findStation(start)==nullptr) {
                                 cout << "Invalid input!\n\n";
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
                                 cout << "Input First Station:\n";
-                            }
-                            cin.clear();
-                            cin.ignore(INT_MAX, '\n');
-                            cout << "Input Second Station:\n";
-                            while (!(cin >> end)) {
-                                cout << "Invalid input!\n\n";
+                                getline(cin, start);
                                 cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                cout << "Input Second Station:\n";
                             }
+                            cout << "Input Second Station:\n";
+                            getline(cin, end);
                             cin.clear();
-                            cin.ignore(INT_MAX, '\n');
+                            while (graph.findStation(end)==nullptr) {
+                                cout << "Invalid input!\n\n";
+                                cout << "Input Second Station:\n";
+                                getline(cin, end);
+                                cin.clear();
+                            }
                             graph.maxTrainsMinCost(start, end);
                             break;
                         }
@@ -222,80 +217,63 @@ void menu(Graph graph) {
                             break;
                         case 1:{
                             cout << "Input First Station:\n";
-                            while (!(getline(cin>>ws,start))) {
+                            getline(cin, start);
+                            cin.clear();
+                            while (graph.findStation(start)==nullptr) {
                                 cout << "Invalid input!\n\n";
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
                                 cout << "Input First Station:\n";
-                            }
-                            cin.clear();
-                            cin.ignore(INT_MAX, '\n');
-                            cout << "Input Second Station:\n";
-                            while (!(cin >> end)) {
-                                cout << "Invalid input!\n\n";
+                                getline(cin, start);
                                 cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                cout << "Input Second Station:\n";
                             }
+                            cout << "Input Second Station:\n";
+                            getline(cin, end);
                             cin.clear();
-                            cin.ignore(INT_MAX, '\n');
+                            while (graph.findStation(end)==nullptr) {
+                                cout << "Invalid input!\n\n";
+                                cout << "Input Second Station:\n";
+                                getline(cin, end);
+                                cin.clear();
+                            }
                             string segment1,segment2;
                             stack<pair<string, string>> failedSegments;
                             bool flag=true;
-                            cout << "Input the segment failures (input q to continue):\n";
+                            cout << "Input the segment failures (write done when done):\n";
                             while(flag){
                                 cout << "Input First Station:\n";
-                                while (!getline(cin,segment1)) {
+                                getline(cin, segment1);
+                                cin.clear();
+                                while (segment1 != "done" && graph.findStation(segment1)==nullptr) {
                                     cout << "Invalid input!\n\n";
-                                    cin.clear();
-                                    cin.ignore(INT_MAX, '\n');
                                     cout << "Input First Station:\n";
-                                }
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-
-                                cout << "Input Second Station:\n";
-                                while (!(cin >> segment2)) {
-                                    cout << "Invalid input!\n\n";
+                                    getline(cin, segment1);
                                     cin.clear();
-                                    cin.ignore(INT_MAX, '\n');
-                                    cout << "Input Second Station:\n";
                                 }
+                                if(segment1=="done"){
+                                    flag = false;
+                                    break;
+                                }
+                                cout << "Input Second Station:\n";
+                                getline(cin, segment2);
                                 cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                if(segment1=="q"||segment2=="q"){
-                                    flag= false;
+                                while (segment2 != "done" && graph.findStation(segment2)==nullptr) {
+                                    cout << "Invalid input!\n\n";
+                                    cout << "Input Second Station:\n";
+                                    getline(cin, segment2);
+                                    cin.clear();
+                                }
+                                if(segment2=="done"){
+                                    flag = false;
+                                    break;
                                 }
                                 else{
                                     failedSegments.push(make_pair(segment1,segment2));
                                 }
                             }
                             graph.maxTrainsFailure(start, end,failedSegments);
-                            /*
-                            stack<pair<string, string>> failedSegments;
-                            failedSegments.push(make_pair("Porto Campanhã","Lisboa Oriente"));
-                            graph.maxTrainsFailure("Porto Campanhã", "Estarreja",failedSegments); //4.1*/
                             break;
                         }
+
                         case 2:{
-                            cout << "Input First Station:\n";
-                            while (!(cin >> start)) {
-                                cout << "Invalid input!\n\n";
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                cout << "Input First Station:\n";
-                            }
-                            cin.clear();
-                            cin.ignore(INT_MAX, '\n');
-                            cout << "Input Second Station:\n";
-                            while (!(cin >> end)) {
-                                cout << "Invalid input!\n\n";
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                cout << "Input Second Station:\n";
-                            }
-                            cin.clear();
-                            cin.ignore(INT_MAX, '\n');
                             int k;
                             cout << "Input k:\n";
                             while (!(cin >> k)) {
@@ -306,33 +284,41 @@ void menu(Graph graph) {
                             }
                             cin.clear();
                             cin.ignore(INT_MAX, '\n');
+
                             string segment1,segment2;
                             stack<pair<string, string>> failedSegments;
-                            cout << "Input the segment failures (input q to continue):\n";
-                            while(true){
+                            bool flag=true;
+                            cout << "Input the segment failures (write done when done):\n";
+                            while(flag){
                                 cout << "Input First Station:\n";
-                                while (!(cin >> start)) {
+                                getline(cin, segment1);
+                                cin.clear();
+                                while (segment1 != "done" && graph.findStation(segment1)==nullptr) {
                                     cout << "Invalid input!\n\n";
-                                    cin.clear();
-                                    cin.ignore(INT_MAX, '\n');
                                     cout << "Input First Station:\n";
-                                }
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-
-                                cout << "Input Second Station:\n";
-                                while (!(cin >> end)) {
-                                    cout << "Invalid input!\n\n";
+                                    getline(cin, segment1);
                                     cin.clear();
-                                    cin.ignore(INT_MAX, '\n');
-                                    cout << "Input Second Station:\n";
                                 }
-                                cin.clear();
-                                cin.ignore(INT_MAX, '\n');
-                                if(segment1!="q"||segment2!="q"){
+                                if(segment1=="done"){
+                                    flag = false;
                                     break;
                                 }
-                                failedSegments.push(make_pair(segment1,segment2));
+                                cout << "Input Second Station:\n";
+                                getline(cin, segment2);
+                                cin.clear();
+                                while (segment2 != "done" && graph.findStation(segment2)==nullptr) {
+                                    cout << "Invalid input!\n\n";
+                                    cout << "Input Second Station:\n";
+                                    getline(cin, segment2);
+                                    cin.clear();
+                                }
+                                if(segment2=="done"){
+                                    flag = false;
+                                    break;
+                                }
+                                else{
+                                    failedSegments.push(make_pair(segment1,segment2));
+                                }
                             }
                             graph.printTopKMostAffected(start, end, failedSegments, k);
                             break;
@@ -356,9 +342,9 @@ void menu(Graph graph) {
 int main() {
     auto start = chrono::steady_clock::now();
     Graph graph;
-    readStations(&graph, "dataset/testStations.csv");
-    readNetwork(&graph, "dataset/testNetwork.csv");
-    graph.oneGetAdj();
+    readStations(&graph, "dataset/stations.csv");
+    readNetwork(&graph, "dataset/network.csv");
+    //graph.oneGetAdj();
     menu(graph);
     //graph.maxTrains("Porto Campanhã", "Estarreja"); //2.1
     //graph.stationPairs(); //2.2
@@ -399,7 +385,8 @@ int main() {
  *  DONE 2.2-Determine, from all pairs of stations, which ones (if more than one) require the
     most amount of trains when taking full advantage of the existing network capacity; -> graph.pairs(); - trains
  *
- *  2.3-Top-k municipalities and districts with higher budget;Kinda done, mas tp, falta saber source e sink ig :thumbs_down:    -budget
+ *  2.3-Top-k municipalities and districts with higher budget;Kinda done, mas tp, falta saber source e sink ig :thumbs_down: //por linha -> criar super-source ligada a todos as stations com uma só station adj dessa linha, fazer edmonds karp sem destino até visitar todas as stations dessa linha, fazer isso em todas as linhas, depois percorrer todas as edges que tem uma estaçao desse municipio/distrito como destino e somar o flow*service
+ *
  *
  *  DONE (?) 2.4-Report the maximum number of trains that can simultaneously arrive at a given station,    -trains
     taking into consideration the entire railway grid. //  not capacidade rip

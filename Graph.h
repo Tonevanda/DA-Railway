@@ -39,7 +39,7 @@ public:
     double edmondsKarpMoney(string source, string target);
     void updateFlowMoney(Station* source, Station* target, double bottleneck);
     double findMinResidual(Station* source, Station* target);
-    void testVisit(std::queue<Station*> &q, Segment* e, Station* w, Station* sink, double residual);
+    void testVisit(std::queue<Station*> &q, Segment* e, Station* w, double residual);
     vector<Station*> kruskal();
     vector<Station*> dijkstra(string source, string dest);
 
@@ -53,9 +53,14 @@ public:
 
     void topKIncoming(int k);
 
+    vector<Station*> oneGetAdjLine(string line);
     vector<Station*> oneGetAdj();
     void createSuperSource(vector<Station*> nascentes);
 
+    double edmondsKarpArea(string source);
+    bool edmondsKarpBFSArea(Station* source, stack<Station*>* end);
+    void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end);
+    double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
 protected:
     vector<Station *> StationSet;    // Station set
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
