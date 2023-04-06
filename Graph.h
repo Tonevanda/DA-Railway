@@ -89,25 +89,113 @@ public:
      */
     bool addStation(const string &name, const string &district, const string &municipality, const string &township, const string &line);
     /**
-     * Checks if the Station with the name given in the parameter exists, if it does then removes it from the
+     * Checks if the Station with the name given in the parameter exists, if it does then removes it from the StationSet.
      * @param name
-     * @return
+     * @return True if the Station was in the StationSet before and has been removed, false otherwise.
+     * @note Time-complexity -> O(n)
      */
     bool removeStation(const string &name);
+    /**
+     * Adds a segment between the 2 Stations with the name given as parameters with capacity and service specified in the given parameters.
+     * @param sourc
+     * @param dest
+     * @param w
+     * @param serv
+     * @return True if the segment was added successfully, false if there was no Station with the name given in the parameters.
+     * @note Time-complexity -> O(n)
+     */
     bool addSegment(const string &sourc, const string &dest, double w, int serv);
+    /**
+     * Removes a segment between the 2 Stations with the name given as parameters.
+     * @param sourc
+     * @param dest
+     * @return True if the segment was removed successfully, false if there was no Station with the name given in the parameters.
+     * @note Time-complexity -> O(n)
+     */
     bool removeSegment(const string &sourc, const string &dest);
+    /**
+     * Removes a bidirectional segment between the 2 Stations with the name given as parameters.
+     * @param source
+     * @param dest
+     * @return True if the segment was removed successfully, false if there was no Station with the name given in the parameters.
+     * @note Time-complexity -> O(n)
+     */
     bool removeBidirectionalSegment(const string& source, const string &dest);
+    /**
+     * Adds a bidirectional segment between the 2 Stations with the name given as parameters with capacity and service specified in the given parameters.
+     * @param sourc
+     * @param dest
+     * @param w
+     * @param serv
+     * @return True if the segment was added successfully, false if there was no Station with the name given in the parameters.
+     * @note Time-complexity -> O(n)
+     */
     bool addBidirectionalSegment(const string &sourc, const string &dest, double w, int serv);
 
     /*Algoritmos*/
+    /**
+     * Implementation of the Edmonds-Karp algorithm. Calculates the maximum flow between two given Station with the name given in the parameters, and sets the flow of the edges accordingly.
+     * @param source
+     * @param target
+     * @return Max Flow between the 2 Stations given in the parameters.
+     * @note Time-complexity -> O(VE^2)
+     */
     double edmondsKarp(string source, string target);
+    /**
+     * The Breadth-First Search algorithm used in the implementation of the Edmonds-Karp algorithm.
+     * @param v
+     * @param sink
+     * @return True if the Station specified as the sink has been visited, false otherwise.
+     * @note Time-complexity -> O(V+E)
+     */
     bool edmondsKarpBFS(Station* v, Station* sink);
+    /**
+     * Iterates over the path of the target Station until it reaches the source and adds the bottleneck to the flow of every segment of that path.
+     * @param source
+     * @param target
+     * @param bottleneck
+     * @note Time-complexity -> O(n)
+     */
     void updateFlow(Station* source, Station* target, double bottleneck);
+    /**
+     * A different implementation of the Edmonds-Karp algorithm. Calculates the maximum flow between two given Station with the name given in the parameters, and sets the flow and cost of the edges accordingly.
+     * @param source
+     * @param target
+     * @return Max Flow between the 2 Station given in the parameters.
+     * @note Time-complexity -> O(VE^2)
+     */
     double edmondsKarpMoney(string source, string target);
+    /**
+     * Iterates over the path of the target Station until it reaches the source and adds the bottleneck to the flow of every segment of that path and adds the bottleneck * service of that segment to the cost of said segment.
+     * @param source
+     * @param target
+     * @param bottleneck
+     * @note Time-complexity -> O(n)
+     */
     void updateFlowMoney(Station* source, Station* target, double bottleneck);
+    /**
+     * Iterates through the path between the source and the target to determine the bottleneck of said path.
+     * @param source
+     * @param target
+     * @return Bottleneck of the path between the source and the target
+     * @note Time-complexity -> O(n)
+     */
     double findMinResidual(Station* source, Station* target);
+    /**
+     * Checks if the Station passed as parameter is not visited and if the residual is greater than 0. If true then adds segment e to w's path, sets w as visited and pushes w to the queue passed as parameter.
+     * @param q
+     * @param e
+     * @param w
+     * @param residual
+     * @note Time-complexity -> O(1)
+     */
     void testVisit(std::queue<Station*> &q, Segment* e, Station* w, double residual);
-    vector<Station*> kruskal();
+    /**
+     * Implementation of Dijkstra's algorithm to find the minimum costing path between the 2 Station with the name as the given parameters.
+     * @param source
+     * @param dest
+     * @return Vector of Stations that make up the minimum costing path between the specified Stations.
+     */
     vector<Station*> dijkstra(string source, string dest);
 
     void maxTrains(string source, string target); //edmondskarp 2.1

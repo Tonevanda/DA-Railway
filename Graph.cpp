@@ -267,43 +267,6 @@ void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, double re
     }
 }
 
-//para que é que isto servia mesmo??
-vector<Station*> Graph::kruskal(){ // talvez fique melhor se trocarmos de int id no UFDS para string name? mas tou demasiado cansado para pensar em como fazer isso
-    for (auto v : StationSet) {
-        for (auto e : v->getAdj()) {
-            e->setSelected(false);
-        }
-    }
-
-    UFDS ufds(StationSet.size());
-    std::vector<Segment*> sortedEdges;
-
-    for (auto v : StationSet) {
-        for (auto e : v->getAdj()) {
-            if(!e->isSelected()){
-                sortedEdges.push_back(e);
-                e->setSelected(true);
-                Segment* e2 = e->getReverse();
-                e2->setSelected(true);
-            }
-        }
-    }
-
-    std::sort(sortedEdges.begin(), sortedEdges.end(), [](const Segment* e1, const Segment* e2) {
-        return e1->getCost() < e2->getCost();
-    });
-
-    for(auto e :sortedEdges){
-        if(!ufds.isSameSet(findStationIdx(e->getDest()->getName()), findStationIdx(e->getOrig()->getName()))){
-            Station* v = e->getDest();
-            Station* u = e->getOrig();
-            v->setPath(e);
-            ufds.linkSets(findStationIdx(u->getName()), findStationIdx(v->getName()));
-        }
-    }
-    return StationSet;
-}
-
 ///TODO
 vector<Station*> Graph::dijkstra(string source, string dest) {
     Station* s = findStation(source);
@@ -457,42 +420,6 @@ void Graph::printTopKHigherBudget(string filter, int k) {
         }
         return;
     }
-
-    /*
-    unordered_map<string, int> map;
-    edmondsKarp("Porto Campanhã", "Estarreja");
-    for(auto station : StationSet){
-        for(auto s : station->getAdj()){
-            if(filter == "municipality"){
-                string name = station->getMunicipality();
-                if(map.find(name)==map.end()){
-                    map.insert(pair<string,int>(name,s->getFlow() * s->getService()));
-                }
-                else{
-                    map[station->getMunicipality()] += s->getFlow() * s->getService();
-                }
-            }
-            else if(filter == "district"){
-                string name = station->getDistrict();
-                if(map.find(name) == map.end()){
-                    map.insert(pair<string, int>(name,s->getFlow() * s->getService()));
-                }
-                else{
-                    map[station->getDistrict()] += s->getFlow() * s->getService();
-                }
-            }
-        }
-    }
-    vector<pair<string, int>> top(map.begin(), map.end());
-    sort(top.begin(), top.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
-    cout << "The top " << k << " " << filter << " with higher budget are the following:\n";
-    for(int i = 0; i < k; i++){
-        if(i >= StationSet.size()){
-            break;
-        }
-        cout << top[i].first << ": " << top[i].second << "\n";
-    }
-    */
 }
 
 int Graph::maxTrainsInStation(string station) {
