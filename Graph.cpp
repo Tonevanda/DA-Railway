@@ -50,22 +50,20 @@ std::vector<Station *> Graph::getStationSet() const {
 
 int Graph::getSegmentCapacity(string source, string target) const {
     auto sourceStation = findStation(source);
-    int capacity = 0;
     for(auto segment : sourceStation->getAdj()){
         if(segment->getDest()->getName() == target)
-            capacity = segment->getCapacity();
+            return segment->getCapacity();
     }
-    return capacity;
+    return -1;
 }
 
 int Graph::getSegmentService(string source, string target) const {
     auto sourceStation = findStation(source);
-    int service = 0;
     for(auto segment : sourceStation->getAdj()){
         if(segment->getDest()->getName() == target)
-            service = segment->getService();
+            return segment->getService();
     }
-    return service;
+    return -1;
 }
 
 /*
