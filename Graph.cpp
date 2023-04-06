@@ -276,9 +276,8 @@ vector<Station*> Graph::dijkstra(string source, string dest) {
     }
     s->setVisited(true);
     s->setCost(0);
+    s->setPath(nullptr);
     vector<Station *> optimalPath;
-    optimalPath.push_back(s);
-    int min;
     priority_queue<Station*> q;
     q.push(s);
     while(!q.empty()){
@@ -291,15 +290,23 @@ vector<Station*> Graph::dijkstra(string source, string dest) {
             if(!next->isVisited()){
                 next->setCost(current->getCost()+cost);
                 next->setVisited(true);
+                current->setPath(seg);
                 q.push(next);
             }
             else if(current->getCost()+cost < next->getCost()){
                 next->setCost(current->getCost()+cost);
+                current->setPath(seg);
                 q.push(next);
             }
         }
     }
     cout << "The path with the minimum cost for the company has a cost of " << t->getCost() << "€\n";
+    Station* temp=s;
+    optimalPath.push_back(s);
+    while(temp!=t){
+        optimalPath.push_back(temp->getPath()->getDest());
+        temp=temp->getPath()->getDest();
+    }
     return optimalPath;
 }
 
@@ -443,10 +450,7 @@ void Graph::maxTrainsMinCost(string source, string target){
     stringstream ss;
     ss << "This is the following path:\n";
     for(const auto v : res) {
-        ss << v->getName();
-        if ( v->getPath() != nullptr ) {
-            ss << " -> " << v->getPath()->getDest()->getName();
-        }
+        ss << v->getName() << " - ";
     }
     ss << " | Arrived at destination.";
     cout << ss.str() <<endl;
