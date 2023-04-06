@@ -276,10 +276,17 @@ public:
      */
     void removeSuperSource();
 
+<<<<<<< Updated upstream
     ///TODO
+=======
+    void createSuperSink(vector<Station*> sinks);
+    void removeSuperSink();
+    vector<Station*> findSinks(string source);
+
+>>>>>>> Stashed changes
     double edmondsKarpArea(string source);
     bool edmondsKarpBFSArea(Station* source, stack<Station*>* end);
-    void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end, bool isResidual);
+    void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd);
     double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
 protected:
     vector<pair<string, int>> districtBudget;

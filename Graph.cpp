@@ -433,7 +433,9 @@ int Graph::maxTrainsInStation(string station) {
     Station* st = findStation(station);
     vector<Station*> sources = oneGetAdjLine(st->getLine());
     createSuperSource(sources);
-    edmondsKarpArea("SuperSource");
+    vector<Station*> sinks = findSinks("SuperSource");
+    createSuperSink(sinks);
+    edmondsKarp("SuperSource","SuperSink");
     int trainCount = 0;
     auto incoming = findStation(station)->getIncoming();
     for(auto segment : incoming){
@@ -441,6 +443,7 @@ int Graph::maxTrainsInStation(string station) {
     }
     cout << trainCount << " trains can arrive simultaneosly in station " << station << endl;
     removeSuperSource();
+    removeSuperSink();
     return trainCount;
 }
 
@@ -606,6 +609,46 @@ void Graph::removeSuperSource(){
     this->removeStation("SuperSource");
 }
 
+void Graph::createSuperSink(vector<Station*> sinks){
+    this->addStation("SuperSink","","","","");
+    for(auto st : sinks){
+        this->addSegment(st->getName(), "SuperSink", INF,0);
+    }
+}
+
+void Graph::removeSuperSink(){
+    Station* st = findStation("SuperSink");
+    vector<Segment*> copy = st->getIncoming();
+    for(auto adj : copy){
+        this->removeSegment(adj->getDest()->getName(),"SuperSource");
+    }
+    this->removeStation("SuperSink");
+}
+
+vector<Station*> Graph::findSinks(string source){
+    vector<Station*> sinks;
+    for(Station* station : StationSet){
+        station->setVisited(false);
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+    double maxFlow = 0;
+    Station* s = findStation(source);
+    if(s == nullptr){
+        cout << "Invalid source!\n";
+        return sinks;
+    }
+    stack<Station*> end;
+    edmondsKarpBFSArea(s, &end);
+    while(!end.empty()){
+        Station* st = end.top();
+        sinks.push_back(st);
+        end.pop();
+    }
+    return sinks;
+}
+
 double Graph::edmondsKarpArea(string source){
     for(Station* station : StationSet){
         station->setVisited(false);
@@ -636,38 +679,54 @@ bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
     q.push(source);
 
     while(!q.empty()){
+        bool isEnd = true;
         Station* u = q.front();
         q.pop();
         for(auto e: u->getAdj()){
-            testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), end, false);
+            testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), &isEnd);
         }
         for(auto edge : u->getIncoming()){
-            testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), end, true);
+            testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), &isEnd);
+        }
+        if(q.empty()){
+            end->push(u);
         }
     }
+    vector<Station*> copy;
     while(!end->empty()){
         Station* st = end->top();
+        if(!st->isVisited()){
+            reverse(copy.begin(), copy.end());
+            for(auto station : copy){
+                end->push(station);
+            }
+            return false;
+        }
         end->pop();
-        if(!st->isVisited())return false;
+        copy.push_back(st);
+    }
+    reverse(copy.begin(), copy.end());
+    for(auto station : copy){
+        end->push(station);
     }
     return true;
 }
-void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end, bool isResidual){
+void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd){
     if(!w->isVisited() && (residual) > 0){
         w->setPath(e);
         w->setVisited(true);
         q.push(w);
-    }
-    else if(w->isVisited() && (!isResidual)){
-        end->push(e->getOrig());
+        *isEnd = false;
     }
 }
 
 double Graph::findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end){
     double maxFlow = 0;
+    vector<Station*> copy;
     while(!end->empty()){
         double bottleneck = INF;
         Station* current = end->top();
+        copy.push_back(current);
 
         while(current != s){
             Segment* e = current->getPath();
@@ -694,6 +753,11 @@ double Graph::findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end)
         }
         maxFlow+=bottleneck;
         end->pop();
+
+    }
+    reverse(copy.begin(), copy.end());
+    for(auto station : copy){
+        end->push(station);
     }
     return maxFlow;
 }
