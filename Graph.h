@@ -195,11 +195,27 @@ public:
      * @param source
      * @param dest
      * @return Vector of Stations that make up the minimum costing path between the specified Stations.
+     * @note Time-complexity -> O(V^2)
      */
     vector<Station*> dijkstra(string source, string dest);
 
+    /**
+     * Calculates the maximum flow between the 2 Station specified by the names given as parameters and prints the result
+     * @param source
+     * @param target
+     * @note Time-complexity -> O(VE^2)
+     */
     void maxTrains(string source, string target); //edmondskarp 2.1
+    /**
+     * Calculates the flow between every pair of Stations (except its symmetrical) and prints the pairs with the largest flow.
+     * @note Time-complexity -> O(V^3E^2)
+     */
     void stationPairs(); // 2.2
+    /**
+     *
+     * @param filter
+     * @param k
+     */
     void printTopKHigherBudget(string filter, int k); //2.3
     int maxTrainsInStation(string station); // 2.4
     void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra 3.1
@@ -215,7 +231,7 @@ public:
 
     double edmondsKarpArea(string source);
     bool edmondsKarpBFSArea(Station* source, stack<Station*>* end);
-    void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end);
+    void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end, bool isResidual);
     double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
 protected:
     vector<pair<string, int>> districtBudget;

@@ -395,7 +395,6 @@ void Graph::printTopKHigherBudget(string filter, int k) {
         vector<pair<string, int>> topTownships(townshipMap.begin(), townshipMap.end());
         sort(topTownships.begin(), topTownships.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
         townshipBudget = topTownships;
-
     }
 
 
@@ -424,7 +423,8 @@ void Graph::printTopKHigherBudget(string filter, int k) {
 
 int Graph::maxTrainsInStation(string station) {
     Station* st = findStation(station);
-    createSuperSource(oneGetAdjLine(st->getLine()));
+    vector<Station*> sources = oneGetAdjLine(st->getLine());
+    createSuperSource(sources);
     edmondsKarpArea("SuperSource");
     int trainCount = 0;
     auto incoming = findStation(station)->getIncoming();
@@ -555,7 +555,7 @@ vector<Station*> Graph::oneGetAdj(){
                 count++;
             }
         }
-        if(count==1){
+        if(count==1|| count == 0){
             nascentes.push_back(st);
             cout << st->getName() << " ------- " << st->getLine() << endl;
         }
@@ -573,7 +573,7 @@ vector<Station*> Graph::oneGetAdjLine(string line){
                 count++;
             }
         }
-        if(count==1){
+        if(count==1 || count == 0){
             sources.push_back(st);
             cout << st->getName() << " ------- " << st->getLine() << endl;
         }
@@ -631,26 +631,26 @@ bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
         Station* u = q.front();
         q.pop();
         for(auto e: u->getAdj()){
-            testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), end);
+            testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), end, false);
         }
         for(auto edge : u->getIncoming()){
-            testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), end);
+            testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), end, true);
         }
-    }/*
+    }
     while(!end->empty()){
         Station* st = end->top();
         end->pop();
         if(!st->isVisited())return false;
     }
-    return true;*/
+    return true;
 }
-void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end){
+void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end, bool isResidual){
     if(!w->isVisited() && (residual) > 0){
         w->setPath(e);
         w->setVisited(true);
         q.push(w);
     }
-    else{
+    else if(w->isVisited() && (!isResidual)){
         end->push(e->getOrig());
     }
 }
