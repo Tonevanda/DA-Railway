@@ -345,11 +345,11 @@ int main() {
     readStations(&graph, "dataset/stations.csv");
     readNetwork(&graph, "dataset/network.csv");
     //graph.oneGetAdj();
-    menu(graph);
+    //menu(graph);
     //graph.maxTrains("Porto Campanhã", "Estarreja"); //2.1
     //graph.stationPairs(); //2.2
     //graph.printTopKHigherBudget("municipality", 4); //2.3
-    //graph.maxTrainsInStation("Estarreja"); //2.4
+    graph.maxTrainsInStation("Estarreja"); //2.4
     //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1
     //stack<pair<string, string>> failedSegments;
     //failedSegments.push(make_pair("Porto Campanhã","Lisboa Oriente"));

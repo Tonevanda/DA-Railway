@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "MutablePriorityQueue.h"
 #include <stack>
+#include <unordered_set>
 
 #include "StationSegment.h"
 
@@ -28,7 +29,9 @@ public:
     int getSegmentService(string source, string target) const;
 
     bool addStation(const string &name, const string &district, const string &municipality, const string &township, const string &line);
+    bool removeStation(const string &name);
     bool addSegment(const string &sourc, const string &dest, double w, int serv);
+    bool removeSegment(const string &sourc, const string &dest);
     bool removeBidirectionalSegment(const string& source, const string &dest);
     bool addBidirectionalSegment(const string &sourc, const string &dest, double w, int serv);
 
@@ -56,6 +59,7 @@ public:
     vector<Station*> oneGetAdjLine(string line);
     vector<Station*> oneGetAdj();
     void createSuperSource(vector<Station*> nascentes);
+    void removeSuperSource();
 
     double edmondsKarpArea(string source);
     bool edmondsKarpBFSArea(Station* source, stack<Station*>* end);
@@ -63,6 +67,7 @@ public:
     double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
 protected:
     vector<Station *> StationSet;    // Station set
+    unordered_set<string> lines;         // Different lines
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
 };

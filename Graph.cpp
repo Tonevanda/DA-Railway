@@ -75,9 +75,16 @@ bool Graph::addStation(const string &name, const string &district, const string 
     if (findStation(name) != nullptr)
         return false;
     StationSet.push_back(new Station(name,district,municipality,township,line));
+    lines.insert(line);
     return true;
 }
 
+bool Graph::removeStation(const string &name){
+    int idx = findStationIdx(name);
+    if(idx == -1) return false;
+    StationSet.erase(StationSet.begin()+idx);
+    return true;
+}
 /*
  * Adds a Segment to a graph (this), given the contents of the source and
  * destination vertices and the Segment weight (w).
@@ -90,6 +97,14 @@ bool Graph::addSegment(const string &sourc, const string &dest, double w, int se
         return false;
     v1->addSegment(v2, w, serv);
     return true;
+}
+
+bool Graph::removeSegment(const string &sourc, const string &dest){
+    auto v1 = findStation(sourc);
+    auto v2 = findStation(dest);
+    if (v1 == nullptr || v2 == nullptr)
+        return false;
+    v1->removeSegment(dest);
 }
 
 bool Graph::removeBidirectionalSegment(const string &source, const string &dest) {
@@ -397,12 +412,16 @@ void Graph::printTopKHigherBudget(const string &filter, int k) {
 }
 
 int Graph::maxTrainsInStation(string station) {
+    Station* st = findStation(station);
+    createSuperSource(oneGetAdjLine(st->getLine()));
+    edmondsKarpArea("SuperSource");
     int trainCount = 0;
     auto incoming = findStation(station)->getIncoming();
     for(auto segment : incoming){
-        trainCount += segment->getCapacity();
+        trainCount += segment->getFlow();
     }
     cout << trainCount << " trains can arrive simultaneosly in station " << station << endl;
+    removeSuperSource();
     return trainCount;
 }
 
@@ -557,6 +576,15 @@ void Graph::createSuperSource(vector<Station*> nascentes){
     for(auto source : nascentes){
         this->addSegment("SuperSource", source->getName(),INF, 0);
     }
+}
+
+void Graph::removeSuperSource(){
+    Station* st = findStation("SuperSource");
+    vector<Segment*> copy = st->getAdj();
+    for(auto adj : copy){
+        this->removeSegment("SuperSource", adj->getDest()->getName());
+    }
+    this->removeStation("SuperSource");
 }
 
 double Graph::edmondsKarpArea(string source){
