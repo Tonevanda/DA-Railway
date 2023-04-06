@@ -11,7 +11,7 @@ municipality(municipality), township(township), line(line){}
 
 /*
  * Auxiliary function to add an outgoing Segment to a Station (this),
- * with a given destination StatioFn (d) and Segment weight (w).
+ * with a given destination Station (d) and Segment weight (w).
  */
 Segment * Station::addSegment(Station *d, double w, int serv) {
     auto newSegment = new Segment(this, d, w, serv);
@@ -57,10 +57,6 @@ bool Station::operator<(Station & Station) const {
     return this->cost < Station.cost;
 }
 
-/*
-int Station::getId() const {
-    return this->id;
-}*/
 
 std::string Station::getName() const {return this->name;}
 std::string Station::getDistrict() const {return this->district;}

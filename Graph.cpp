@@ -348,6 +348,7 @@ void Graph::printTopKHigherBudget(string filter, int k) {
         for(string line : lines){
             createSuperSource(oneGetAdjLine(line));
             edmondsKarpArea("SuperSource");
+            removeSuperSource();
         }
 
 
@@ -492,7 +493,29 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
         mostAffected.push_back(*i);
     }
 
-    maxTrainsFailure(source, target, failedSegments);
+    stack<pair<string, string>> reallocateSegments; //copy failedSegments before removing them from the graph to add them later
+    stack<pair<int, int>> values; //vector to keep track of the values of the segments we remove
+
+    while(!failedSegments.empty()){
+        auto segment = failedSegments.top();
+        failedSegments.pop();
+        int capacity = getSegmentCapacity(segment.first, segment.second);
+        int service = getSegmentService(segment.first, segment.second);
+        values.push(make_pair(capacity, service));
+        reallocateSegments.push(segment);
+        removeBidirectionalSegment(segment.first,segment.second);
+    }
+
+    int flow = edmondsKarp(source, target);
+
+    while(!reallocateSegments.empty()){
+        auto segment = reallocateSegments.top();
+        reallocateSegments.pop();
+        auto value = values.top();
+        values.pop();
+        addBidirectionalSegment(segment.first,segment.second,value.first,value.second);
+    }
+
 
     for(int i = 0; i<StationSet.size();i++){ //get the difference between before and after the failed segments
         mostAffected[i].setFlow(abs(mostAffected[i].getFlow() - StationSet[i]->getFlow()));
@@ -506,25 +529,6 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
     }
 }
 
-
-
-
-bool compare2(pair<string, int> p1,pair<string, int> p2){
-    return p1.second > p2.second;
-}
-
-void Graph::topKIncoming(int k){
-    int before = 0;
-    vector<pair<string, int>> top;
-    for(auto station : StationSet){
-        int incoming = maxTrainsInStation(station->getName());
-        top.push_back(make_pair(station->getName(), incoming));
-    }
-    sort(top.begin(), top.end(), compare2);
-    for(int i = 1; i < k+1; i++){
-        cout << i << ": " << top[i-1].first << " | Capacity: " << top[i-1].second << endl;
-    }
-}
 
 
 void deleteMatrix(int **m, int n) {
@@ -545,7 +549,7 @@ void deleteMatrix(double **m, int n) {
     }
 }
 
-/*Isto vai retornar todas as estações com 1 de adj ig para dps fazermos edmonds karp*/
+
 vector<Station*> Graph::oneGetAdj(){
     vector<Station*> nascentes;
     for(auto st : StationSet){

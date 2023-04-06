@@ -110,7 +110,7 @@ public:
      * @param sourc
      * @param dest
      * @return True if the segment was removed successfully, false if there was no Station with the name given in the parameters.
-     * @note Time-complexity -> O(n)
+     * @note Time-complexity -> O(n^2)
      */
     bool removeSegment(const string &sourc, const string &dest);
     /**
@@ -212,23 +212,71 @@ public:
      */
     void stationPairs(); // 2.2
     /**
-     *
+     * Links a super-source to every Station that only has one adjacent segment of a single line, for every line. Calls the EdmondsKarpArea class method with each super-source created. Iterates through every segment and adds the cost of each segment to the respective district, municipality and township maps.
+     * Creates a vector for each map and sorts them. In the end, prints the first k elements of the desired vector, specified by the filter argument.
      * @param filter
      * @param k
+     * @note Time-complexity -> O(n(*VE^2))
      */
     void printTopKHigherBudget(string filter, int k); //2.3
+    /**
+     * Creates a super-source linked to every station with a single adjacent segment, call the EdmondsKarpArea method with said super-source and counts the flow of the incoming edges to the Station given as parameter.
+     * @param station
+     * @return Maximum flow to a single station
+     * @note Time-complexity -> O(VE^2)
+     */
     int maxTrainsInStation(string station); // 2.4
+    /**
+     * Calls the EdmondsKarpMoney method to set the flow of the segments between the Station source and the Station target. With the flows now set, uses the Dijkstra algorithm to determine the minimum costing path and prints the path and cost.
+     * @param source
+     * @param target
+     * @note Time-complexity -> O(VE^2)
+     */
     void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra 3.1
+    /**
+     * Removes the segments from the graph, specified in the given parameter, calls the edmondsKarp function with source and target specified in the given parameter and adds the removed segments back to the graph.
+     * @param source
+     * @param target
+     * @param failedSegments
+     * @note Time-complexity -> O(VE^2)
+     */
     void maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments); //not tested 4.1
+    /**
+     * Calls the edmondsKarp method before and after removing the failed segments and compares the difference in incoming flow of every station.
+     * @param source
+     * @param target
+     * @param failedSegments
+     * @param k
+     * @note Time-complexity -> O(VE^2)
+     */
     void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k); //4.2
 
-    void topKIncoming(int k);
-
-    vector<Station*> oneGetAdjLine(string line);
+    /**
+     * Iterates through every Station to check which ones only have 1 adjacent segment of a single line (meaning, no more than 2 adjacent segments of the same line).
+     *  @return Vector of Stations with no more than 1 adjacent segment of a line
+     *  @note Time-complexity -> O(V+E)
+     */
     vector<Station*> oneGetAdj();
+    /**
+     * Iterates though every Station to check which ones, belonging to the line specified in the parameter, only have 1 adjacent segment of that line.
+     * @param line
+     * @return Vector of Station with no more than 1 adjacent segment of the specified line
+     * @note Time-complexity -> O(E)
+     */
+    vector<Station*> oneGetAdjLine(string line);
+    /**
+     * Create a super-source linked to the Stations given in the parameter, with every segment having infinite capacity and 0 service.
+     * @param sources
+     * @note Time-complexity -> O(n)
+     */
     void createSuperSource(vector<Station*> sources);
+    /**
+     * Removes the segments connected to the super-source followed by the removal of the super-source itself.
+     * @note Time-complexity -> O(n^3)
+     */
     void removeSuperSource();
 
+    ///TODO
     double edmondsKarpArea(string source);
     bool edmondsKarpBFSArea(Station* source, stack<Station*>* end);
     void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end, bool isResidual);

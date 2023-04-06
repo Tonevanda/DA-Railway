@@ -8,11 +8,17 @@
 #include <fstream>
 #include <sstream>
 
-vector<string> read(const string line){
+/**
+ * Parses the information read in every line to make sure each field is correctly divided.
+ * @param line
+ * @return vector with the information of a Station.
+ * @note Time-complexity -> O(n)
+ */
+vector<string> read(const string textLine){
     vector<string> info;
     string word;
     bool inQuotes = false;
-    for(char c : line){
+    for(char c :textLine){
         if(c == '"'){
             inQuotes = !inQuotes;
         }
@@ -28,6 +34,12 @@ vector<string> read(const string line){
     return info;
 }
 
+/**
+ * Opens the file, reads the Stations from the provided file and closes the file.
+ * @param graph
+ * @param file
+ * @note Time-complexity -> O(n)
+ */
 void readStations(Graph* graph, string file){
     ifstream fout;
     file= "../" +file;
@@ -50,6 +62,12 @@ void readStations(Graph* graph, string file){
     fout.close();
 }
 
+/**
+ * Opens the network file, reads the Network from the provided file and closes the file.
+ * @param graph
+ * @param file
+ * @note Time-complexity -> O(n)
+ */
 void readNetwork(Graph* graph, string file){
     ifstream fout;
     file="../"+file;
