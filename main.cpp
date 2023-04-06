@@ -22,7 +22,7 @@ void menu(Graph graph) {
             cout << "What areas do you wish to inspect?\n"
                     "1: Number of trains\n"
                     "2: Budget\n"
-                    "3: failiures\n"
+                    "3: Failures\n"
                     "0: End Program\n";
         }
         cin.clear();
@@ -78,8 +78,7 @@ void menu(Graph graph) {
                                 getline(cin, end);
                                 cin.clear();
                             }
-                            double maxFlow = graph.edmondsKarp(start, end);
-                            cout << "Máximo número de comboios simultâneos: " << maxFlow << "\n";
+                            graph.maxTrains(start, end);
                             break;
                         }
                         case 2:{
@@ -266,7 +265,7 @@ void menu(Graph graph) {
                                     break;
                                 }
                                 else{
-                                    failedSegments.push(make_pair(segment1,segment2));
+                                    failedSegments.emplace(segment1, segment2);
                                 }
                             }
                             graph.maxTrainsFailure(start, end,failedSegments);
@@ -317,7 +316,7 @@ void menu(Graph graph) {
                                     break;
                                 }
                                 else{
-                                    failedSegments.push(make_pair(segment1,segment2));
+                                    failedSegments.emplace(segment1,segment2);
                                 }
                             }
                             graph.printTopKMostAffected(start, end, failedSegments, k);
@@ -342,21 +341,31 @@ void menu(Graph graph) {
 int main() {
     auto start = chrono::steady_clock::now();
     Graph graph;
-    readStations(&graph, "dataset/stations.csv");
-    readNetwork(&graph, "dataset/network.csv");
+    readStations(&graph, "dataset/testStations.csv");
+    readNetwork(&graph, "dataset/testNetwork.csv");
     //graph.oneGetAdj();
     //menu(graph);
+
     //graph.maxTrains("Porto Campanhã", "Estarreja"); //2.1
+
     //graph.stationPairs(); //2.2
-    //graph.printTopKHigherBudget("municipality", 4); //2.3
-    graph.maxTrainsInStation("Estarreja"); //2.4
-    //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1
+
+    //graph.printTopKHigherBudget("municipality", 4); //2.3 está a dar 0
+
+    //graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
+
+    //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1 falta acabar o path
+
+    //string segment5 = "Porto Campanhã";
+    //string segment6 = "Lisboa Oriente";
     //stack<pair<string, string>> failedSegments;
-    //failedSegments.push(make_pair("Porto Campanhã","Lisboa Oriente"));
+    //failedSegments.emplace(segment5, segment6);
     //graph.maxTrainsFailure("Porto Campanhã", "Estarreja",failedSegments); //4.1
+
     //graph.printTopKMostAffected("Porto Campanhã", "Estarreja", failedSegments, 4); //4.2
     //cout<<"cost:"<<graph.findStation("Estarreja")->getCost()<<endl;
     //graph.topKIncoming(5);
+
     auto end = chrono::steady_clock::now();
     double elapsed_time = double(chrono::duration_cast<chrono::milliseconds>(end - start).count());
     cout << "Took " << elapsed_time << " milliseconds to finish!\n";
@@ -389,7 +398,7 @@ int main() {
  *
  *
  *  DONE (?) 2.4-Report the maximum number of trains that can simultaneously arrive at a given station,    -trains
-    taking into consideration the entire railway grid. //  not capacidade rip
+    taking into consideration the entire railway grid. //  Falta acabar o edmonds karp area ig
  *
  *  DONE (?) 3.1-Calculate the maximum amount of trains that can simultaneously travel between
     two specific stations with minimum cost for the company. Note that your system should also take any     -budget

@@ -11,6 +11,7 @@
 #include "MutablePriorityQueue.h"
 #include <stack>
 #include <unordered_set>
+#include <map>
 
 #include "StationSegment.h"
 
@@ -48,8 +49,8 @@ public:
 
     void maxTrains(string source, string target); //edmondskarp 2.1
     void stationPairs(); // 2.2
-    void printTopKHigherBudget(const string &filter, int k); //2.3
-    int maxTrainsInStation(string station); //capacidade 2.4
+    void printTopKHigherBudget(string filter, int k); //2.3
+    int maxTrainsInStation(string station); // 2.4
     void maxTrainsMinCost(string source, string target); //edmondskarp dijkstra 3.1
     void maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments); //not tested 4.1
     void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k); //4.2
@@ -58,7 +59,7 @@ public:
 
     vector<Station*> oneGetAdjLine(string line);
     vector<Station*> oneGetAdj();
-    void createSuperSource(vector<Station*> nascentes);
+    void createSuperSource(vector<Station*> sources);
     void removeSuperSource();
 
     double edmondsKarpArea(string source);
@@ -66,6 +67,9 @@ public:
     void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end);
     double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
 protected:
+    vector<pair<string, int>> districtBudget;
+    vector<pair<string, int>> municipalityBudget;
+    vector<pair<string, int>> townshipBudget;
     vector<Station *> StationSet;    // Station set
     unordered_set<string> lines;         // Different lines
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall

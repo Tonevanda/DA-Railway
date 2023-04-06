@@ -8,6 +8,7 @@
 #include <sstream>
 #include <utility>
 
+
 using namespace std;
 
 
@@ -105,6 +106,7 @@ bool Graph::removeSegment(const string &sourc, const string &dest){
     if (v1 == nullptr || v2 == nullptr)
         return false;
     v1->removeSegment(dest);
+    return true;
 }
 
 bool Graph::removeBidirectionalSegment(const string &source, const string &dest) {
@@ -336,7 +338,7 @@ vector<Station*> Graph::dijkstra(string source, string dest) {
             }
         }
     }
-    cout << "The path with the minimum cost for the company has a cost of " << t->getCost() << " moner €";
+    cout << "The path with the minimum cost for the company has a cost of " << t->getCost() << "€\n";
     return optimalPath;
 }
 
@@ -376,9 +378,91 @@ void Graph::stationPairs(){
     }
 }
 
-void Graph::printTopKHigherBudget(const string &filter, int k) {
+
+void Graph::printTopKHigherBudget(string filter, int k) {
+
+    transform(filter.begin(),filter.end(),filter.begin(), ::tolower); //make input lowercase
+
+    if(districtBudget.empty() || municipalityBudget.empty() || townshipBudget.empty()){
+        for(string line : lines){
+            createSuperSource(oneGetAdjLine(line));
+            edmondsKarpArea("SuperSource");
+        }
+
+
+        unordered_map<string, int> districtMap;
+        unordered_map<string, int> municipalityMap;
+        unordered_map<string, int> townshipMap;
+
+
+        for(auto station : StationSet){
+            for(auto s : station->getAdj()){
+                string district = station->getDistrict();
+                if(districtMap.find(district)==districtMap.end()){
+                    districtMap.insert(pair<string,int>(district,s->getFlow() * s->getService()));
+                }
+                else{
+                    districtMap[s->getDest()->getDistrict()] += s->getFlow() * s->getService();
+                }
+
+                string municipality = station->getMunicipality();
+                if(municipalityMap.find(municipality)==municipalityMap.end()){
+                    municipalityMap.insert(pair<string,int>(municipality,s->getFlow() * s->getService()));
+                }
+                else{
+                    municipalityMap[s->getDest()->getMunicipality()] += s->getFlow() * s->getService();
+                }
+
+                string township = station->getTownship();
+                if(townshipMap.find(township)==townshipMap.end()){
+                    townshipMap.insert(pair<string,int>(township,s->getFlow() * s->getService()));
+                }
+                else{
+                    townshipMap[s->getDest()->getTownship()] += s->getFlow() * s->getService();
+                }
+            }
+        }
+
+        vector<pair<string, int>> topDistricts(districtMap.begin(), districtMap.end());
+        sort(topDistricts.begin(), topDistricts.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+        districtBudget = topDistricts;
+
+        vector<pair<string, int>> topMunicipalities(municipalityMap.begin(), municipalityMap.end());
+        sort(topMunicipalities.begin(), topMunicipalities.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+        municipalityBudget = topMunicipalities;
+
+        vector<pair<string, int>> topTownships(townshipMap.begin(), townshipMap.end());
+        sort(topTownships.begin(), topTownships.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+        townshipBudget = topTownships;
+
+    }
+
+
+    if(filter == "district"){
+        cout << "The top " << k << " districts are:\n";
+        for(int i = 1; i < k+1;i++){
+            cout << i << ": " << districtBudget[i-1].first << " | Budget = " << districtBudget[i-1].second << endl;
+        }
+        return;
+    }
+    else if(filter == "municipality"){
+        cout << "The top " << k << " municipalities are:\n";
+        for(int i = 1; i < k+1;i++){
+            cout << i << ": " << municipalityBudget[i-1].first << " | Budget = " << municipalityBudget[i-1].second << endl;
+        }
+        return;
+    }
+    else if(filter == "township"){
+        cout << "The top " << k << " township are:\n";
+        for(int i = 1; i < k+1;i++){
+            cout << i << ": " << townshipBudget[i-1].first << " | Budget = " << townshipBudget[i-1].second << endl;
+        }
+        return;
+    }
+
+    /*
     unordered_map<string, int> map;
-    edmondsKarp("Valongo", "Trofa");
+    edmondsKarp("Porto Campanhã", "Estarreja");
     for(auto station : StationSet){
         for(auto s : station->getAdj()){
             if(filter == "municipality"){
@@ -403,12 +487,14 @@ void Graph::printTopKHigherBudget(const string &filter, int k) {
     }
     vector<pair<string, int>> top(map.begin(), map.end());
     sort(top.begin(), top.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+    cout << "The top " << k << " " << filter << " with higher budget are the following:\n";
     for(int i = 0; i < k; i++){
         if(i >= StationSet.size()){
             break;
         }
         cout << top[i].first << ": " << top[i].second << "\n";
     }
+    */
 }
 
 int Graph::maxTrainsInStation(string station) {
@@ -553,7 +639,7 @@ vector<Station*> Graph::oneGetAdj(){
 }
 
 vector<Station*> Graph::oneGetAdjLine(string line){
-    vector<Station*> nascentes;
+    vector<Station*> sources;
     for(auto st : StationSet){
         if(st->getLine()!=line) continue;
         int count = 0;
@@ -563,17 +649,17 @@ vector<Station*> Graph::oneGetAdjLine(string line){
             }
         }
         if(count==1){
-            nascentes.push_back(st);
+            sources.push_back(st);
             cout << st->getName() << " ------- " << st->getLine() << endl;
         }
     }
-    return nascentes;
+    return sources;
 }
 
 /*cria uma supersource chamada SuperSource, cap=INF, serv=0*/
-void Graph::createSuperSource(vector<Station*> nascentes){
+void Graph::createSuperSource(vector<Station*> sources){
     this->addStation("SuperSource","", "","","");
-    for(auto source : nascentes){
+    for(auto source : sources){
         this->addSegment("SuperSource", source->getName(),INF, 0);
     }
 }
@@ -608,6 +694,9 @@ double Graph::edmondsKarpArea(string source){
 }
 
 bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
+    for(auto st : StationSet){
+        st->setVisited(false);
+    }
     source->setVisited(true);
     source->setPath(nullptr);
     std::queue<Station* > q;
@@ -622,7 +711,13 @@ bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
         for(auto edge : u->getIncoming()){
             testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), end);
         }
+    }/*
+    while(!end->empty()){
+        Station* st = end->top();
+        end->pop();
+        if(!st->isVisited())return false;
     }
+    return true;*/
 }
 void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, stack<Station*>* end){
     if(!w->isVisited() && (residual) > 0){
@@ -636,7 +731,7 @@ void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, doubl
 }
 
 double Graph::findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end){
-    int maxFlow = 0;
+    double maxFlow = 0;
     while(!end->empty()){
         double bottleneck = INF;
         Station* current = end->top();
