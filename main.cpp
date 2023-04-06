@@ -352,7 +352,7 @@ int main() {
 
     //graph.printTopKHigherBudget("municipality", 4); //2.3 está a dar 0
 
-    //graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
+    graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
 
     //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1 falta acabar o path
 
