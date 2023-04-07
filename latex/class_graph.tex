@@ -1,0 +1,673 @@
+\hypertarget{class_graph}{}\doxysection{Graph Class Reference}
+\label{class_graph}\index{Graph@{Graph}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_graph_a90961be426ad80001cbc103b6385df31}{Graph}} ()=default
+\item 
+\mbox{\hyperlink{class_graph_af67de98565b93f81f3766649b567e662}{Graph}} (const \mbox{\hyperlink{class_graph}{Graph}} \&graph)
+\item 
+\mbox{\hyperlink{class_graph_a902c5b3eacb66d60752525ab23297a95}{$\sim$\+Graph}} ()
+\item 
+\mbox{\hyperlink{class_station}{Station}} $\ast$ \mbox{\hyperlink{class_graph_a9e6d032470e742bff8cd8da0a31b7d11}{find\+Station}} (const string \&name) const
+\item 
+int \mbox{\hyperlink{class_graph_a567455cc6f1196e8747ee4caa72fd5e6}{find\+Station\+Idx}} (const string \&name) const
+\item 
+int \mbox{\hyperlink{class_graph_af4a930a69cb2c1d4485f0ecc62f139bd}{get\+Num\+Station}} () const
+\item 
+vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ \mbox{\hyperlink{class_graph_abfdf2cc358acab93cbf93cb7fa08a71f}{get\+Station\+Set}} () const
+\item 
+int \mbox{\hyperlink{class_graph_abe69ac0a54adf50496e40ff85557b516}{get\+Segment\+Capacity}} (string source, string target) const
+\item 
+int \mbox{\hyperlink{class_graph_ac37a349ce083ffe308ade41ba8ee5e54}{get\+Segment\+Service}} (string source, string target) const
+\item 
+bool \mbox{\hyperlink{class_graph_a479973858fcde942797db06cdeec8825}{add\+Station}} (const string \&name, const string \&district, const string \&municipality, const string \&township, const string \&line)
+\item 
+bool \mbox{\hyperlink{class_graph_a3a150d4c2f6c5bd152c06299b52235d6}{remove\+Station}} (const string \&name)
+\item 
+bool \mbox{\hyperlink{class_graph_a409552f3914c94956dd31ce975b0fffe}{add\+Segment}} (const string \&sourc, const string \&dest, double w, int serv)
+\item 
+bool \mbox{\hyperlink{class_graph_aa388b6738f50351aab60699ce59db1c6}{remove\+Segment}} (const string \&sourc, const string \&dest)
+\item 
+bool \mbox{\hyperlink{class_graph_a645653008e4dac8351c854436133eb1c}{remove\+Bidirectional\+Segment}} (const string \&source, const string \&dest)
+\item 
+bool \mbox{\hyperlink{class_graph_acc3e46eac75ac17c701f3881257ece0d}{add\+Bidirectional\+Segment}} (const string \&sourc, const string \&dest, double w, int serv)
+\item 
+double \mbox{\hyperlink{class_graph_a21a288d7448f3855a3c685413b575e5a}{edmonds\+Karp}} (string source, string target)
+\item 
+bool \mbox{\hyperlink{class_graph_a3900c7092068dedd7457fe642dd40052}{edmonds\+Karp\+BFS}} (\mbox{\hyperlink{class_station}{Station}} $\ast$v, \mbox{\hyperlink{class_station}{Station}} $\ast$sink)
+\item 
+void \mbox{\hyperlink{class_graph_a4f3c43cacbe9f39dd176060cc6c2e1e9}{update\+Flow}} (\mbox{\hyperlink{class_station}{Station}} $\ast$source, \mbox{\hyperlink{class_station}{Station}} $\ast$target, double bottleneck)
+\item 
+double \mbox{\hyperlink{class_graph_aa266bb2e3c97425d77ad082f4cb712d8}{edmonds\+Karp\+Money}} (string source, string target)
+\item 
+void \mbox{\hyperlink{class_graph_a129a28b174ca1411ea0f3ea5ecdfada5}{update\+Flow\+Money}} (\mbox{\hyperlink{class_station}{Station}} $\ast$source, \mbox{\hyperlink{class_station}{Station}} $\ast$target, double bottleneck)
+\item 
+double \mbox{\hyperlink{class_graph_afcd6c171dbc9a8e251a543d70e59be06}{find\+Min\+Residual}} (\mbox{\hyperlink{class_station}{Station}} $\ast$source, \mbox{\hyperlink{class_station}{Station}} $\ast$target)
+\item 
+void \mbox{\hyperlink{class_graph_a38ac6c660272b3d15b56e0dc177aaacc}{test\+Visit}} (std\+::queue$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ \&q, \mbox{\hyperlink{class_segment}{Segment}} $\ast$e, \mbox{\hyperlink{class_station}{Station}} $\ast$w, double residual)
+\item 
+vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ \mbox{\hyperlink{class_graph_a7db5ed34053f054d3cf0d2ec904df390}{dijkstra}} (string source, string dest)
+\item 
+void \mbox{\hyperlink{class_graph_a1f289161b57cbabbf16fd23aaf63f13e}{max\+Trains}} (string source, string target)
+\item 
+void \mbox{\hyperlink{class_graph_a1cc70b48cb5a45dd69b078c189304a1c}{station\+Pairs}} ()
+\item 
+void \mbox{\hyperlink{class_graph_a62b1805aab88ee9d53850895afd9bf77}{print\+Top\+KHigher\+Budget}} (string filter, int k)
+\item 
+int \mbox{\hyperlink{class_graph_a2eb932d6c97054b06f6ccd69191987db}{max\+Trains\+In\+Station}} (string station)
+\item 
+void \mbox{\hyperlink{class_graph_a53270ed36ddda50e62da76722cae3619}{max\+Trains\+Min\+Cost}} (string source, string target)
+\item 
+void \mbox{\hyperlink{class_graph_afeb05b3df06c9438e1c35502afbdaf29}{max\+Trains\+Failure}} (string source, string target, stack$<$ pair$<$ string, string $>$ $>$ failed\+Segments)
+\item 
+void \mbox{\hyperlink{class_graph_a829d95eeb3a56ea103fd5a190d4b11c7}{print\+Top\+KMost\+Affected}} (stack$<$ pair$<$ string, string $>$ $>$ failed\+Segments, int k)
+\item 
+vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ \mbox{\hyperlink{class_graph_abfa6bb5f3d24fc685f7184b6f4a5bb17}{one\+Get\+Adj\+Line}} (string line)
+\item 
+bool \mbox{\hyperlink{class_graph_aae8318060ccecb2a5c30168e89a0d133}{edmonds\+Karp\+BFSArea}} (\mbox{\hyperlink{class_station}{Station}} $\ast$source, string $\ast$target)
+\item 
+void \mbox{\hyperlink{class_graph_a9619e275d093d19aa1bd20f672a54c12}{edmonds\+Karp\+Multiple\+Sources}} (\mbox{\hyperlink{class_station}{Station}} $\ast$s)
+\item 
+bool \mbox{\hyperlink{class_graph_acc0b90b29778256e98f477e960c12511}{is\+Valid\+Segment}} (string st1, string st2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_graph_ae8858a28655e96f6f7429f25458dcbc5}\label{class_graph_ae8858a28655e96f6f7429f25458dcbc5}} 
+vector$<$ pair$<$ string, int $>$ $>$ {\bfseries district\+Budget}
+\item 
+\mbox{\Hypertarget{class_graph_af7611f35e6c37808680551a41cd57658}\label{class_graph_af7611f35e6c37808680551a41cd57658}} 
+vector$<$ pair$<$ string, int $>$ $>$ {\bfseries municipality\+Budget}
+\item 
+\mbox{\Hypertarget{class_graph_afa70304861fec4876daa4dcb1b7bec5a}\label{class_graph_afa70304861fec4876daa4dcb1b7bec5a}} 
+vector$<$ pair$<$ string, int $>$ $>$ {\bfseries township\+Budget}
+\item 
+\mbox{\Hypertarget{class_graph_a7909e2187efb4264872ce518e6ac8b21}\label{class_graph_a7909e2187efb4264872ce518e6ac8b21}} 
+vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ {\bfseries Station\+Set}
+\item 
+\mbox{\Hypertarget{class_graph_a5d27701778861953069b00990c1856ae}\label{class_graph_a5d27701778861953069b00990c1856ae}} 
+set$<$ string $>$ {\bfseries lines}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_graph_a90961be426ad80001cbc103b6385df31}\label{class_graph_a90961be426ad80001cbc103b6385df31}} 
+\index{Graph@{Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{Graph()}{Graph()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Graph\+::\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default constructor for \mbox{\hyperlink{class_graph}{Graph}} class \mbox{\Hypertarget{class_graph_af67de98565b93f81f3766649b567e662}\label{class_graph_af67de98565b93f81f3766649b567e662}} 
+\index{Graph@{Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{Graph()}{Graph()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Graph\+::\+Graph (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_graph}{Graph}} \&}]{graph }\end{DoxyParamCaption})}
+
+Copy \mbox{\hyperlink{class_graph}{Graph}} constructor. Creates a new \mbox{\hyperlink{class_graph}{Graph}} object with the same Station\+Set as the parameter\textquotesingle{}s Station\+Set 
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a902c5b3eacb66d60752525ab23297a95}\label{class_graph_a902c5b3eacb66d60752525ab23297a95}} 
+\index{Graph@{Graph}!````~Graph@{$\sim$Graph}}
+\index{````~Graph@{$\sim$Graph}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{$\sim$Graph()}{~Graph()}}
+{\footnotesize\ttfamily Graph\+::$\sim$\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_graph}{Graph}} destructor. Deletes the dist\+Matrix and path\+Matrix 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_graph_acc3e46eac75ac17c701f3881257ece0d}\label{class_graph_acc3e46eac75ac17c701f3881257ece0d}} 
+\index{Graph@{Graph}!addBidirectionalSegment@{addBidirectionalSegment}}
+\index{addBidirectionalSegment@{addBidirectionalSegment}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addBidirectionalSegment()}{addBidirectionalSegment()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Bidirectional\+Segment (\begin{DoxyParamCaption}\item[{const string \&}]{sourc,  }\item[{const string \&}]{dest,  }\item[{double}]{w,  }\item[{int}]{serv }\end{DoxyParamCaption})}
+
+Adds a bidirectional segment between the 2 Stations with the name given as parameters with capacity and service specified in the given parameters. 
+\begin{DoxyParams}{Parameters}
+{\em sourc} & \\
+\hline
+{\em dest} & \\
+\hline
+{\em w} & \\
+\hline
+{\em serv} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the segment was added successfully, false if there was no \mbox{\hyperlink{class_station}{Station}} with the name given in the parameters. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a409552f3914c94956dd31ce975b0fffe}\label{class_graph_a409552f3914c94956dd31ce975b0fffe}} 
+\index{Graph@{Graph}!addSegment@{addSegment}}
+\index{addSegment@{addSegment}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addSegment()}{addSegment()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Segment (\begin{DoxyParamCaption}\item[{const string \&}]{sourc,  }\item[{const string \&}]{dest,  }\item[{double}]{w,  }\item[{int}]{serv }\end{DoxyParamCaption})}
+
+Adds a segment between the 2 Stations with the name given as parameters with capacity and service specified in the given parameters. 
+\begin{DoxyParams}{Parameters}
+{\em sourc} & \\
+\hline
+{\em dest} & \\
+\hline
+{\em w} & \\
+\hline
+{\em serv} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the segment was added successfully, false if there was no \mbox{\hyperlink{class_station}{Station}} with the name given in the parameters. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a479973858fcde942797db06cdeec8825}\label{class_graph_a479973858fcde942797db06cdeec8825}} 
+\index{Graph@{Graph}!addStation@{addStation}}
+\index{addStation@{addStation}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addStation()}{addStation()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Station (\begin{DoxyParamCaption}\item[{const string \&}]{name,  }\item[{const string \&}]{district,  }\item[{const string \&}]{municipality,  }\item[{const string \&}]{township,  }\item[{const string \&}]{line }\end{DoxyParamCaption})}
+
+Checks if a \mbox{\hyperlink{class_station}{Station}} with the name given in the parameter already exists, if not then creates a \mbox{\hyperlink{class_station}{Station}} with the parameters given and adds it to the Station\+Set and adds the line to the set lines. 
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em district} & \\
+\hline
+{\em municipality} & \\
+\hline
+{\em township} & \\
+\hline
+{\em line} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the \mbox{\hyperlink{class_station}{Station}} wasn\textquotesingle{}t in the Station\+Set before, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a7db5ed34053f054d3cf0d2ec904df390}\label{class_graph_a7db5ed34053f054d3cf0d2ec904df390}} 
+\index{Graph@{Graph}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ Graph\+::dijkstra (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{dest }\end{DoxyParamCaption})}
+
+Implementation of Dijkstra\textquotesingle{}s algorithm to find the minimum costing path between the 2 \mbox{\hyperlink{class_station}{Station}} with the name as the given parameters. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of Stations that make up the minimum costing path between the specified Stations. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+V$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a21a288d7448f3855a3c685413b575e5a}\label{class_graph_a21a288d7448f3855a3c685413b575e5a}} 
+\index{Graph@{Graph}!edmondsKarp@{edmondsKarp}}
+\index{edmondsKarp@{edmondsKarp}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{edmondsKarp()}{edmondsKarp()}}
+{\footnotesize\ttfamily double Graph\+::edmonds\+Karp (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target }\end{DoxyParamCaption})}
+
+Implementation of the Edmonds-\/\+Karp algorithm. Calculates the maximum flow between two given \mbox{\hyperlink{class_station}{Station}} with the name given in the parameters, and sets the flow of the edges accordingly. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Max Flow between the 2 Stations given in the parameters. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a3900c7092068dedd7457fe642dd40052}\label{class_graph_a3900c7092068dedd7457fe642dd40052}} 
+\index{Graph@{Graph}!edmondsKarpBFS@{edmondsKarpBFS}}
+\index{edmondsKarpBFS@{edmondsKarpBFS}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{edmondsKarpBFS()}{edmondsKarpBFS()}}
+{\footnotesize\ttfamily bool Graph\+::edmonds\+Karp\+BFS (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{sink }\end{DoxyParamCaption})}
+
+The Breadth-\/\+First Search algorithm used in the implementation of the Edmonds-\/\+Karp algorithm. 
+\begin{DoxyParams}{Parameters}
+{\em v} & \\
+\hline
+{\em sink} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the \mbox{\hyperlink{class_station}{Station}} specified as the sink has been visited, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(V+E) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_aae8318060ccecb2a5c30168e89a0d133}\label{class_graph_aae8318060ccecb2a5c30168e89a0d133}} 
+\index{Graph@{Graph}!edmondsKarpBFSArea@{edmondsKarpBFSArea}}
+\index{edmondsKarpBFSArea@{edmondsKarpBFSArea}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{edmondsKarpBFSArea()}{edmondsKarpBFSArea()}}
+{\footnotesize\ttfamily bool Graph\+::edmonds\+Karp\+BFSArea (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{source,  }\item[{string $\ast$}]{target }\end{DoxyParamCaption})}
+
+The Breadth-\/\+First Search algorithm used in the implementation of the Edmonds-\/\+Karp Multiple Sources algorithm where it can be given (or not) a target. If it isn\textquotesingle{}t given a target it will search for one and set it as a target 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the \mbox{\hyperlink{class_station}{Station}} specified as the sink has been visited, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(V+E) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_aa266bb2e3c97425d77ad082f4cb712d8}\label{class_graph_aa266bb2e3c97425d77ad082f4cb712d8}} 
+\index{Graph@{Graph}!edmondsKarpMoney@{edmondsKarpMoney}}
+\index{edmondsKarpMoney@{edmondsKarpMoney}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{edmondsKarpMoney()}{edmondsKarpMoney()}}
+{\footnotesize\ttfamily double Graph\+::edmonds\+Karp\+Money (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target }\end{DoxyParamCaption})}
+
+A different implementation of the Edmonds-\/\+Karp algorithm. Calculates the maximum flow between two given \mbox{\hyperlink{class_station}{Station}} with the name given in the parameters, and sets the flow and cost of the edges accordingly. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Max Flow between the 2 \mbox{\hyperlink{class_station}{Station}} given in the parameters. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a9619e275d093d19aa1bd20f672a54c12}\label{class_graph_a9619e275d093d19aa1bd20f672a54c12}} 
+\index{Graph@{Graph}!edmondsKarpMultipleSources@{edmondsKarpMultipleSources}}
+\index{edmondsKarpMultipleSources@{edmondsKarpMultipleSources}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{edmondsKarpMultipleSources()}{edmondsKarpMultipleSources()}}
+{\footnotesize\ttfamily void Graph\+::edmonds\+Karp\+Multiple\+Sources (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{s }\end{DoxyParamCaption})}
+
+A different implementation of the Edmonds-\/\+Karp algorithm. Calculates the maximum flow between a given station and will find the most far-\/away station and set it as a target. Sets the flow of the edges accordingly. 
+\begin{DoxyParams}{Parameters}
+{\em s} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_afcd6c171dbc9a8e251a543d70e59be06}\label{class_graph_afcd6c171dbc9a8e251a543d70e59be06}} 
+\index{Graph@{Graph}!findMinResidual@{findMinResidual}}
+\index{findMinResidual@{findMinResidual}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{findMinResidual()}{findMinResidual()}}
+{\footnotesize\ttfamily double Graph\+::find\+Min\+Residual (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{source,  }\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{target }\end{DoxyParamCaption})}
+
+Iterates through the path between the source and the target to determine the bottleneck of said path. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bottleneck of the path between the source and the target 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a9e6d032470e742bff8cd8da0a31b7d11}\label{class_graph_a9e6d032470e742bff8cd8da0a31b7d11}} 
+\index{Graph@{Graph}!findStation@{findStation}}
+\index{findStation@{findStation}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{findStation()}{findStation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_station}{Station}} $\ast$ Graph\+::find\+Station (\begin{DoxyParamCaption}\item[{const string \&}]{name }\end{DoxyParamCaption}) const}
+
+Iterates over the Station\+Set until it finds a \mbox{\hyperlink{class_station}{Station}} with the same name as the parameter. If it does not find such \mbox{\hyperlink{class_station}{Station}}, it returns nullptr. 
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Station$\ast$ if there exists a \mbox{\hyperlink{class_station}{Station}} with the provided name, nullptr if not. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a567455cc6f1196e8747ee4caa72fd5e6}\label{class_graph_a567455cc6f1196e8747ee4caa72fd5e6}} 
+\index{Graph@{Graph}!findStationIdx@{findStationIdx}}
+\index{findStationIdx@{findStationIdx}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{findStationIdx()}{findStationIdx()}}
+{\footnotesize\ttfamily int Graph\+::find\+Station\+Idx (\begin{DoxyParamCaption}\item[{const string \&}]{name }\end{DoxyParamCaption}) const}
+
+Iterates over the Station\+Set until it finds a \mbox{\hyperlink{class_station}{Station}} with the same name as the parameter. If it does not find such a \mbox{\hyperlink{class_station}{Station}}, it returns -\/1. 
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Index of the \mbox{\hyperlink{class_station}{Station}} in the Station\+Set if there exists a \mbox{\hyperlink{class_station}{Station}} with the provided name, -\/1 if not. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_af4a930a69cb2c1d4485f0ecc62f139bd}\label{class_graph_af4a930a69cb2c1d4485f0ecc62f139bd}} 
+\index{Graph@{Graph}!getNumStation@{getNumStation}}
+\index{getNumStation@{getNumStation}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getNumStation()}{getNumStation()}}
+{\footnotesize\ttfamily int Graph\+::get\+Num\+Station (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Return the size of the Station\+Set. \begin{DoxyReturn}{Returns}
+Size of Station\+Set. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_abe69ac0a54adf50496e40ff85557b516}\label{class_graph_abe69ac0a54adf50496e40ff85557b516}} 
+\index{Graph@{Graph}!getSegmentCapacity@{getSegmentCapacity}}
+\index{getSegmentCapacity@{getSegmentCapacity}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getSegmentCapacity()}{getSegmentCapacity()}}
+{\footnotesize\ttfamily int Graph\+::get\+Segment\+Capacity (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target }\end{DoxyParamCaption}) const}
+
+Iterates over the outgoing edges of the \mbox{\hyperlink{class_station}{Station}} with the same name as the first parameter and returns its capacity if its destination is the \mbox{\hyperlink{class_station}{Station}} with the same name as the second parameter. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Capacity of the segment, if such a segment exists, -\/1 otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_ac37a349ce083ffe308ade41ba8ee5e54}\label{class_graph_ac37a349ce083ffe308ade41ba8ee5e54}} 
+\index{Graph@{Graph}!getSegmentService@{getSegmentService}}
+\index{getSegmentService@{getSegmentService}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getSegmentService()}{getSegmentService()}}
+{\footnotesize\ttfamily int Graph\+::get\+Segment\+Service (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target }\end{DoxyParamCaption}) const}
+
+Iterates over the outgoing edges of the \mbox{\hyperlink{class_station}{Station}} with the same name as the first parameter and returns its service if its destination is the \mbox{\hyperlink{class_station}{Station}} with the same name as the second parameter. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Service of the segment, if such a segment exists, -\/1 otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_abfdf2cc358acab93cbf93cb7fa08a71f}\label{class_graph_abfdf2cc358acab93cbf93cb7fa08a71f}} 
+\index{Graph@{Graph}!getStationSet@{getStationSet}}
+\index{getStationSet@{getStationSet}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getStationSet()}{getStationSet()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ Graph\+::get\+Station\+Set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns a vector equal to the Station\+Set. \begin{DoxyReturn}{Returns}
+Station\+Set 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_acc0b90b29778256e98f477e960c12511}\label{class_graph_acc0b90b29778256e98f477e960c12511}} 
+\index{Graph@{Graph}!isValidSegment@{isValidSegment}}
+\index{isValidSegment@{isValidSegment}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{isValidSegment()}{isValidSegment()}}
+{\footnotesize\ttfamily bool Graph\+::is\+Valid\+Segment (\begin{DoxyParamCaption}\item[{string}]{st1,  }\item[{string}]{st2 }\end{DoxyParamCaption})}
+
+This function will verify if an entered segment is valid or not 
+\begin{DoxyParams}{Parameters}
+{\em st1} & \\
+\hline
+{\em st2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the segment entered exists, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a1f289161b57cbabbf16fd23aaf63f13e}\label{class_graph_a1f289161b57cbabbf16fd23aaf63f13e}} 
+\index{Graph@{Graph}!maxTrains@{maxTrains}}
+\index{maxTrains@{maxTrains}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{maxTrains()}{maxTrains()}}
+{\footnotesize\ttfamily void Graph\+::max\+Trains (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target }\end{DoxyParamCaption})}
+
+Calculates the maximum flow between the 2 \mbox{\hyperlink{class_station}{Station}} specified by the names given as parameters and prints the result 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_afeb05b3df06c9438e1c35502afbdaf29}\label{class_graph_afeb05b3df06c9438e1c35502afbdaf29}} 
+\index{Graph@{Graph}!maxTrainsFailure@{maxTrainsFailure}}
+\index{maxTrainsFailure@{maxTrainsFailure}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{maxTrainsFailure()}{maxTrainsFailure()}}
+{\footnotesize\ttfamily void Graph\+::max\+Trains\+Failure (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target,  }\item[{stack$<$ pair$<$ string, string $>$ $>$}]{failed\+Segments }\end{DoxyParamCaption})}
+
+Removes the segments from the graph, specified in the given parameter, calls the edmonds\+Karp function with source and target specified in the given parameter and adds the removed segments back to the graph. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+{\em failed\+Segments} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a2eb932d6c97054b06f6ccd69191987db}\label{class_graph_a2eb932d6c97054b06f6ccd69191987db}} 
+\index{Graph@{Graph}!maxTrainsInStation@{maxTrainsInStation}}
+\index{maxTrainsInStation@{maxTrainsInStation}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{maxTrainsInStation()}{maxTrainsInStation()}}
+{\footnotesize\ttfamily int Graph\+::max\+Trains\+In\+Station (\begin{DoxyParamCaption}\item[{string}]{station }\end{DoxyParamCaption})}
+
+Iterates through every station and calls the Edmonds\+Karp\+Multiple\+Sources class method with each one who has only 1 adjacent segment, without resetting flows. Then counts the flow of the incoming edges to the \mbox{\hyperlink{class_station}{Station}} given as parameter. 
+\begin{DoxyParams}{Parameters}
+{\em station} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Maximum flow to a single station 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a53270ed36ddda50e62da76722cae3619}\label{class_graph_a53270ed36ddda50e62da76722cae3619}} 
+\index{Graph@{Graph}!maxTrainsMinCost@{maxTrainsMinCost}}
+\index{maxTrainsMinCost@{maxTrainsMinCost}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{maxTrainsMinCost()}{maxTrainsMinCost()}}
+{\footnotesize\ttfamily void Graph\+::max\+Trains\+Min\+Cost (\begin{DoxyParamCaption}\item[{string}]{source,  }\item[{string}]{target }\end{DoxyParamCaption})}
+
+Calls the Edmonds\+Karp\+Money method to set the flow of the segments between the \mbox{\hyperlink{class_station}{Station}} source and the \mbox{\hyperlink{class_station}{Station}} target. With the flows now set, uses the Dijkstra algorithm to determine the minimum costing path and prints the path and cost. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+VE$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_abfa6bb5f3d24fc685f7184b6f4a5bb17}\label{class_graph_abfa6bb5f3d24fc685f7184b6f4a5bb17}} 
+\index{Graph@{Graph}!oneGetAdjLine@{oneGetAdjLine}}
+\index{oneGetAdjLine@{oneGetAdjLine}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{oneGetAdjLine()}{oneGetAdjLine()}}
+{\footnotesize\ttfamily vector$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ Graph\+::one\+Get\+Adj\+Line (\begin{DoxyParamCaption}\item[{string}]{line }\end{DoxyParamCaption})}
+
+Iterates though every \mbox{\hyperlink{class_station}{Station}} to check which ones, belonging to the line specified in the parameter, only have 1 adjacent segment of that line. 
+\begin{DoxyParams}{Parameters}
+{\em line} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of \mbox{\hyperlink{class_station}{Station}} with no more than 1 adjacent segment of the specified line 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+E) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a62b1805aab88ee9d53850895afd9bf77}\label{class_graph_a62b1805aab88ee9d53850895afd9bf77}} 
+\index{Graph@{Graph}!printTopKHigherBudget@{printTopKHigherBudget}}
+\index{printTopKHigherBudget@{printTopKHigherBudget}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{printTopKHigherBudget()}{printTopKHigherBudget()}}
+{\footnotesize\ttfamily void Graph\+::print\+Top\+KHigher\+Budget (\begin{DoxyParamCaption}\item[{string}]{filter,  }\item[{int}]{k }\end{DoxyParamCaption})}
+
+Iterates through every station and calls the Edmonds\+Karp\+Multiple\+Sources class method with each one who has only 1 adjacent segment, without resetting flows. Iterates through every segment and adds the cost of each segment to the respective district, municipality and township maps. Creates a vector for each map and sorts them. In the end, prints the first k elements of the desired vector, specified by the filter argument. 
+\begin{DoxyParams}{Parameters}
+{\em filter} & \\
+\hline
+{\em k} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n($\ast$\+VE$^\wedge$2)) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a829d95eeb3a56ea103fd5a190d4b11c7}\label{class_graph_a829d95eeb3a56ea103fd5a190d4b11c7}} 
+\index{Graph@{Graph}!printTopKMostAffected@{printTopKMostAffected}}
+\index{printTopKMostAffected@{printTopKMostAffected}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{printTopKMostAffected()}{printTopKMostAffected()}}
+{\footnotesize\ttfamily void Graph\+::print\+Top\+KMost\+Affected (\begin{DoxyParamCaption}\item[{stack$<$ pair$<$ string, string $>$ $>$}]{failed\+Segments,  }\item[{int}]{k }\end{DoxyParamCaption})}
+
+Iterates through every station and calls the Edmonds\+Karp\+Multiple\+Sources class method with each one who has only 1 adjacent segment, without resetting flows before and after removing the failed segments and compares the difference in incoming flow of every station. 
+\begin{DoxyParams}{Parameters}
+{\em failed\+Segments} & \\
+\hline
+{\em k} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+V$^\wedge$2\+E$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a645653008e4dac8351c854436133eb1c}\label{class_graph_a645653008e4dac8351c854436133eb1c}} 
+\index{Graph@{Graph}!removeBidirectionalSegment@{removeBidirectionalSegment}}
+\index{removeBidirectionalSegment@{removeBidirectionalSegment}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{removeBidirectionalSegment()}{removeBidirectionalSegment()}}
+{\footnotesize\ttfamily bool Graph\+::remove\+Bidirectional\+Segment (\begin{DoxyParamCaption}\item[{const string \&}]{source,  }\item[{const string \&}]{dest }\end{DoxyParamCaption})}
+
+Removes a bidirectional segment between the 2 Stations with the name given as parameters. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the segment was removed successfully, false if there was no \mbox{\hyperlink{class_station}{Station}} with the name given in the parameters. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_aa388b6738f50351aab60699ce59db1c6}\label{class_graph_aa388b6738f50351aab60699ce59db1c6}} 
+\index{Graph@{Graph}!removeSegment@{removeSegment}}
+\index{removeSegment@{removeSegment}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{removeSegment()}{removeSegment()}}
+{\footnotesize\ttfamily bool Graph\+::remove\+Segment (\begin{DoxyParamCaption}\item[{const string \&}]{sourc,  }\item[{const string \&}]{dest }\end{DoxyParamCaption})}
+
+Removes a segment between the 2 Stations with the name given as parameters. 
+\begin{DoxyParams}{Parameters}
+{\em sourc} & \\
+\hline
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the segment was removed successfully, false if there was no \mbox{\hyperlink{class_station}{Station}} with the name given in the parameters. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a3a150d4c2f6c5bd152c06299b52235d6}\label{class_graph_a3a150d4c2f6c5bd152c06299b52235d6}} 
+\index{Graph@{Graph}!removeStation@{removeStation}}
+\index{removeStation@{removeStation}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{removeStation()}{removeStation()}}
+{\footnotesize\ttfamily bool Graph\+::remove\+Station (\begin{DoxyParamCaption}\item[{const string \&}]{name }\end{DoxyParamCaption})}
+
+Checks if the \mbox{\hyperlink{class_station}{Station}} with the name given in the parameter exists, if it does then removes it from the Station\+Set. 
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the \mbox{\hyperlink{class_station}{Station}} was in the Station\+Set before and has been removed, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a1cc70b48cb5a45dd69b078c189304a1c}\label{class_graph_a1cc70b48cb5a45dd69b078c189304a1c}} 
+\index{Graph@{Graph}!stationPairs@{stationPairs}}
+\index{stationPairs@{stationPairs}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{stationPairs()}{stationPairs()}}
+{\footnotesize\ttfamily void Graph\+::station\+Pairs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Calculates the flow between every pair of Stations (except its symmetrical) and prints the pairs with the largest flow. \begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(\+V$^\wedge$3\+E$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a38ac6c660272b3d15b56e0dc177aaacc}\label{class_graph_a38ac6c660272b3d15b56e0dc177aaacc}} 
+\index{Graph@{Graph}!testVisit@{testVisit}}
+\index{testVisit@{testVisit}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{testVisit()}{testVisit()}}
+{\footnotesize\ttfamily void Graph\+::test\+Visit (\begin{DoxyParamCaption}\item[{std\+::queue$<$ \mbox{\hyperlink{class_station}{Station}} $\ast$ $>$ \&}]{q,  }\item[{\mbox{\hyperlink{class_segment}{Segment}} $\ast$}]{e,  }\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{w,  }\item[{double}]{residual }\end{DoxyParamCaption})}
+
+Checks if the \mbox{\hyperlink{class_station}{Station}} passed as parameter is not visited and if the residual is greater than 0. If true then adds segment e to w\textquotesingle{}s path, sets w as visited and pushes w to the queue passed as parameter. 
+\begin{DoxyParams}{Parameters}
+{\em q} & \\
+\hline
+{\em e} & \\
+\hline
+{\em w} & \\
+\hline
+{\em residual} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a4f3c43cacbe9f39dd176060cc6c2e1e9}\label{class_graph_a4f3c43cacbe9f39dd176060cc6c2e1e9}} 
+\index{Graph@{Graph}!updateFlow@{updateFlow}}
+\index{updateFlow@{updateFlow}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{updateFlow()}{updateFlow()}}
+{\footnotesize\ttfamily void Graph\+::update\+Flow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{source,  }\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{target,  }\item[{double}]{bottleneck }\end{DoxyParamCaption})}
+
+Iterates over the path of the target \mbox{\hyperlink{class_station}{Station}} until it reaches the source and adds the bottleneck to the flow of every segment of that path. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+{\em bottleneck} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_graph_a129a28b174ca1411ea0f3ea5ecdfada5}\label{class_graph_a129a28b174ca1411ea0f3ea5ecdfada5}} 
+\index{Graph@{Graph}!updateFlowMoney@{updateFlowMoney}}
+\index{updateFlowMoney@{updateFlowMoney}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{updateFlowMoney()}{updateFlowMoney()}}
+{\footnotesize\ttfamily void Graph\+::update\+Flow\+Money (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{source,  }\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{target,  }\item[{double}]{bottleneck }\end{DoxyParamCaption})}
+
+Iterates over the path of the target \mbox{\hyperlink{class_station}{Station}} until it reaches the source and adds the bottleneck to the flow of every segment of that path and adds the bottleneck $\ast$ service of that segment to the cost of said segment. 
+\begin{DoxyParams}{Parameters}
+{\em source} & \\
+\hline
+{\em target} & \\
+\hline
+{\em bottleneck} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n) 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Graph.\+h\item 
+Graph.\+cpp\end{DoxyCompactItemize}

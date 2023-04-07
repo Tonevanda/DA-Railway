@@ -1,0 +1,256 @@
+\hypertarget{class_segment}{}\doxysection{Segment Class Reference}
+\label{class_segment}\index{Segment@{Segment}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_segment_a841c51496946eb416285a5f2defa12e6}{Segment}} (\mbox{\hyperlink{class_station}{Station}} $\ast$orig, \mbox{\hyperlink{class_station}{Station}} $\ast$dest, double w, int service)
+\item 
+\mbox{\hyperlink{class_station}{Station}} $\ast$ \mbox{\hyperlink{class_segment_ab167ff470e89c9772b1a64cee208118b}{get\+Dest}} () const
+\item 
+double \mbox{\hyperlink{class_segment_abae909d394b99f879bf91d19c6aee42b}{get\+Capacity}} () const
+\item 
+bool \mbox{\hyperlink{class_segment_a490dfbbbf3766a62f39d2e61f86992a0}{is\+Selected}} () const
+\item 
+\mbox{\hyperlink{class_station}{Station}} $\ast$ \mbox{\hyperlink{class_segment_a185c36f7fc3e8d9e5c4501c3b94d4e35}{get\+Orig}} () const
+\item 
+\mbox{\hyperlink{class_segment}{Segment}} $\ast$ \mbox{\hyperlink{class_segment_a521ba64838e8d9f56b4e8728a6379f06}{get\+Reverse}} () const
+\item 
+double \mbox{\hyperlink{class_segment_af85bb4f359c25759e8f0009d4028989c}{get\+Flow}} () const
+\item 
+int \mbox{\hyperlink{class_segment_a9815b4a71ac71fe5d3695cee3434a437}{get\+Service}} () const
+\item 
+string \mbox{\hyperlink{class_segment_ac8a012d425314a8ea754d04d1ffc8b94}{get\+Service\+Name}} () const
+\item 
+double \mbox{\hyperlink{class_segment_aa3db96cbeccde4a326e3be6829205e0f}{get\+Cost}} () const
+\item 
+void \mbox{\hyperlink{class_segment_a90f42039c9a40366b854894f7456e5f7}{set\+Selected}} (bool selected)
+\item 
+void \mbox{\hyperlink{class_segment_ad1015307ece27b07cdd0966884319003}{set\+Reverse}} (\mbox{\hyperlink{class_segment}{Segment}} $\ast$reverse)
+\item 
+void \mbox{\hyperlink{class_segment_a42f9f887c533c94d49ffb656569b0748}{set\+Flow}} (int flow)
+\item 
+void \mbox{\hyperlink{class_segment_a39d573c289c6aa96a7170a30c7e68bcf}{set\+Cost}} (double cost)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_segment_a532d3a6eec3035e61e720e2367e73ecd}\label{class_segment_a532d3a6eec3035e61e720e2367e73ecd}} 
+\mbox{\hyperlink{class_station}{Station}} $\ast$ {\bfseries dest}
+\item 
+\mbox{\Hypertarget{class_segment_ab7d3083852d64ee6fd798ab1ea775cb7}\label{class_segment_ab7d3083852d64ee6fd798ab1ea775cb7}} 
+double {\bfseries capacity}
+\item 
+\mbox{\Hypertarget{class_segment_a13863e70d493e8767f4c1ae6a9a6f4e3}\label{class_segment_a13863e70d493e8767f4c1ae6a9a6f4e3}} 
+int {\bfseries service}
+\item 
+\mbox{\Hypertarget{class_segment_a3ad7088e2cd7b75960e11ed0697e7a39}\label{class_segment_a3ad7088e2cd7b75960e11ed0697e7a39}} 
+bool {\bfseries selected} = false
+\item 
+\mbox{\Hypertarget{class_segment_a5506bccf4105d8429ba2df35d249b71e}\label{class_segment_a5506bccf4105d8429ba2df35d249b71e}} 
+\mbox{\hyperlink{class_station}{Station}} $\ast$ {\bfseries orig}
+\item 
+\mbox{\Hypertarget{class_segment_a05a54e861f6b8aa8c40f02d1a8ac5e0c}\label{class_segment_a05a54e861f6b8aa8c40f02d1a8ac5e0c}} 
+\mbox{\hyperlink{class_segment}{Segment}} $\ast$ {\bfseries reverse} = nullptr
+\item 
+\mbox{\Hypertarget{class_segment_a36e17320933b51df62d5031301ecbe28}\label{class_segment_a36e17320933b51df62d5031301ecbe28}} 
+int {\bfseries flow}
+\item 
+\mbox{\Hypertarget{class_segment_a0aaafd20391e2317036bcb63a5f6232b}\label{class_segment_a0aaafd20391e2317036bcb63a5f6232b}} 
+double {\bfseries cost}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_segment_a841c51496946eb416285a5f2defa12e6}\label{class_segment_a841c51496946eb416285a5f2defa12e6}} 
+\index{Segment@{Segment}!Segment@{Segment}}
+\index{Segment@{Segment}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{Segment()}{Segment()}}
+{\footnotesize\ttfamily Segment\+::\+Segment (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{orig,  }\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{dest,  }\item[{double}]{w,  }\item[{int}]{service }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_segment}{Segment}} constructor. Creates a \mbox{\hyperlink{class_segment}{Segment}} object with the given parameters. 
+\begin{DoxyParams}{Parameters}
+{\em orig} & \\
+\hline
+{\em dest} & \\
+\hline
+{\em w} & \\
+\hline
+{\em service} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_segment_abae909d394b99f879bf91d19c6aee42b}\label{class_segment_abae909d394b99f879bf91d19c6aee42b}} 
+\index{Segment@{Segment}!getCapacity@{getCapacity}}
+\index{getCapacity@{getCapacity}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getCapacity()}{getCapacity()}}
+{\footnotesize\ttfamily double Segment\+::get\+Capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the capacity field. \begin{DoxyReturn}{Returns}
+capacity of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_aa3db96cbeccde4a326e3be6829205e0f}\label{class_segment_aa3db96cbeccde4a326e3be6829205e0f}} 
+\index{Segment@{Segment}!getCost@{getCost}}
+\index{getCost@{getCost}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getCost()}{getCost()}}
+{\footnotesize\ttfamily double Segment\+::get\+Cost (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the cost field. \begin{DoxyReturn}{Returns}
+cost of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_ab167ff470e89c9772b1a64cee208118b}\label{class_segment_ab167ff470e89c9772b1a64cee208118b}} 
+\index{Segment@{Segment}!getDest@{getDest}}
+\index{getDest@{getDest}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getDest()}{getDest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_station}{Station}} $\ast$ Segment\+::get\+Dest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the dest field. \begin{DoxyReturn}{Returns}
+destination of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_af85bb4f359c25759e8f0009d4028989c}\label{class_segment_af85bb4f359c25759e8f0009d4028989c}} 
+\index{Segment@{Segment}!getFlow@{getFlow}}
+\index{getFlow@{getFlow}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getFlow()}{getFlow()}}
+{\footnotesize\ttfamily double Segment\+::get\+Flow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the flow field. \begin{DoxyReturn}{Returns}
+flow of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a185c36f7fc3e8d9e5c4501c3b94d4e35}\label{class_segment_a185c36f7fc3e8d9e5c4501c3b94d4e35}} 
+\index{Segment@{Segment}!getOrig@{getOrig}}
+\index{getOrig@{getOrig}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getOrig()}{getOrig()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_station}{Station}} $\ast$ Segment\+::get\+Orig (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the orig field. \begin{DoxyReturn}{Returns}
+origin of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a521ba64838e8d9f56b4e8728a6379f06}\label{class_segment_a521ba64838e8d9f56b4e8728a6379f06}} 
+\index{Segment@{Segment}!getReverse@{getReverse}}
+\index{getReverse@{getReverse}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getReverse()}{getReverse()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_segment}{Segment}} $\ast$ Segment\+::get\+Reverse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the reverse field. \begin{DoxyReturn}{Returns}
+reverse of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a9815b4a71ac71fe5d3695cee3434a437}\label{class_segment_a9815b4a71ac71fe5d3695cee3434a437}} 
+\index{Segment@{Segment}!getService@{getService}}
+\index{getService@{getService}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getService()}{getService()}}
+{\footnotesize\ttfamily int Segment\+::get\+Service (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the service field. \begin{DoxyReturn}{Returns}
+service of (this) segment. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_ac8a012d425314a8ea754d04d1ffc8b94}\label{class_segment_ac8a012d425314a8ea754d04d1ffc8b94}} 
+\index{Segment@{Segment}!getServiceName@{getServiceName}}
+\index{getServiceName@{getServiceName}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{getServiceName()}{getServiceName()}}
+{\footnotesize\ttfamily string Segment\+::get\+Service\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the service name. \begin{DoxyReturn}{Returns}
+\char`\"{}\+STANDARD\char`\"{} if service is 2, \char`\"{}\+ALFA PENDULAR\char`\"{} if service is 4. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a490dfbbbf3766a62f39d2e61f86992a0}\label{class_segment_a490dfbbbf3766a62f39d2e61f86992a0}} 
+\index{Segment@{Segment}!isSelected@{isSelected}}
+\index{isSelected@{isSelected}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{isSelected()}{isSelected()}}
+{\footnotesize\ttfamily bool Segment\+::is\+Selected (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the selected field. \begin{DoxyReturn}{Returns}
+True if selected, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a39d573c289c6aa96a7170a30c7e68bcf}\label{class_segment_a39d573c289c6aa96a7170a30c7e68bcf}} 
+\index{Segment@{Segment}!setCost@{setCost}}
+\index{setCost@{setCost}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{setCost()}{setCost()}}
+{\footnotesize\ttfamily void Segment\+::set\+Cost (\begin{DoxyParamCaption}\item[{double}]{cost }\end{DoxyParamCaption})}
+
+Sets the cost field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em cost} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a42f9f887c533c94d49ffb656569b0748}\label{class_segment_a42f9f887c533c94d49ffb656569b0748}} 
+\index{Segment@{Segment}!setFlow@{setFlow}}
+\index{setFlow@{setFlow}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{setFlow()}{setFlow()}}
+{\footnotesize\ttfamily void Segment\+::set\+Flow (\begin{DoxyParamCaption}\item[{int}]{flow }\end{DoxyParamCaption})}
+
+Sets the flow field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em flow} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_ad1015307ece27b07cdd0966884319003}\label{class_segment_ad1015307ece27b07cdd0966884319003}} 
+\index{Segment@{Segment}!setReverse@{setReverse}}
+\index{setReverse@{setReverse}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{setReverse()}{setReverse()}}
+{\footnotesize\ttfamily void Segment\+::set\+Reverse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_segment}{Segment}} $\ast$}]{reverse }\end{DoxyParamCaption})}
+
+Sets the reverse field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em reverse} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_segment_a90f42039c9a40366b854894f7456e5f7}\label{class_segment_a90f42039c9a40366b854894f7456e5f7}} 
+\index{Segment@{Segment}!setSelected@{setSelected}}
+\index{setSelected@{setSelected}!Segment@{Segment}}
+\doxysubsubsection{\texorpdfstring{setSelected()}{setSelected()}}
+{\footnotesize\ttfamily void Segment\+::set\+Selected (\begin{DoxyParamCaption}\item[{bool}]{selected }\end{DoxyParamCaption})}
+
+Sets the selected field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em selected} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Station\+Segment.\+h\item 
+Station\+Segment.\+cpp\end{DoxyCompactItemize}

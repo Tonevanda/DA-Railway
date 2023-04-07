@@ -1,0 +1,73 @@
+\hypertarget{_graph_8h_source}{}\doxysection{Graph.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// By: Gonçalo Leão}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#ifndef PROJETO\_DA\_1\_GRAPH\_H}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define PROJETO\_DA\_1\_GRAPH\_H}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <queue>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stack>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <set>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}StationSegment.h"{}}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_graph}{Graph}} \{}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{25     \mbox{\hyperlink{class_graph_a90961be426ad80001cbc103b6385df31}{Graph}}()= \textcolor{keywordflow}{default};}
+\DoxyCodeLine{30     \mbox{\hyperlink{class_graph_a90961be426ad80001cbc103b6385df31}{Graph}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_graph}{Graph}} \&graph);}
+\DoxyCodeLine{34     \mbox{\hyperlink{class_graph_a902c5b3eacb66d60752525ab23297a95}{\string~Graph}}();}
+\DoxyCodeLine{42     [[nodiscard]] \mbox{\hyperlink{class_station}{Station}} *\mbox{\hyperlink{class_graph_a9e6d032470e742bff8cd8da0a31b7d11}{findStation}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&name) \textcolor{keyword}{const};}
+\DoxyCodeLine{50     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{class_graph_a567455cc6f1196e8747ee4caa72fd5e6}{findStationIdx}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&name) \textcolor{keyword}{const};}
+\DoxyCodeLine{56     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{class_graph_af4a930a69cb2c1d4485f0ecc62f139bd}{getNumStation}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{62     [[nodiscard]] vector<Station *> \mbox{\hyperlink{class_graph_abfdf2cc358acab93cbf93cb7fa08a71f}{getStationSet}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{70     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{class_graph_abe69ac0a54adf50496e40ff85557b516}{getSegmentCapacity}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target) \textcolor{keyword}{const};}
+\DoxyCodeLine{78     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{class_graph_ac37a349ce083ffe308ade41ba8ee5e54}{getSegmentService}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target) \textcolor{keyword}{const};}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{90     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_a479973858fcde942797db06cdeec8825}{addStation}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&name, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&district, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&municipality, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&township, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&line);}
+\DoxyCodeLine{97     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_a3a150d4c2f6c5bd152c06299b52235d6}{removeStation}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&name);}
+\DoxyCodeLine{107     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_a409552f3914c94956dd31ce975b0fffe}{addSegment}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&sourc, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&dest, \textcolor{keywordtype}{double} w, \textcolor{keywordtype}{int} serv);}
+\DoxyCodeLine{115     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_aa388b6738f50351aab60699ce59db1c6}{removeSegment}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&sourc, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&dest);}
+\DoxyCodeLine{123     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_a645653008e4dac8351c854436133eb1c}{removeBidirectionalSegment}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string}\& source, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&dest);}
+\DoxyCodeLine{133     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_acc3e46eac75ac17c701f3881257ece0d}{addBidirectionalSegment}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&sourc, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&dest, \textcolor{keywordtype}{double} w, \textcolor{keywordtype}{int} serv);}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135     \textcolor{comment}{/*Algoritmos*/}}
+\DoxyCodeLine{143     \textcolor{keywordtype}{double} \mbox{\hyperlink{class_graph_a21a288d7448f3855a3c685413b575e5a}{edmondsKarp}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target);}
+\DoxyCodeLine{151     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_a3900c7092068dedd7457fe642dd40052}{edmondsKarpBFS}}(\mbox{\hyperlink{class_station}{Station}}* v, \mbox{\hyperlink{class_station}{Station}}* sink);}
+\DoxyCodeLine{159     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a4f3c43cacbe9f39dd176060cc6c2e1e9}{updateFlow}}(\mbox{\hyperlink{class_station}{Station}}* source, \mbox{\hyperlink{class_station}{Station}}* target, \textcolor{keywordtype}{double} bottleneck);}
+\DoxyCodeLine{167     \textcolor{keywordtype}{double} \mbox{\hyperlink{class_graph_aa266bb2e3c97425d77ad082f4cb712d8}{edmondsKarpMoney}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target);}
+\DoxyCodeLine{175     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a129a28b174ca1411ea0f3ea5ecdfada5}{updateFlowMoney}}(\mbox{\hyperlink{class_station}{Station}}* source, \mbox{\hyperlink{class_station}{Station}}* target, \textcolor{keywordtype}{double} bottleneck);}
+\DoxyCodeLine{183     \textcolor{keywordtype}{double} \mbox{\hyperlink{class_graph_afcd6c171dbc9a8e251a543d70e59be06}{findMinResidual}}(\mbox{\hyperlink{class_station}{Station}}* source, \mbox{\hyperlink{class_station}{Station}}* target);}
+\DoxyCodeLine{192     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a38ac6c660272b3d15b56e0dc177aaacc}{testVisit}}(std::queue<Station*> \&q, \mbox{\hyperlink{class_segment}{Segment}}* e, \mbox{\hyperlink{class_station}{Station}}* w, \textcolor{keywordtype}{double} residual);}
+\DoxyCodeLine{200     vector<Station*> \mbox{\hyperlink{class_graph_a7db5ed34053f054d3cf0d2ec904df390}{dijkstra}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} dest);}
+\DoxyCodeLine{201 }
+\DoxyCodeLine{208     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a1f289161b57cbabbf16fd23aaf63f13e}{maxTrains}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target); \textcolor{comment}{//edmondskarp 2.1}}
+\DoxyCodeLine{213 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a1cc70b48cb5a45dd69b078c189304a1c}{stationPairs}}(); \textcolor{comment}{// 2.2}}
+\DoxyCodeLine{221 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a62b1805aab88ee9d53850895afd9bf77}{printTopKHigherBudget}}(\textcolor{keywordtype}{string} filter, \textcolor{keywordtype}{int} k); \textcolor{comment}{//2.3}}
+\DoxyCodeLine{228 \textcolor{comment}{}    \textcolor{keywordtype}{int} \mbox{\hyperlink{class_graph_a2eb932d6c97054b06f6ccd69191987db}{maxTrainsInStation}}(\textcolor{keywordtype}{string} station); \textcolor{comment}{// 2.4}}
+\DoxyCodeLine{235 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a53270ed36ddda50e62da76722cae3619}{maxTrainsMinCost}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target); \textcolor{comment}{//edmondskarp dijkstra 3.1}}
+\DoxyCodeLine{243 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_afeb05b3df06c9438e1c35502afbdaf29}{maxTrainsFailure}}(\textcolor{keywordtype}{string} source, \textcolor{keywordtype}{string} target, stack<pair<string, string>> failedSegments); \textcolor{comment}{//not tested 4.1}}
+\DoxyCodeLine{250 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a829d95eeb3a56ea103fd5a190d4b11c7}{printTopKMostAffected}}(stack<pair<string, string>> failedSegments, \textcolor{keywordtype}{int} k); \textcolor{comment}{//4.2}}
+\DoxyCodeLine{257 \textcolor{comment}{}    vector<Station*> \mbox{\hyperlink{class_graph_abfa6bb5f3d24fc685f7184b6f4a5bb17}{oneGetAdjLine}}(\textcolor{keywordtype}{string} line);}
+\DoxyCodeLine{265     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_aae8318060ccecb2a5c30168e89a0d133}{edmondsKarpBFSArea}}(\mbox{\hyperlink{class_station}{Station}}* source, \textcolor{keywordtype}{string}* target);}
+\DoxyCodeLine{271     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_graph_a9619e275d093d19aa1bd20f672a54c12}{edmondsKarpMultipleSources}}(\mbox{\hyperlink{class_station}{Station}}* s);}
+\DoxyCodeLine{278     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_graph_acc0b90b29778256e98f477e960c12511}{isValidSegment}}(\textcolor{keywordtype}{string} st1, \textcolor{keywordtype}{string} st2);}
+\DoxyCodeLine{279 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{280     vector<pair<string, int>> districtBudget;}
+\DoxyCodeLine{281     vector<pair<string, int>> municipalityBudget;}
+\DoxyCodeLine{282     vector<pair<string, int>> townshipBudget;}
+\DoxyCodeLine{283     vector<Station *> StationSet;    \textcolor{comment}{// Station set}}
+\DoxyCodeLine{284     set<string> lines;         \textcolor{comment}{// Different lines}}
+\DoxyCodeLine{285 \};}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//PROJETO\_DA\_1\_GRAPH\_H}}
+
+\end{DoxyCode}

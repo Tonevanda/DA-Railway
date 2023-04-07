@@ -1,0 +1,403 @@
+\hypertarget{class_station}{}\doxysection{Station Class Reference}
+\label{class_station}\index{Station@{Station}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_station_ab7f34f62cb4075fd88400a5678300a14}{Station}} (std\+::string name, std\+::string district, std\+::string municipality, std\+::string township, std\+::string line)
+\item 
+\mbox{\Hypertarget{class_station_a10e27c3b585c0ddb1da0f6de351f4414}\label{class_station_a10e27c3b585c0ddb1da0f6de351f4414}} 
+bool {\bfseries operator$<$} (\mbox{\hyperlink{class_station}{Station}} \&\mbox{\hyperlink{class_station}{Station}}) const
+\item 
+\mbox{\hyperlink{class_segment}{Segment}} $\ast$ \mbox{\hyperlink{class_station_a1c882667cb653bf906dc48c33a0830d2}{add\+Segment}} (\mbox{\hyperlink{class_station}{Station}} $\ast$dest, double w, int serv)
+\item 
+bool \mbox{\hyperlink{class_station_a18db1f25e3630b267aa6ad7183cc32d3}{remove\+Segment}} (std\+::string dest\+Name)
+\item 
+string \mbox{\hyperlink{class_station_a6dbbf88c819bc9fbb9354ff5a1c5d592}{get\+Name}} () const
+\item 
+string \mbox{\hyperlink{class_station_a5d0bb90b995a9f6931f5dae6ee3d8348}{get\+District}} () const
+\item 
+string \mbox{\hyperlink{class_station_a54a2051ff6b9e9c0b84fd4d8f4455254}{get\+Municipality}} () const
+\item 
+string \mbox{\hyperlink{class_station_a2b8e15544dfddc7ca72ea22a65a054e9}{get\+Township}} () const
+\item 
+string \mbox{\hyperlink{class_station_a1125272e91aa13a40a01ec9a22b8f17e}{get\+Line}} () const
+\item 
+vector$<$ \mbox{\hyperlink{class_segment}{Segment}} $\ast$ $>$ \mbox{\hyperlink{class_station_a52cd74f501590c39e78a0f086a1da3e3}{get\+Adj}} () const
+\item 
+bool \mbox{\hyperlink{class_station_a3eee49988559a4a26fa715f3fc44beac}{is\+Visited}} () const
+\item 
+bool \mbox{\hyperlink{class_station_a8c5c06cc978f4d11c46c32d36e4646f2}{is\+Processing}} () const
+\item 
+unsigned int \mbox{\hyperlink{class_station_a4d5d1d359ba1d07786c833bffa170e3d}{get\+Indegree}} () const
+\item 
+int \mbox{\hyperlink{class_station_a5f596515b237bbdf5f865a16e79786aa}{get\+Cost}} () const
+\item 
+int \mbox{\hyperlink{class_station_afcbcbcfd5f3ef428b46796e017927b8e}{get\+Flow}} () const
+\item 
+\mbox{\hyperlink{class_segment}{Segment}} $\ast$ \mbox{\hyperlink{class_station_a982015aef01e16d4d7aae0a0844040f9}{get\+Path}} () const
+\item 
+vector$<$ \mbox{\hyperlink{class_segment}{Segment}} $\ast$ $>$ \mbox{\hyperlink{class_station_aeccb1e29c937002bf433dc4a227ff01e}{get\+Incoming}} () const
+\item 
+void \mbox{\hyperlink{class_station_a17bb35a315d323921b0841dd949f73e4}{set\+Visited}} (bool visited)
+\item 
+void \mbox{\hyperlink{class_station_ab98c112067f0b94ca9a3a5dc40656084}{set\+Processsing}} (bool processing)
+\item 
+void \mbox{\hyperlink{class_station_a9b97789922fdc5d618ed5050bfa3bbba}{set\+Indegree}} (unsigned int indegree)
+\item 
+void \mbox{\hyperlink{class_station_afa816ac15e56b295a5237a593b3bed3e}{set\+Cost}} (int cost)
+\item 
+void \mbox{\hyperlink{class_station_aefc8954a40ed6444d7710e228eb55c47}{set\+Flow}} (int flow)
+\item 
+void \mbox{\hyperlink{class_station_ae76dd3e4020ebbb5b5d1e9b8e6ae0331}{set\+Path}} (\mbox{\hyperlink{class_segment}{Segment}} $\ast$path)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_station_a87111da4cfca52c6083ad8ddc636cd5d}\label{class_station_a87111da4cfca52c6083ad8ddc636cd5d}} 
+string {\bfseries name}
+\item 
+\mbox{\Hypertarget{class_station_ae8e1a0279a8879ca2f8d6fa2127930cc}\label{class_station_ae8e1a0279a8879ca2f8d6fa2127930cc}} 
+string {\bfseries district}
+\item 
+\mbox{\Hypertarget{class_station_a2a4bb78d0acf07ffce910f750c68892a}\label{class_station_a2a4bb78d0acf07ffce910f750c68892a}} 
+string {\bfseries municipality}
+\item 
+\mbox{\Hypertarget{class_station_a0552badaff28cc06411b808af462d382}\label{class_station_a0552badaff28cc06411b808af462d382}} 
+string {\bfseries township}
+\item 
+\mbox{\Hypertarget{class_station_a49c6e75f4e4d46f2ad01bad229ee0d71}\label{class_station_a49c6e75f4e4d46f2ad01bad229ee0d71}} 
+string {\bfseries line}
+\item 
+\mbox{\Hypertarget{class_station_abca7821bdbb229c709b1b4130a350b4c}\label{class_station_abca7821bdbb229c709b1b4130a350b4c}} 
+vector$<$ \mbox{\hyperlink{class_segment}{Segment}} $\ast$ $>$ {\bfseries adj}
+\item 
+\mbox{\Hypertarget{class_station_ab1941d5583d14dd2169d1fcc34ee00c9}\label{class_station_ab1941d5583d14dd2169d1fcc34ee00c9}} 
+vector$<$ \mbox{\hyperlink{class_segment}{Segment}} $\ast$ $>$ {\bfseries incoming}
+\item 
+\mbox{\Hypertarget{class_station_a5c1636c3bc53579499c97bf41e02a3c5}\label{class_station_a5c1636c3bc53579499c97bf41e02a3c5}} 
+bool {\bfseries visited} = false
+\item 
+\mbox{\Hypertarget{class_station_a56eaf3e58936cae2e0d25382b9e0dee9}\label{class_station_a56eaf3e58936cae2e0d25382b9e0dee9}} 
+bool {\bfseries processing} = false
+\item 
+\mbox{\Hypertarget{class_station_af0edd420e1602e552cceb392603e76d0}\label{class_station_af0edd420e1602e552cceb392603e76d0}} 
+unsigned int {\bfseries indegree}
+\item 
+\mbox{\Hypertarget{class_station_ab31a43921a056eccb691ef3ae3e6e843}\label{class_station_ab31a43921a056eccb691ef3ae3e6e843}} 
+int {\bfseries cost} = 0
+\item 
+\mbox{\Hypertarget{class_station_a9ef73b6e5014838db9084500dc0bad76}\label{class_station_a9ef73b6e5014838db9084500dc0bad76}} 
+int {\bfseries flow} = 0
+\item 
+\mbox{\Hypertarget{class_station_a712bb8bac8d8d5a332462500dbad9474}\label{class_station_a712bb8bac8d8d5a332462500dbad9474}} 
+\mbox{\hyperlink{class_segment}{Segment}} $\ast$ {\bfseries path} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_station_ab7f34f62cb4075fd88400a5678300a14}\label{class_station_ab7f34f62cb4075fd88400a5678300a14}} 
+\index{Station@{Station}!Station@{Station}}
+\index{Station@{Station}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{Station()}{Station()}}
+{\footnotesize\ttfamily Station\+::\+Station (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{std\+::string}]{district,  }\item[{std\+::string}]{municipality,  }\item[{std\+::string}]{township,  }\item[{std\+::string}]{line }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_station}{Station}} constructor. Creates a \mbox{\hyperlink{class_station}{Station}} object with the given parameters. 
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em district} & \\
+\hline
+{\em municipality} & \\
+\hline
+{\em township} & \\
+\hline
+{\em line} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_station_a1c882667cb653bf906dc48c33a0830d2}\label{class_station_a1c882667cb653bf906dc48c33a0830d2}} 
+\index{Station@{Station}!addSegment@{addSegment}}
+\index{addSegment@{addSegment}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{addSegment()}{addSegment()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_segment}{Segment}} $\ast$ Station\+::add\+Segment (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} $\ast$}]{dest,  }\item[{double}]{w,  }\item[{int}]{serv }\end{DoxyParamCaption})}
+
+Adds an outgoing segment to a \mbox{\hyperlink{class_station}{Station}} (this) with a given destination \mbox{\hyperlink{class_station}{Station}} (dest), capacity (w) and service (serv). 
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+{\em w} & \\
+\hline
+{\em serv} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_segment}{Segment}} with (this) as source and d as target. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a52cd74f501590c39e78a0f086a1da3e3}\label{class_station_a52cd74f501590c39e78a0f086a1da3e3}} 
+\index{Station@{Station}!getAdj@{getAdj}}
+\index{getAdj@{getAdj}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getAdj()}{getAdj()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_segment}{Segment}} $\ast$ $>$ Station\+::get\+Adj (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the vector of adjacent segments field. \begin{DoxyReturn}{Returns}
+Vector of outgoing segments from (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a5f596515b237bbdf5f865a16e79786aa}\label{class_station_a5f596515b237bbdf5f865a16e79786aa}} 
+\index{Station@{Station}!getCost@{getCost}}
+\index{getCost@{getCost}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getCost()}{getCost()}}
+{\footnotesize\ttfamily int Station\+::get\+Cost (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the cost field. \begin{DoxyReturn}{Returns}
+Total cost of incoming segments to (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a5d0bb90b995a9f6931f5dae6ee3d8348}\label{class_station_a5d0bb90b995a9f6931f5dae6ee3d8348}} 
+\index{Station@{Station}!getDistrict@{getDistrict}}
+\index{getDistrict@{getDistrict}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getDistrict()}{getDistrict()}}
+{\footnotesize\ttfamily std\+::string Station\+::get\+District (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the district field. \begin{DoxyReturn}{Returns}
+District of (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_afcbcbcfd5f3ef428b46796e017927b8e}\label{class_station_afcbcbcfd5f3ef428b46796e017927b8e}} 
+\index{Station@{Station}!getFlow@{getFlow}}
+\index{getFlow@{getFlow}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getFlow()}{getFlow()}}
+{\footnotesize\ttfamily int Station\+::get\+Flow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the flow field. \begin{DoxyReturn}{Returns}
+Total flow of incoming segments to (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_aeccb1e29c937002bf433dc4a227ff01e}\label{class_station_aeccb1e29c937002bf433dc4a227ff01e}} 
+\index{Station@{Station}!getIncoming@{getIncoming}}
+\index{getIncoming@{getIncoming}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getIncoming()}{getIncoming()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_segment}{Segment}} $\ast$ $>$ Station\+::get\+Incoming (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the incoming field. \begin{DoxyReturn}{Returns}
+Vector of incoming segments to (this) \mbox{\hyperlink{class_station}{Station}} 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a4d5d1d359ba1d07786c833bffa170e3d}\label{class_station_a4d5d1d359ba1d07786c833bffa170e3d}} 
+\index{Station@{Station}!getIndegree@{getIndegree}}
+\index{getIndegree@{getIndegree}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getIndegree()}{getIndegree()}}
+{\footnotesize\ttfamily unsigned int Station\+::get\+Indegree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the indegree field. \begin{DoxyReturn}{Returns}
+Indegree of a \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a1125272e91aa13a40a01ec9a22b8f17e}\label{class_station_a1125272e91aa13a40a01ec9a22b8f17e}} 
+\index{Station@{Station}!getLine@{getLine}}
+\index{getLine@{getLine}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getLine()}{getLine()}}
+{\footnotesize\ttfamily std\+::string Station\+::get\+Line (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the line field. \begin{DoxyReturn}{Returns}
+Line of (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a54a2051ff6b9e9c0b84fd4d8f4455254}\label{class_station_a54a2051ff6b9e9c0b84fd4d8f4455254}} 
+\index{Station@{Station}!getMunicipality@{getMunicipality}}
+\index{getMunicipality@{getMunicipality}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getMunicipality()}{getMunicipality()}}
+{\footnotesize\ttfamily std\+::string Station\+::get\+Municipality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the municipality field. \begin{DoxyReturn}{Returns}
+Municipality of (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a6dbbf88c819bc9fbb9354ff5a1c5d592}\label{class_station_a6dbbf88c819bc9fbb9354ff5a1c5d592}} 
+\index{Station@{Station}!getName@{getName}}
+\index{getName@{getName}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily std\+::string Station\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the name field. \begin{DoxyReturn}{Returns}
+Name of (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a982015aef01e16d4d7aae0a0844040f9}\label{class_station_a982015aef01e16d4d7aae0a0844040f9}} 
+\index{Station@{Station}!getPath@{getPath}}
+\index{getPath@{getPath}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getPath()}{getPath()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_segment}{Segment}} $\ast$ Station\+::get\+Path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the current path to (this) \mbox{\hyperlink{class_station}{Station}}. \begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_segment}{Segment}} pertaining to the path to (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a2b8e15544dfddc7ca72ea22a65a054e9}\label{class_station_a2b8e15544dfddc7ca72ea22a65a054e9}} 
+\index{Station@{Station}!getTownship@{getTownship}}
+\index{getTownship@{getTownship}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{getTownship()}{getTownship()}}
+{\footnotesize\ttfamily std\+::string Station\+::get\+Township (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the township field. \begin{DoxyReturn}{Returns}
+Township of (this) \mbox{\hyperlink{class_station}{Station}}. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a8c5c06cc978f4d11c46c32d36e4646f2}\label{class_station_a8c5c06cc978f4d11c46c32d36e4646f2}} 
+\index{Station@{Station}!isProcessing@{isProcessing}}
+\index{isProcessing@{isProcessing}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{isProcessing()}{isProcessing()}}
+{\footnotesize\ttfamily bool Station\+::is\+Processing (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the processing field. \begin{DoxyReturn}{Returns}
+True if is processing, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a3eee49988559a4a26fa715f3fc44beac}\label{class_station_a3eee49988559a4a26fa715f3fc44beac}} 
+\index{Station@{Station}!isVisited@{isVisited}}
+\index{isVisited@{isVisited}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{isVisited()}{isVisited()}}
+{\footnotesize\ttfamily bool Station\+::is\+Visited (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter method for the visited field. \begin{DoxyReturn}{Returns}
+True if visited, false otherwise. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a18db1f25e3630b267aa6ad7183cc32d3}\label{class_station_a18db1f25e3630b267aa6ad7183cc32d3}} 
+\index{Station@{Station}!removeSegment@{removeSegment}}
+\index{removeSegment@{removeSegment}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{removeSegment()}{removeSegment()}}
+{\footnotesize\ttfamily bool Station\+::remove\+Segment (\begin{DoxyParamCaption}\item[{std\+::string}]{dest\+Name }\end{DoxyParamCaption})}
+
+Removes an outgoing segment with a given destination (dest\+Name) from a \mbox{\hyperlink{class_station}{Station}} (this). 
+\begin{DoxyParams}{Parameters}
+{\em dest\+Name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if successful, false if such \mbox{\hyperlink{class_segment}{Segment}} does not exist. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(n$^\wedge$2) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_afa816ac15e56b295a5237a593b3bed3e}\label{class_station_afa816ac15e56b295a5237a593b3bed3e}} 
+\index{Station@{Station}!setCost@{setCost}}
+\index{setCost@{setCost}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{setCost()}{setCost()}}
+{\footnotesize\ttfamily void Station\+::set\+Cost (\begin{DoxyParamCaption}\item[{int}]{cost }\end{DoxyParamCaption})}
+
+Sets the cost field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em cost} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_aefc8954a40ed6444d7710e228eb55c47}\label{class_station_aefc8954a40ed6444d7710e228eb55c47}} 
+\index{Station@{Station}!setFlow@{setFlow}}
+\index{setFlow@{setFlow}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{setFlow()}{setFlow()}}
+{\footnotesize\ttfamily void Station\+::set\+Flow (\begin{DoxyParamCaption}\item[{int}]{flow }\end{DoxyParamCaption})}
+
+Sets the flow field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em flow} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a9b97789922fdc5d618ed5050bfa3bbba}\label{class_station_a9b97789922fdc5d618ed5050bfa3bbba}} 
+\index{Station@{Station}!setIndegree@{setIndegree}}
+\index{setIndegree@{setIndegree}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{setIndegree()}{setIndegree()}}
+{\footnotesize\ttfamily void Station\+::set\+Indegree (\begin{DoxyParamCaption}\item[{unsigned int}]{indegree }\end{DoxyParamCaption})}
+
+Sets the indegree field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em indegree} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_ae76dd3e4020ebbb5b5d1e9b8e6ae0331}\label{class_station_ae76dd3e4020ebbb5b5d1e9b8e6ae0331}} 
+\index{Station@{Station}!setPath@{setPath}}
+\index{setPath@{setPath}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{setPath()}{setPath()}}
+{\footnotesize\ttfamily void Station\+::set\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_segment}{Segment}} $\ast$}]{path }\end{DoxyParamCaption})}
+
+Sets the path field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em path} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_ab98c112067f0b94ca9a3a5dc40656084}\label{class_station_ab98c112067f0b94ca9a3a5dc40656084}} 
+\index{Station@{Station}!setProcesssing@{setProcesssing}}
+\index{setProcesssing@{setProcesssing}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{setProcesssing()}{setProcesssing()}}
+{\footnotesize\ttfamily void Station\+::set\+Processsing (\begin{DoxyParamCaption}\item[{bool}]{processing }\end{DoxyParamCaption})}
+
+Sets the processing field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em processing} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_station_a17bb35a315d323921b0841dd949f73e4}\label{class_station_a17bb35a315d323921b0841dd949f73e4}} 
+\index{Station@{Station}!setVisited@{setVisited}}
+\index{setVisited@{setVisited}!Station@{Station}}
+\doxysubsubsection{\texorpdfstring{setVisited()}{setVisited()}}
+{\footnotesize\ttfamily void Station\+::set\+Visited (\begin{DoxyParamCaption}\item[{bool}]{visited }\end{DoxyParamCaption})}
+
+Sets the visited field to correspond to the given parameter. 
+\begin{DoxyParams}{Parameters}
+{\em visited} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time-\/complexity -\/\texorpdfstring{$>$}{>} O(1) 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Station\+Segment.\+h\item 
+Station\+Segment.\+cpp\end{DoxyCompactItemize}

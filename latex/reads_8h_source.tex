@@ -1,0 +1,89 @@
+\hypertarget{reads_8h_source}{}\doxysection{reads.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by tiago on 11/03/2023.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#ifndef PROJETO\_DA\_1\_READS}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define PROJETO\_DA\_1\_READS}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}Graph.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{17 vector<string> read(\textcolor{keyword}{const} \textcolor{keywordtype}{string} textLine)\{}
+\DoxyCodeLine{18     vector<string> info;}
+\DoxyCodeLine{19     \textcolor{keywordtype}{string} word;}
+\DoxyCodeLine{20     \textcolor{keywordtype}{bool} inQuotes = \textcolor{keyword}{false};}
+\DoxyCodeLine{21     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{char} c :textLine)\{}
+\DoxyCodeLine{22         \textcolor{keywordflow}{if}(c == \textcolor{charliteral}{'"{}'})\{}
+\DoxyCodeLine{23             inQuotes = !inQuotes;}
+\DoxyCodeLine{24         \}}
+\DoxyCodeLine{25         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(c == \textcolor{charliteral}{','} \&\& !inQuotes)\{}
+\DoxyCodeLine{26             info.push\_back(word);}
+\DoxyCodeLine{27             word.clear();}
+\DoxyCodeLine{28         \}}
+\DoxyCodeLine{29         \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{30             word += c;}
+\DoxyCodeLine{31         \}}
+\DoxyCodeLine{32     \}}
+\DoxyCodeLine{33     info.push\_back(word);}
+\DoxyCodeLine{34     \textcolor{keywordflow}{return} info;}
+\DoxyCodeLine{35 \}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{43 \textcolor{keywordtype}{void} readStations(\mbox{\hyperlink{class_graph}{Graph}}* graph, \textcolor{keywordtype}{string} file)\{}
+\DoxyCodeLine{44     ifstream fout;}
+\DoxyCodeLine{45     file= \textcolor{stringliteral}{"{}../"{}} +file;}
+\DoxyCodeLine{46     fout.open(file);}
+\DoxyCodeLine{47     \textcolor{keywordflow}{if}(!fout.is\_open())\{}
+\DoxyCodeLine{48         cout << \textcolor{stringliteral}{"{}Error when opening file "{}} << file << endl;}
+\DoxyCodeLine{49         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{50     \}}
+\DoxyCodeLine{51     \textcolor{keywordtype}{string} tempstream,Name,District,Municipality,Township,Line;}
+\DoxyCodeLine{52     getline(fout, tempstream);}
+\DoxyCodeLine{53     \textcolor{keywordflow}{while} (getline (fout, tempstream)) \{}
+\DoxyCodeLine{54         vector<string> info = read(tempstream);}
+\DoxyCodeLine{55         Name = info[0];}
+\DoxyCodeLine{56         District = info[1];}
+\DoxyCodeLine{57         Municipality = info[2];}
+\DoxyCodeLine{58         Township = info[3];}
+\DoxyCodeLine{59         Line = info[4];}
+\DoxyCodeLine{60         graph-\/>\mbox{\hyperlink{class_graph_a479973858fcde942797db06cdeec8825}{addStation}}(Name,District,Municipality,Township,Line);}
+\DoxyCodeLine{61     \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     fout.close();}
+\DoxyCodeLine{64 \}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{72 \textcolor{keywordtype}{void} readNetwork(\mbox{\hyperlink{class_graph}{Graph}}* graph, \textcolor{keywordtype}{string} file)\{}
+\DoxyCodeLine{73     ifstream fout;}
+\DoxyCodeLine{74     file=\textcolor{stringliteral}{"{}../"{}}+file;}
+\DoxyCodeLine{75     fout.open(file);}
+\DoxyCodeLine{76     \textcolor{keywordflow}{if}(!fout.is\_open())\{}
+\DoxyCodeLine{77         cout << \textcolor{stringliteral}{"{}Error when opening file "{}} << file << endl;}
+\DoxyCodeLine{78         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{79     \}}
+\DoxyCodeLine{80     \textcolor{keywordtype}{string} tempstream,Station\_A,Station\_B,Capacity,Service;}
+\DoxyCodeLine{81     getline (fout, tempstream);}
+\DoxyCodeLine{82     \textcolor{keywordflow}{while} (getline (fout, tempstream)) \{}
+\DoxyCodeLine{83         vector<string> info = read(tempstream);}
+\DoxyCodeLine{84         \textcolor{keywordtype}{int} serv;}
+\DoxyCodeLine{85         stringstream it\_stream(tempstream);}
+\DoxyCodeLine{86         Station\_A = info[0];}
+\DoxyCodeLine{87         Station\_B = info[1];}
+\DoxyCodeLine{88         Capacity = info[2];}
+\DoxyCodeLine{89         Service = info[3];}
+\DoxyCodeLine{90         \textcolor{keywordtype}{double} cap = stod(Capacity);}
+\DoxyCodeLine{91         \textcolor{keywordflow}{if}(Service == \textcolor{stringliteral}{"{}ALFA PENDULAR"{}})\{}
+\DoxyCodeLine{92             serv = 4;}
+\DoxyCodeLine{93         \}}
+\DoxyCodeLine{94         \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{95             serv = 2;}
+\DoxyCodeLine{96         \}}
+\DoxyCodeLine{97         graph-\/>\mbox{\hyperlink{class_graph_acc3e46eac75ac17c701f3881257ece0d}{addBidirectionalSegment}}(Station\_A,Station\_B,cap,serv);}
+\DoxyCodeLine{98     \}}
+\DoxyCodeLine{99     fout.close();}
+\DoxyCodeLine{100 \}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//PROJETO\_DA\_1\_READS}}
+
+\end{DoxyCode}

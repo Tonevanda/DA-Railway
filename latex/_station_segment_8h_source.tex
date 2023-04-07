@@ -1,0 +1,102 @@
+\hypertarget{_station_segment_8h_source}{}\doxysection{Station\+Segment.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// By: Gonçalo Leão}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#ifndef PROJETO\_DA\_1\_STATIONSEGMENT\_H}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define PROJETO\_DA\_1\_STATIONSEGMENT\_H}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <queue>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_segment}{Segment}};}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define INF std::numeric\_limits<double>::max()}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{comment}{/************************* Station  **************************/}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_station}{Station}} \{}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{30     \mbox{\hyperlink{class_station}{Station}}(std::string name, std::string district, std::string municipality, std::string township, std::string line);}
+\DoxyCodeLine{31     \textcolor{keywordtype}{bool} operator<(\mbox{\hyperlink{class_station}{Station}}\& \mbox{\hyperlink{class_station}{Station}}) \textcolor{keyword}{const}; \textcolor{comment}{// // required by MutablePriorityQueue}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{41     \mbox{\hyperlink{class_segment}{Segment}}* \mbox{\hyperlink{class_station_a1c882667cb653bf906dc48c33a0830d2}{addSegment}}(\mbox{\hyperlink{class_station}{Station}} *dest, \textcolor{keywordtype}{double} w, \textcolor{keywordtype}{int} serv);}
+\DoxyCodeLine{48     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_station_a18db1f25e3630b267aa6ad7183cc32d3}{removeSegment}}(std::string destName);}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{55     [[nodiscard]] \textcolor{keywordtype}{string} \mbox{\hyperlink{class_station_a6dbbf88c819bc9fbb9354ff5a1c5d592}{getName}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{61     [[nodiscard]] \textcolor{keywordtype}{string} \mbox{\hyperlink{class_station_a5d0bb90b995a9f6931f5dae6ee3d8348}{getDistrict}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{67     [[nodiscard]] \textcolor{keywordtype}{string} \mbox{\hyperlink{class_station_a54a2051ff6b9e9c0b84fd4d8f4455254}{getMunicipality}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{73     [[nodiscard]] \textcolor{keywordtype}{string} \mbox{\hyperlink{class_station_a2b8e15544dfddc7ca72ea22a65a054e9}{getTownship}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{79     [[nodiscard]] \textcolor{keywordtype}{string} \mbox{\hyperlink{class_station_a1125272e91aa13a40a01ec9a22b8f17e}{getLine}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{85     [[nodiscard]] vector<Segment *> \mbox{\hyperlink{class_station_a52cd74f501590c39e78a0f086a1da3e3}{getAdj}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{91     [[nodiscard]] \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_station_a3eee49988559a4a26fa715f3fc44beac}{isVisited}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{97     [[nodiscard]] \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_station_a8c5c06cc978f4d11c46c32d36e4646f2}{isProcessing}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{103     [[nodiscard]] \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_station_a4d5d1d359ba1d07786c833bffa170e3d}{getIndegree}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{109     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{class_station_a5f596515b237bbdf5f865a16e79786aa}{getCost}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{115     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{class_station_afcbcbcfd5f3ef428b46796e017927b8e}{getFlow}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{121     [[nodiscard]] \mbox{\hyperlink{class_segment}{Segment}} *\mbox{\hyperlink{class_station_a982015aef01e16d4d7aae0a0844040f9}{getPath}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{127     [[nodiscard]] vector<Segment *> \mbox{\hyperlink{class_station_aeccb1e29c937002bf433dc4a227ff01e}{getIncoming}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{134     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_station_a17bb35a315d323921b0841dd949f73e4}{setVisited}}(\textcolor{keywordtype}{bool} visited);}
+\DoxyCodeLine{140     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_station_ab98c112067f0b94ca9a3a5dc40656084}{setProcesssing}}(\textcolor{keywordtype}{bool} processing);}
+\DoxyCodeLine{146     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_station_a9b97789922fdc5d618ed5050bfa3bbba}{setIndegree}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} indegree);}
+\DoxyCodeLine{152     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_station_afa816ac15e56b295a5237a593b3bed3e}{setCost}}(\textcolor{keywordtype}{int} cost);}
+\DoxyCodeLine{158     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_station_aefc8954a40ed6444d7710e228eb55c47}{setFlow}}(\textcolor{keywordtype}{int} flow);}
+\DoxyCodeLine{164     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_station_ae76dd3e4020ebbb5b5d1e9b8e6ae0331}{setPath}}(\mbox{\hyperlink{class_segment}{Segment}} *path);}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{167     \textcolor{comment}{//int id;                // identifier}}
+\DoxyCodeLine{168     \textcolor{keywordtype}{string} name;}
+\DoxyCodeLine{169     \textcolor{keywordtype}{string} district;}
+\DoxyCodeLine{170     \textcolor{keywordtype}{string} municipality;}
+\DoxyCodeLine{171     \textcolor{keywordtype}{string} township;}
+\DoxyCodeLine{172     \textcolor{keywordtype}{string} line;}
+\DoxyCodeLine{173     vector<Segment *> adj;  \textcolor{comment}{// outgoing edges}}
+\DoxyCodeLine{174     vector<Segment *> incoming; \textcolor{comment}{// incoming edges}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176     \textcolor{comment}{// auxiliary fields}}
+\DoxyCodeLine{177     \textcolor{keywordtype}{bool} visited = \textcolor{keyword}{false}; \textcolor{comment}{// used by DFS, BFS, Prim ...}}
+\DoxyCodeLine{178     \textcolor{keywordtype}{bool} processing = \textcolor{keyword}{false}; \textcolor{comment}{// used by isDAG (in addition to the visited attribute)}}
+\DoxyCodeLine{179     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} indegree; \textcolor{comment}{// used by topsort}}
+\DoxyCodeLine{180     \textcolor{keywordtype}{int} cost = 0;}
+\DoxyCodeLine{181     \textcolor{keywordtype}{int} flow = 0;}
+\DoxyCodeLine{182     \mbox{\hyperlink{class_segment}{Segment}} *path = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{183 \};}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185 \textcolor{comment}{/********************** Segment  ****************************/}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187 \textcolor{keyword}{class }\mbox{\hyperlink{class_segment}{Segment}} \{}
+\DoxyCodeLine{188 \textcolor{keyword}{public}:}
+\DoxyCodeLine{197     \mbox{\hyperlink{class_segment}{Segment}}(\mbox{\hyperlink{class_station}{Station}} *orig, \mbox{\hyperlink{class_station}{Station}} *dest, \textcolor{keywordtype}{double} w, \textcolor{keywordtype}{int} service);}
+\DoxyCodeLine{203     \mbox{\hyperlink{class_station}{Station}}* \mbox{\hyperlink{class_segment_ab167ff470e89c9772b1a64cee208118b}{getDest}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{209     \textcolor{keywordtype}{double} \mbox{\hyperlink{class_segment_abae909d394b99f879bf91d19c6aee42b}{getCapacity}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{215     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_segment_a490dfbbbf3766a62f39d2e61f86992a0}{isSelected}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{221     \mbox{\hyperlink{class_station}{Station}}* \mbox{\hyperlink{class_segment_a185c36f7fc3e8d9e5c4501c3b94d4e35}{getOrig}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{227     \mbox{\hyperlink{class_segment}{Segment}} *\mbox{\hyperlink{class_segment_a521ba64838e8d9f56b4e8728a6379f06}{getReverse}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{233     \textcolor{keywordtype}{double} \mbox{\hyperlink{class_segment_af85bb4f359c25759e8f0009d4028989c}{getFlow}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{239     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_segment_a9815b4a71ac71fe5d3695cee3434a437}{getService}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{245     \textcolor{keywordtype}{string} \mbox{\hyperlink{class_segment_ac8a012d425314a8ea754d04d1ffc8b94}{getServiceName}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{251     \textcolor{keywordtype}{double} \mbox{\hyperlink{class_segment_aa3db96cbeccde4a326e3be6829205e0f}{getCost}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{257     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_segment_a90f42039c9a40366b854894f7456e5f7}{setSelected}}(\textcolor{keywordtype}{bool} selected);}
+\DoxyCodeLine{263     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_segment_ad1015307ece27b07cdd0966884319003}{setReverse}}(\mbox{\hyperlink{class_segment}{Segment}} *reverse);}
+\DoxyCodeLine{269     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_segment_a42f9f887c533c94d49ffb656569b0748}{setFlow}}(\textcolor{keywordtype}{int} flow);}
+\DoxyCodeLine{275     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_segment_a39d573c289c6aa96a7170a30c7e68bcf}{setCost}}(\textcolor{keywordtype}{double} cost);}
+\DoxyCodeLine{276 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{277     \mbox{\hyperlink{class_station}{Station}}* dest; \textcolor{comment}{// destination vertex}}
+\DoxyCodeLine{278     \textcolor{keywordtype}{double} capacity; \textcolor{comment}{// edge weight, can also be used for capacity}}
+\DoxyCodeLine{279     \textcolor{keywordtype}{int} service;}
+\DoxyCodeLine{280     \textcolor{keywordtype}{bool} selected = \textcolor{keyword}{false};}
+\DoxyCodeLine{281     \mbox{\hyperlink{class_station}{Station}} *orig;}
+\DoxyCodeLine{282     \mbox{\hyperlink{class_segment}{Segment}} *reverse = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{283     \textcolor{keywordtype}{int} flow; \textcolor{comment}{// for flow-\/related problems}}
+\DoxyCodeLine{284     \textcolor{keywordtype}{double} cost; \textcolor{comment}{// flow * service}}
+\DoxyCodeLine{285 \};}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//PROJETO\_DA\_1\_STATIONSEGMENT\_H}}
+
+\end{DoxyCode}
