@@ -664,11 +664,11 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
         q.pop();
         for(auto e: u->getAdj()){
             //if(e->getDest()->getLine()!=source->getLine())continue;
-            testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), &isEnd);
+            testVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
         }
         for(auto edge : u->getIncoming()){
             //if(edge->getOrig()->getLine()!=source->getLine())continue;
-            testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), &isEnd);
+            testVisit(q, edge, edge->getOrig(), edge->getFlow());
         }
         if(q.empty() && *target==""){
             *target = u->getName();
@@ -676,14 +676,6 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
         }
     }
     return tempTarget->isVisited();
-}
-void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd){
-    if(!w->isVisited() && (residual) > 0){
-        w->setPath(e);
-        w->setVisited(true);
-        q.push(w);
-        *isEnd = false;
-    }
 }
 
 void Graph::edmondsKarpMultipleSources(Station* s){
