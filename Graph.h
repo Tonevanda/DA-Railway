@@ -8,7 +8,6 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
-#include "MutablePriorityQueue.h"
 #include <stack>
 #include <map>
 #include <set>
@@ -213,7 +212,7 @@ public:
      */
     void stationPairs(); // 2.2
     /**
-     * Links a super-source to every Station that only has one adjacent segment of a single line, for every line. Calls the EdmondsKarpArea class method with each super-source created. Iterates through every segment and adds the cost of each segment to the respective district, municipality and township maps.
+     * Iterates through every station and calls the EdmondsKarpMultipleSources class method with each one who has only 1 adjacent segment, without resetting flows. Iterates through every segment and adds the cost of each segment to the respective district, municipality and township maps.
      * Creates a vector for each map and sorts them. In the end, prints the first k elements of the desired vector, specified by the filter argument.
      * @param filter
      * @param k
@@ -221,7 +220,7 @@ public:
      */
     void printTopKHigherBudget(string filter, int k); //2.3
     /**
-     * Creates a super-source linked to every station with a single adjacent segment, call the EdmondsKarpArea method with said super-source and counts the flow of the incoming edges to the Station given as parameter.
+     * Iterates through every station and calls the EdmondsKarpMultipleSources class method with each one who has only 1 adjacent segment, without resetting flows. Then counts the flow of the incoming edges to the Station given as parameter.
      * @param station
      * @return Maximum flow to a single station
      * @note Time-complexity -> O(VE^2)
@@ -243,12 +242,10 @@ public:
      */
     void maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments); //not tested 4.1
     /**
-     * Calls the edmondsKarp method before and after removing the failed segments and compares the difference in incoming flow of every station.
-     * @param source
-     * @param target
+     * Iterates through every station and calls the EdmondsKarpMultipleSources class method with each one who has only 1 adjacent segment, without resetting flows before and after removing the failed segments and compares the difference in incoming flow of every station.
      * @param failedSegments
      * @param k
-     * @note Time-complexity -> O(VE^2)
+     * @note Time-complexity -> O(V^2E^2)
      */
     void printTopKMostAffected(stack<pair<string, string>> failedSegments, int k); //4.2
     /**
@@ -276,7 +273,7 @@ public:
      * This function will verify if an entered segment is valid or not
      * @param st1
      * @param st2
-     * @return True if the segment entered exists
+     * @return True if the segment entered exists, false otherwise
      */
     bool isValidSegment(string st1, string st2);
 protected:
@@ -285,11 +282,6 @@ protected:
     vector<pair<string, int>> townshipBudget;
     vector<Station *> StationSet;    // Station set
     set<string> lines;         // Different lines
-    double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
-    int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
 };
-
-void deleteMatrix(int **m, int n);
-void deleteMatrix(double **m, int n);
 
 #endif //PROJETO_DA_1_GRAPH_H

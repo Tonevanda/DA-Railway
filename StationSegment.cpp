@@ -158,6 +158,7 @@ string Segment::getServiceName() const {
         case 2: {return "STANDARD";}
         case 4: {return "ALFA PENDULAR";}
     }
+    return "";
 }
 
 double Segment::getCost() const {

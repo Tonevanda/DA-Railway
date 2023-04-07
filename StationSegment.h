@@ -8,7 +8,6 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
-#include "MutablePriorityQueue.h"
 
 using namespace std;
 
@@ -164,7 +163,6 @@ public:
      */
     void setPath(Segment *path);
 
-    friend class MutablePriorityQueue<Station>;
 protected:
     //int id;                // identifier
     string name;
@@ -182,9 +180,6 @@ protected:
     int cost = 0;
     int flow = 0;
     Segment *path = nullptr;
-
-
-    int queueIndex = 0; 		// required by MutablePriorityQueue and UFDS
 };
 
 /********************** Segment  ****************************/

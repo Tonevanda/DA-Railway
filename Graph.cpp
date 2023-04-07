@@ -16,8 +16,6 @@ Graph::Graph(const Graph &graph){
 }   
 
 Graph::~Graph() {
-    deleteMatrix(distMatrix, StationSet.size());
-    deleteMatrix(pathMatrix, StationSet.size());
 }
 /*
  * Auxiliary function to find a Station with a given content.
