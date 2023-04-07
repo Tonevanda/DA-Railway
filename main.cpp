@@ -335,7 +335,7 @@ void menu(Graph graph) {
                                     failedSegments.emplace(segment1,segment2);
                                 }
                             }
-                            graph.printTopKMostAffected(start, end, failedSegments, k);
+                            graph.printTopKMostAffected(failedSegments, k);
                             break;
                         }
                         case 9:{
@@ -357,32 +357,32 @@ void menu(Graph graph) {
 int main() {
     auto start = chrono::steady_clock::now();
     Graph graph;
-    readStations(&graph, "dataset/testStations.csv");
-    readNetwork(&graph, "dataset/testNetwork.csv");
+    readStations(&graph, "dataset/stations.csv");
+    readNetwork(&graph, "dataset/network.csv");
     //graph.oneGetAdj();
-    menu(graph);
+    //menu(graph);
 
     //graph.maxTrains("Monte Real", "Estarreja"); //2.1
 
     //graph.stationPairs(); //2.2
 
-    //graph.printTopKHigherBudget("district", 3); //2.3 está a dar 0
-    //graph.printTopKHigherBudget("municipality", 3); //2.3 está a dar 0
-    //graph.printTopKHigherBudget("township", 3); //2.3 está a dar 0
+    graph.printTopKHigherBudget("district", 3); //2.3 está a dar 0
+    graph.printTopKHigherBudget("municipality", 3); //2.3 está a dar 0
+    graph.printTopKHigherBudget("township", 3); //2.3 está a dar 0
 
     //graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
 
     //graph.maxTrainsMinCost("a", "Estarreja"); // 3.1 falta acabar o path
 
 
-    string segment5 = "Porto Campanhã";
-    string segment6 = "Lisboa Oriente";
-    stack<pair<string, string>> failedSegments;
-    failedSegments.emplace(segment5, segment6);
+    //string segment5 = "Porto Campanhã";
+    //string segment6 = "Lisboa Oriente";
+    //stack<pair<string, string>> failedSegments;
+    //failedSegments.emplace(segment5, segment6);
 
     //graph.maxTrainsFailure("Porto Campanhã", "Estarreja",failedSegments); //4.1
 
-    graph.printTopKMostAffected("Porto Campanhã", "Estarreja", failedSegments, 10); //4.2
+    //graph.printTopKMostAffected(failedSegments, 10); //4.2
     //cout<<"cost:"<<graph.findStation("Estarreja")->getCost()<<endl;
     //graph.topKIncoming(5);
 

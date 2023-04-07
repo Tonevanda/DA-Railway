@@ -250,7 +250,7 @@ public:
      * @param k
      * @note Time-complexity -> O(VE^2)
      */
-    void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k); //4.2
+    void printTopKMostAffected(stack<pair<string, string>> failedSegments, int k); //4.2
     /**
      * Iterates though every Station to check which ones, belonging to the line specified in the parameter, only have 1 adjacent segment of that line.
      * @param line

@@ -260,7 +260,6 @@ void Graph::testVisit(std::queue<Station*> &q, Segment* e, Station* w, double re
     }
 }
 
-///TODO
 vector<Station*> Graph::dijkstra(string source, string dest) {
     Station* s = findStation(source);
     Station* t = findStation(dest);
@@ -515,7 +514,7 @@ bool compare(Station s1, Station s2){
     return s1.getFlow() > s2.getFlow();
 }
 
-void Graph::printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k) {
+void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, int k) {
 
     for(Station* station : StationSet) {
         for (Segment *edge: station->getAdj()) {
