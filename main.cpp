@@ -111,7 +111,8 @@ void menu(Graph graph) {
                     cout << "What areas do you wish to inspect?\n"
                             "1: 2.3 top k municipality that requires a higher budget\n"
                             "2: 2.3 top k district that requires a higher budget\n"
-                            "3: 3.1 Max number of trains that can travel between 2 stations at a minimum cost\n"
+                            "3: 2.3 top k township that requires a higher budget\n"
+                            "4: 3.1 Max number of trains that can travel between 2 stations at a minimum cost\n"
                             "9: Go back\n"
                             "0: End Program\n";
                     while (!(cin >> input2)) {
@@ -121,7 +122,8 @@ void menu(Graph graph) {
                         cout << "What areas do you wish to inspect?\n"
                                 "1: 2.3 top k municipality that requires a higher budget\n"
                                 "2: 2.3 top k district that requires a higher budget\n"
-                                "3: 3.1 Max number of trains that can travel between 2 stations at a minimum cost\n"
+                                "3: 2.3 top k township that requires a higher budget\n"
+                                "4: 3.1 Max number of trains that can travel between 2 stations at a minimum cost\n"
                                 "9: Go back\n"
                                 "0: End Program\n";
                     }
@@ -161,6 +163,20 @@ void menu(Graph graph) {
                             break;
                         }
                         case 3:{
+                            int k;
+                            cout << "Input K:\n";
+                            while (!(cin >> k)) {
+                                cout << "Invalid input!\n\n";
+                                cin.clear();
+                                cin.ignore(INT_MAX, '\n');
+                                cout << "Input K:\n";
+                            }
+                            cin.clear();
+                            cin.ignore(INT_MAX, '\n');
+                            graph.printTopKHigherBudget("township", k);
+                            break;
+                        }
+                        case 4:{
                             cout << "Input First Station:\n";
                             getline(cin, start);
                             cin.clear();
@@ -344,7 +360,7 @@ int main() {
     readStations(&graph, "dataset/testStations.csv");
     readNetwork(&graph, "dataset/testNetwork.csv");
     //graph.oneGetAdj();
-    //menu(graph);
+    menu(graph);
 
     //graph.maxTrains("Monte Real", "Estarreja"); //2.1
 
@@ -352,9 +368,9 @@ int main() {
 
     //graph.printTopKHigherBudget("district", 4); //2.3 está a dar 0
 
-    graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
+    //graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
 
-    //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1 falta acabar o path
+    //graph.maxTrainsMinCost("a", "Estarreja"); // 3.1 falta acabar o path
 
     //string segment5 = "Porto Campanhã";
     //string segment6 = "Lisboa Oriente";

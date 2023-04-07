@@ -292,22 +292,27 @@ vector<Station*> Graph::dijkstra(string source, string dest) {
             if(!next->isVisited()){
                 next->setCost(current->getCost()+cost);
                 next->setVisited(true);
-                current->setPath(seg);
+                next->setPath(seg);
                 q.push(next);
             }
             else if(current->getCost()+cost < next->getCost()){
                 next->setCost(current->getCost()+cost);
-                current->setPath(seg);
+                next->setPath(seg);
                 q.push(next);
             }
         }
     }
     cout << "The path with the minimum cost for the company has a cost of " << t->getCost() << "€\n";
-    Station* temp=s;
-    optimalPath.push_back(s);
-    while(temp!=t){
-        optimalPath.push_back(temp->getPath()->getDest());
-        temp=temp->getPath()->getDest();
+    Station* temp=t;
+    stack<Station*> temps;
+    temps.push(t);
+    while(temp!=s){
+        temps.push(temp->getPath()->getOrig());
+        temp=temp->getPath()->getOrig();
+    }
+    while(!temps.empty()){
+        optimalPath.push_back(temps.top());
+        temps.pop();
     }
     return optimalPath;
 }
