@@ -59,6 +59,7 @@ void readStations(Graph* graph, string file){
         Line = info[4];
         graph->addStation(Name,District,Municipality,Township,Line);
     }
+
     fout.close();
 }
 

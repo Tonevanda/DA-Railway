@@ -10,8 +10,9 @@
 #include <algorithm>
 #include "MutablePriorityQueue.h"
 #include <stack>
-#include <unordered_set>
 #include <map>
+#include <set>
+
 
 #include "StationSegment.h"
 
@@ -250,13 +251,6 @@ public:
      * @note Time-complexity -> O(VE^2)
      */
     void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k); //4.2
-
-    /**
-     * Iterates through every Station to check which ones only have 1 adjacent segment of a single line (meaning, no more than 2 adjacent segments of the same line).
-     *  @return Vector of Stations with no more than 1 adjacent segment of a line
-     *  @note Time-complexity -> O(V+E)
-     */
-    vector<Station*> oneGetAdj();
     /**
      * Iterates though every Station to check which ones, belonging to the line specified in the parameter, only have 1 adjacent segment of that line.
      * @param line
@@ -265,34 +259,25 @@ public:
      */
     vector<Station*> oneGetAdjLine(string line);
     /**
-     * Create a super-source linked to the Stations given in the parameter, with every segment having infinite capacity and 0 service.
-     * @param sources
-     * @note Time-complexity -> O(n)
+     * The Breadth-First Search algorithm used in the implementation of the Edmonds-Karp Multiple Sources algorithm where it can be given (or not) a target. If it isn't given a target it will search for one and set it as a target
+     * @param source
+     * @param target
+     * @return True if the Station specified as the sink has been visited, false otherwise.
+     * @note Time-complexity -> O(V+E)
      */
-    void createSuperSource(vector<Station*> sources);
-    /**
-     * Removes the segments connected to the super-source followed by the removal of the super-source itself.
-     * @note Time-complexity -> O(n^3)
-     */
-    void removeSuperSource();
-
-
-    void createSuperSink(vector<Station*> sinks);
-    void removeSuperSink();
-    vector<Station*> findSinks(string source);
-
-    double edmondsKarpArea(string source);
     bool edmondsKarpBFSArea(Station* source, string* target);
-    void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd);
-    double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
-
+    /**
+     * A different implementation of the Edmonds-Karp algorithm. Calculates the maximum flow between a given station and will find the most far-away station and set it as a target. Sets the flow of the edges accordingly.
+     * @param s
+     * @note Time-complexity -> O(VE^2)
+     */
     void edmondsKarpMultipleSources(Station* s);
 protected:
     vector<pair<string, int>> districtBudget;
     vector<pair<string, int>> municipalityBudget;
     vector<pair<string, int>> townshipBudget;
     vector<Station *> StationSet;    // Station set
-    unordered_set<string> lines;         // Different lines
+    set<string> lines;         // Different lines
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
 };
