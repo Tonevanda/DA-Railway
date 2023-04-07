@@ -449,12 +449,10 @@ int Graph::maxTrainsInStation(string station) {
             edge->setFlow(0.0);
         }
     }
-    vector<string> linhas;
-    for(string line : lines) linhas.push_back(line);
 
     vector<Station*> sourceStations;
 
-    for(string line:linhas){
+    for(string line:lines){
         sourceStations = oneGetAdjLine(line);
         for(auto st : sourceStations){
             edmondsKarpMultipleSources(st);

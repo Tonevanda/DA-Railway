@@ -4,7 +4,7 @@
 #include <chrono>
 
 using namespace std;
-void menu(Graph graph) {
+void menu(Graph& graph) {
     bool canRun = true;
     bool canRun1 = true;
     string start = "",end="";
@@ -359,17 +359,16 @@ int main() {
     Graph graph;
     readStations(&graph, "dataset/stations.csv");
     readNetwork(&graph, "dataset/network.csv");
-    //graph.oneGetAdj();
-    //menu(graph);
+    menu(graph);
 
     //graph.maxTrains("Monte Real", "Estarreja"); //2.1
 
     //graph.stationPairs(); //2.2
-
+    /*
     graph.printTopKHigherBudget("district", 3); //2.3 está a dar 0
     graph.printTopKHigherBudget("municipality", 3); //2.3 está a dar 0
     graph.printTopKHigherBudget("township", 3); //2.3 está a dar 0
-
+    */
     //graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
 
     //graph.maxTrainsMinCost("a", "Estarreja"); // 3.1 falta acabar o path
