@@ -557,7 +557,6 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
     }
 
      /*Refazer o Edmonds-Karp geral, desta vez com o graph sem os segmentos especificados*/
-    /*int flow = edmondsKarp(source, target);*/
 
     for(Station* station : StationSet){
         for(Segment *edge : station->getAdj()){
@@ -597,8 +596,11 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
     sort(mostAffected.begin(), mostAffected.end(), compare);
 
     cout << "The top k most affected stations with the provided segment failures are:\n";
-    for(int i = 1; i<k+1;i++){
-        cout << i << ": " << mostAffected[i-1].getName() << " with a difference in flow of " << mostAffected[i-1].getFlow() << endl;
+    int count = 1;
+    for(auto station : mostAffected){
+        cout << count << ": " << station.getName() << " with a difference in flow of " << station.getFlow() << endl;
+        if(count == k) return;
+        count++;
     }
 }
 
