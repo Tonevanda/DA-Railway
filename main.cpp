@@ -341,10 +341,10 @@ void menu(Graph graph) {
 int main() {
     auto start = chrono::steady_clock::now();
     Graph graph;
-    readStations(&graph, "dataset/stations.csv");
-    readNetwork(&graph, "dataset/network.csv");
+    readStations(&graph, "dataset/testStations.csv");
+    readNetwork(&graph, "dataset/testNetwork.csv");
     //graph.oneGetAdj();
-    menu(graph);
+    //menu(graph);
 
     //graph.maxTrains("Monte Real", "Estarreja"); //2.1
 
@@ -352,7 +352,7 @@ int main() {
 
     //graph.printTopKHigherBudget("district", 4); //2.3 está a dar 0
 
-    graph.maxTrainsInStation("Petrogal - Asfaltos"); //2.4 está a dar 0
+    graph.maxTrainsInStation("Estarreja"); //2.4 está a dar 0
 
     //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1 falta acabar o path
 

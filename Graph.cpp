@@ -1,7 +1,6 @@
 // By: Gonçalo Leão
 
 #include "Graph.h"
-#include "UFDS.h"
 #include <iostream>
 #include <unordered_map>
 #include <stack>
@@ -242,6 +241,9 @@ void Graph::updateFlowMoney(Station* source, Station* target, double bottleneck)
 
 double Graph::findMinResidual(Station* source, Station* target){
     double bottleneck = INF;
+    if(target==source){
+        return 0;
+    }
     Station* currentVertex = target;
     while (currentVertex != source) {
         Segment* e = currentVertex->getPath();
@@ -430,20 +432,38 @@ void Graph::printTopKHigherBudget(string filter, int k) {
 }
 
 int Graph::maxTrainsInStation(string station) {
+    for(Station* station : StationSet){
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+
+
+    vector<Station*> sourceStations;
+
+    for(string line:lines){
+        sourceStations = oneGetAdjLine(line);
+        for(auto st : sourceStations){
+            edmondsKarpMultipleSources(st);
+        }
+    }
+
+    /*
     Station* st = findStation(station);
     vector<Station*> sources = oneGetAdjLine(st->getLine());
     createSuperSource(sources);
     vector<Station*> sinks = findSinks("SuperSource");
     createSuperSink(sinks);
-    edmondsKarp("SuperSource","SuperSink");
+    edmondsKarp("SuperSource","SuperSink");*/
+
     int trainCount = 0;
     auto incoming = findStation(station)->getIncoming();
     for(auto segment : incoming){
         trainCount += segment->getFlow();
     }
     cout << trainCount << " trains can arrive simultaneosly in station " << station << endl;
-    removeSuperSource();
-    removeSuperSink();
+    /*removeSuperSource();
+    removeSuperSink();*/
     return trainCount;
 }
 
@@ -568,7 +588,6 @@ vector<Station*> Graph::oneGetAdj(){
         }
         if(count==1|| count == 0){
             nascentes.push_back(st);
-            cout << st->getName() << " ------- " << st->getLine() << endl;
         }
     }
     return nascentes;
@@ -586,7 +605,6 @@ vector<Station*> Graph::oneGetAdjLine(string line){
         }
         if(count==1 || count == 0){
             sources.push_back(st);
-            cout << st->getName() << " ------- " << st->getLine() << endl;
         }
     }
     return sources;
@@ -640,7 +658,7 @@ vector<Station*> Graph::findSinks(string source){
         return sinks;
     }
     stack<Station*> end;
-    edmondsKarpBFSArea(s, &end);
+    //edmondsKarpBFSArea(s, end);
     while(!end.empty()){
         Station* st = end.top();
         sinks.push_back(st);
@@ -663,13 +681,13 @@ double Graph::edmondsKarpArea(string source){
         return 0.0;
     }
     stack<Station*> end;
-    while(edmondsKarpBFSArea(s, &end)){
+    /*while(edmondsKarpBFSArea(s, &end)){
         maxFlow += findMinResidualandUpdateFlowArea(s,&end);
-    }
+    }*/
     return maxFlow;
 }
 
-bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
+bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     for(auto st : StationSet){
         st->setVisited(false);
     }
@@ -677,39 +695,33 @@ bool Graph::edmondsKarpBFSArea(Station* source, stack<Station*>* end){
     source->setPath(nullptr);
     std::queue<Station* > q;
     q.push(source);
+    Station* tempTarget;
+    if(*target != ""){
+        tempTarget = findStation(*target);
+    }
+    if(source->getAdj().size()==0&&source->getIncoming().size()==0){
+        *target = source->getName();
+        return false;
+    }
 
     while(!q.empty()){
         bool isEnd = true;
         Station* u = q.front();
         q.pop();
         for(auto e: u->getAdj()){
+            //if(e->getDest()->getLine()!=source->getLine())continue;
             testVisitArea(q, e, e->getDest(), e->getCapacity() - e->getFlow(), &isEnd);
         }
         for(auto edge : u->getIncoming()){
+            //if(edge->getOrig()->getLine()!=source->getLine())continue;
             testVisitArea(q, edge, edge->getOrig(), edge->getFlow(), &isEnd);
         }
-        if(q.empty()){
-            end->push(u);
+        if(q.empty() && *target==""){
+            *target = u->getName();
+            tempTarget = findStation(*target);
         }
     }
-    vector<Station*> copy;
-    while(!end->empty()){
-        Station* st = end->top();
-        if(!st->isVisited()){
-            reverse(copy.begin(), copy.end());
-            for(auto station : copy){
-                end->push(station);
-            }
-            return false;
-        }
-        end->pop();
-        copy.push_back(st);
-    }
-    reverse(copy.begin(), copy.end());
-    for(auto station : copy){
-        end->push(station);
-    }
-    return true;
+    return tempTarget->isVisited();
 }
 void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd){
     if(!w->isVisited() && (residual) > 0){
@@ -760,4 +772,17 @@ double Graph::findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end)
         end->push(station);
     }
     return maxFlow;
+}
+
+void Graph::edmondsKarpMultipleSources(Station* s){
+    if (s == nullptr) {
+        cout << "Invalid source and/or target station!\n";
+        return;
+    }
+    string t;
+    while(edmondsKarpBFSArea(s, &t)){
+        Station* target = findStation(t);
+        double bottleneck = findMinResidual(s, target);
+        updateFlow(s, target, bottleneck);
+    }
 }
