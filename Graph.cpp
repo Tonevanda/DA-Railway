@@ -148,15 +148,6 @@ double Graph::edmondsKarp(string source, string target){
         maxFlow+=bottleneck;
     }
 
-    //can possibly be done inside the edmondsKarp algorithm and become more efficient
-    for(auto station : StationSet){
-        int flow = 0;
-        for(auto segment : station->getIncoming()){
-            flow += segment->getFlow();
-        }
-        station->setFlow(flow);
-    }
-
     return maxFlow;
 }
 bool Graph::edmondsKarpBFS(Station* v, Station* sink){
@@ -454,28 +445,17 @@ int Graph::maxTrainsInStation(string station) {
             edge->setFlow(0.0);
         }
     }
-
+    vector<string> linhas;
+    for(string line : lines) linhas.push_back(line);
 
     vector<Station*> sourceStations;
-    /*
-    sourceStations = oneGetAdj();
-    for(auto st : sourceStations){
-        edmondsKarpMultipleSources(st);
-    }*/
 
-    for(string line:lines){
+    for(string line:linhas){
         sourceStations = oneGetAdjLine(line);
         for(auto st : sourceStations){
             edmondsKarpMultipleSources(st);
         }
     }
-    /*
-    Station* st = findStation(station);
-    vector<Station*> sources = oneGetAdjLine(st->getLine());
-    createSuperSource(sources);
-    vector<Station*> sinks = findSinks("SuperSource");
-    createSuperSink(sinks);
-    edmondsKarp("SuperSource","SuperSink");*/
 
     int trainCount = 0;
     auto incoming = findStation(station)->getIncoming();
@@ -483,8 +463,6 @@ int Graph::maxTrainsInStation(string station) {
         trainCount += segment->getFlow();
     }
     cout << trainCount << " trains can arrive simultaneously in station " << station << endl;
-    /*removeSuperSource();
-    removeSuperSink();*/
     return trainCount;
 }
 
@@ -534,16 +512,11 @@ bool compare(Station s1, Station s2){
 
 void Graph::printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k) {
 
-    /*edmondsKarp(source, target);*/
-
-    /* Chamar Edmonds-Karp no graph inteiro*/
-
-    for(Station* station : StationSet){
-        for(Segment *edge : station->getAdj()){
+    for(Station* station : StationSet) {
+        for (Segment *edge: station->getAdj()) {
             edge->setFlow(0.0);
         }
     }
-
 
     vector<Station*> sourceStations;
 
@@ -554,6 +527,13 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
         }
     }
 
+    for(auto station : StationSet){
+        int flow = 0;
+        for(auto segment : station->getIncoming()){
+            flow += segment->getFlow();
+        }
+        station->setFlow(flow);
+    }
 
     /* Preservar o flow num vetor diferente para uma futura comparação*/
     vector<Station> mostAffected;
@@ -585,11 +565,19 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
         }
     }
 
-
     for(string line:lines){
+        sourceStations = oneGetAdjLine(line);
         for(auto st : sourceStations){
             edmondsKarpMultipleSources(st);
         }
+    }
+
+    for(auto station : StationSet){
+        int flow = 0;
+        for(auto segment : station->getIncoming()){
+            flow += segment->getFlow();
+        }
+        station->setFlow(flow);
     }
 
     /*Realocar os segmentos anteriormente retirados do graph de volta*/
@@ -635,21 +623,6 @@ void deleteMatrix(double **m, int n) {
 }
 
 
-vector<Station*> Graph::oneGetAdj(){
-    vector<Station*> nascentes;
-    for(auto st : StationSet){
-        int count = 0;
-        for(auto adj : st->getAdj()){
-            if(adj->getDest()->getLine()==st->getLine()){
-                count++;
-            }
-        }
-        if(count==1|| count == 0){
-            nascentes.push_back(st);
-        }
-    }
-    return nascentes;
-}
 
 vector<Station*> Graph::oneGetAdjLine(string line){
     vector<Station*> sources;

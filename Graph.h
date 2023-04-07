@@ -12,6 +12,8 @@
 #include <stack>
 #include <unordered_set>
 #include <map>
+#include <set>
+
 
 #include "StationSegment.h"
 
@@ -258,11 +260,8 @@ public:
      */
     vector<Station*> oneGetAdjLine(string line);
 
-    vector<Station*> oneGetAdj();
-
     bool edmondsKarpBFSArea(Station* source, string* target);
     void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd);
-    double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
 
     void edmondsKarpMultipleSources(Station* s);
 protected:
@@ -270,7 +269,7 @@ protected:
     vector<pair<string, int>> municipalityBudget;
     vector<pair<string, int>> townshipBudget;
     vector<Station *> StationSet;    // Station set
-    unordered_set<string> lines;         // Different lines
+    set<string> lines;         // Different lines
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
 };

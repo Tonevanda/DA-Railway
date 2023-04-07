@@ -354,7 +354,7 @@ int main() {
     //graph.printTopKHigherBudget("municipality", 3); //2.3 está a dar 0
     //graph.printTopKHigherBudget("township", 3); //2.3 está a dar 0
 
-    //graph.maxTrainsInStation("Lisboa Oriente"); //2.4 está a dar 0
+    //graph.maxTrainsInStation("Porto Campanhã"); //2.4 está a dar 0
 
     //graph.maxTrainsMinCost("Porto Campanhã", "Estarreja"); // 3.1 falta acabar o path
 
@@ -366,7 +366,7 @@ int main() {
 
     //graph.maxTrainsFailure("Porto Campanhã", "Estarreja",failedSegments); //4.1
 
-    graph.printTopKMostAffected("Porto Campanhã", "Estarreja", failedSegments, 4); //4.2
+    graph.printTopKMostAffected("Porto Campanhã", "Estarreja", failedSegments, 10); //4.2
     //cout<<"cost:"<<graph.findStation("Estarreja")->getCost()<<endl;
     //graph.topKIncoming(5);
 
