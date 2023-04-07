@@ -352,12 +352,21 @@ void Graph::stationPairs(){
 void Graph::printTopKHigherBudget(string filter, int k) {
 
     transform(filter.begin(),filter.end(),filter.begin(), ::tolower); //make input lowercase
+    if(districtBudget.empty() || municipalityBudget.empty() || townshipBudget.empty()) {
+        for (Station *station: StationSet) {
+            for (Segment *edge: station->getAdj()) {
+                edge->setFlow(0.0);
+            }
+        }
 
-    if(districtBudget.empty() || municipalityBudget.empty() || townshipBudget.empty()){
-        for(string line : lines){
-            createSuperSource(oneGetAdjLine(line));
-            edmondsKarpArea("SuperSource");
-            removeSuperSource();
+
+        vector<Station *> sourceStations;
+
+        for (string line: lines) {
+            sourceStations = oneGetAdjLine(line);
+            for (auto st: sourceStations) {
+                edmondsKarpMultipleSources(st);
+            }
         }
 
 
@@ -366,66 +375,74 @@ void Graph::printTopKHigherBudget(string filter, int k) {
         unordered_map<string, int> townshipMap;
 
 
-        for(auto station : StationSet){
-            for(auto s : station->getAdj()){
+        for (auto station: StationSet) {
+            for (auto s: station->getIncoming()) {
                 string district = station->getDistrict();
-                if(districtMap.find(district)==districtMap.end()){
-                    districtMap.insert(pair<string,int>(district,s->getFlow() * s->getService()));
-                }
-                else{
+                if (districtMap.find(district) == districtMap.end()) {
+                    districtMap.insert(pair<string, int>(district, s->getFlow() * s->getService()));
+                } else {
                     districtMap[s->getDest()->getDistrict()] += s->getFlow() * s->getService();
                 }
 
                 string municipality = station->getMunicipality();
-                if(municipalityMap.find(municipality)==municipalityMap.end()){
-                    municipalityMap.insert(pair<string,int>(municipality,s->getFlow() * s->getService()));
-                }
-                else{
+                if (municipalityMap.find(municipality) == municipalityMap.end()) {
+                    municipalityMap.insert(pair<string, int>(municipality, s->getFlow() * s->getService()));
+                } else {
                     municipalityMap[s->getDest()->getMunicipality()] += s->getFlow() * s->getService();
                 }
 
                 string township = station->getTownship();
-                if(townshipMap.find(township)==townshipMap.end()){
-                    townshipMap.insert(pair<string,int>(township,s->getFlow() * s->getService()));
-                }
-                else{
+                if (townshipMap.find(township) == townshipMap.end()) {
+                    townshipMap.insert(pair<string, int>(township, s->getFlow() * s->getService()));
+                } else {
                     townshipMap[s->getDest()->getTownship()] += s->getFlow() * s->getService();
                 }
             }
         }
 
         vector<pair<string, int>> topDistricts(districtMap.begin(), districtMap.end());
-        sort(topDistricts.begin(), topDistricts.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+        sort(topDistricts.begin(), topDistricts.end(),
+             [](const pair<string, int> &a, const pair<string, int> &b) { return a.second > b.second; });
         districtBudget = topDistricts;
 
         vector<pair<string, int>> topMunicipalities(municipalityMap.begin(), municipalityMap.end());
-        sort(topMunicipalities.begin(), topMunicipalities.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+        sort(topMunicipalities.begin(), topMunicipalities.end(),
+             [](const pair<string, int> &a, const pair<string, int> &b) { return a.second > b.second; });
         municipalityBudget = topMunicipalities;
 
         vector<pair<string, int>> topTownships(townshipMap.begin(), townshipMap.end());
-        sort(topTownships.begin(), topTownships.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second;});
+        sort(topTownships.begin(), topTownships.end(),
+             [](const pair<string, int> &a, const pair<string, int> &b) { return a.second > b.second; });
         townshipBudget = topTownships;
     }
 
-
     if(filter == "district"){
         cout << "The top " << k << " districts are:\n";
-        for(int i = 1; i < k+1;i++){
-            cout << i << ": " << districtBudget[i-1].first << " | Budget = " << districtBudget[i-1].second << endl;
+        int count = 1;
+        for(auto district : districtBudget){
+            cout << count << ": " << district.first << " | Budget = " << district.second << endl;
+            if(count == k) return;
+            count++;
         }
         return;
     }
     else if(filter == "municipality"){
         cout << "The top " << k << " municipalities are:\n";
-        for(int i = 1; i < k+1;i++){
-            cout << i << ": " << municipalityBudget[i-1].first << " | Budget = " << municipalityBudget[i-1].second << endl;
+        int count = 1;
+        for(auto municipality : municipalityBudget){
+            cout << count << ": " << municipality.first << " | Budget = " << municipality.second << endl;
+            if(count == k) return;
+            count++;
         }
         return;
     }
     else if(filter == "township"){
         cout << "The top " << k << " township are:\n";
-        for(int i = 1; i < k+1;i++){
-            cout << i << ": " << townshipBudget[i-1].first << " | Budget = " << townshipBudget[i-1].second << endl;
+        int count = 1;
+        for(auto township : townshipBudget){
+            cout << count << ": " << township.first << " | Budget = " << township.second << endl;
+            if(count == k) return;
+            count++;
         }
         return;
     }
@@ -440,6 +457,11 @@ int Graph::maxTrainsInStation(string station) {
 
 
     vector<Station*> sourceStations;
+    /*
+    sourceStations = oneGetAdj();
+    for(auto st : sourceStations){
+        edmondsKarpMultipleSources(st);
+    }*/
 
     for(string line:lines){
         sourceStations = oneGetAdjLine(line);
@@ -447,7 +469,6 @@ int Graph::maxTrainsInStation(string station) {
             edmondsKarpMultipleSources(st);
         }
     }
-
     /*
     Station* st = findStation(station);
     vector<Station*> sources = oneGetAdjLine(st->getLine());
@@ -461,7 +482,7 @@ int Graph::maxTrainsInStation(string station) {
     for(auto segment : incoming){
         trainCount += segment->getFlow();
     }
-    cout << trainCount << " trains can arrive simultaneosly in station " << station << endl;
+    cout << trainCount << " trains can arrive simultaneously in station " << station << endl;
     /*removeSuperSource();
     removeSuperSink();*/
     return trainCount;
@@ -512,14 +533,36 @@ bool compare(Station s1, Station s2){
 }
 
 void Graph::printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k) {
-    edmondsKarp(source, target);
-    vector<Station> mostAffected;
 
+    /*edmondsKarp(source, target);*/
+
+    /* Chamar Edmonds-Karp no graph inteiro*/
+
+    for(Station* station : StationSet){
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+
+
+    vector<Station*> sourceStations;
+
+    for(string line:lines){
+        sourceStations = oneGetAdjLine(line);
+        for(auto st : sourceStations){
+            edmondsKarpMultipleSources(st);
+        }
+    }
+
+
+    /* Preservar o flow num vetor diferente para uma futura comparação*/
+    vector<Station> mostAffected;
     mostAffected.reserve(StationSet.size());
     for(auto & i : StationSet){
         mostAffected.push_back(*i);
     }
 
+    /*Retirar os segmentos especificados do graph*/
     stack<pair<string, string>> reallocateSegments; //copy failedSegments before removing them from the graph to add them later
     stack<pair<int, int>> values; //vector to keep track of the values of the segments we remove
 
@@ -533,8 +576,23 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
         removeBidirectionalSegment(segment.first,segment.second);
     }
 
-    int flow = edmondsKarp(source, target);
+     /*Refazer o Edmonds-Karp geral, desta vez com o graph sem os segmentos especificados*/
+    /*int flow = edmondsKarp(source, target);*/
 
+    for(Station* station : StationSet){
+        for(Segment *edge : station->getAdj()){
+            edge->setFlow(0.0);
+        }
+    }
+
+
+    for(string line:lines){
+        for(auto st : sourceStations){
+            edmondsKarpMultipleSources(st);
+        }
+    }
+
+    /*Realocar os segmentos anteriormente retirados do graph de volta*/
     while(!reallocateSegments.empty()){
         auto segment = reallocateSegments.top();
         reallocateSegments.pop();
@@ -543,11 +601,11 @@ void Graph::printTopKMostAffected(string source, string target, stack<pair<strin
         addBidirectionalSegment(segment.first,segment.second,value.first,value.second);
     }
 
-
+    /*Comparar o flow de cada estação antes de retirar os segmentos e depois*/
     for(int i = 0; i<StationSet.size();i++){ //get the difference between before and after the failed segments
         mostAffected[i].setFlow(abs(mostAffected[i].getFlow() - StationSet[i]->getFlow()));
     }
-
+    /*Printar por ordem decrescente de flow*/
     sort(mostAffected.begin(), mostAffected.end(), compare);
 
     cout << "The top k most affected stations with the provided segment failures are:\n";
@@ -610,83 +668,6 @@ vector<Station*> Graph::oneGetAdjLine(string line){
     return sources;
 }
 
-/*cria uma supersource chamada SuperSource, cap=INF, serv=0*/
-void Graph::createSuperSource(vector<Station*> sources){
-    this->addStation("SuperSource","", "","","");
-    for(auto source : sources){
-        this->addSegment("SuperSource", source->getName(),INF, 0);
-    }
-}
-
-void Graph::removeSuperSource(){
-    Station* st = findStation("SuperSource");
-    vector<Segment*> copy = st->getAdj();
-    for(auto adj : copy){
-        this->removeSegment("SuperSource", adj->getDest()->getName());
-    }
-    this->removeStation("SuperSource");
-}
-
-void Graph::createSuperSink(vector<Station*> sinks){
-    this->addStation("SuperSink","","","","");
-    for(auto st : sinks){
-        this->addSegment(st->getName(), "SuperSink", INF,0);
-    }
-}
-
-void Graph::removeSuperSink(){
-    Station* st = findStation("SuperSink");
-    vector<Segment*> copy = st->getIncoming();
-    for(auto adj : copy){
-        this->removeSegment(adj->getDest()->getName(),"SuperSource");
-    }
-    this->removeStation("SuperSink");
-}
-
-vector<Station*> Graph::findSinks(string source){
-    vector<Station*> sinks;
-    for(Station* station : StationSet){
-        station->setVisited(false);
-        for(Segment *edge : station->getAdj()){
-            edge->setFlow(0.0);
-        }
-    }
-    double maxFlow = 0;
-    Station* s = findStation(source);
-    if(s == nullptr){
-        cout << "Invalid source!\n";
-        return sinks;
-    }
-    stack<Station*> end;
-    //edmondsKarpBFSArea(s, end);
-    while(!end.empty()){
-        Station* st = end.top();
-        sinks.push_back(st);
-        end.pop();
-    }
-    return sinks;
-}
-
-double Graph::edmondsKarpArea(string source){
-    for(Station* station : StationSet){
-        station->setVisited(false);
-        for(Segment *edge : station->getAdj()){
-            edge->setFlow(0.0);
-        }
-    }
-    double maxFlow = 0;
-    Station* s = findStation(source);
-    if(s == nullptr){
-        cout << "Invalid source!\n";
-        return 0.0;
-    }
-    stack<Station*> end;
-    /*while(edmondsKarpBFSArea(s, &end)){
-        maxFlow += findMinResidualandUpdateFlowArea(s,&end);
-    }*/
-    return maxFlow;
-}
-
 bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     for(auto st : StationSet){
         st->setVisited(false);
@@ -730,48 +711,6 @@ void Graph::testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, doubl
         q.push(w);
         *isEnd = false;
     }
-}
-
-double Graph::findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end){
-    double maxFlow = 0;
-    vector<Station*> copy;
-    while(!end->empty()){
-        double bottleneck = INF;
-        Station* current = end->top();
-        copy.push_back(current);
-
-        while(current != s){
-            Segment* e = current->getPath();
-            if(e->getDest()==current){
-                bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
-                current = e->getOrig();
-            }
-            else{
-                bottleneck = std::min(bottleneck, e->getFlow());
-                current = e->getDest();
-            }
-        }
-        current = end->top();
-        while(current != s){
-            Segment* e = current->getPath();
-            if(e->getDest()==current){
-                e->setFlow(e->getFlow()+bottleneck);
-                current = e->getOrig();
-            }
-            else{
-                e->setFlow(e->getFlow()-bottleneck);
-                current = e->getDest();
-            }
-        }
-        maxFlow+=bottleneck;
-        end->pop();
-
-    }
-    reverse(copy.begin(), copy.end());
-    for(auto station : copy){
-        end->push(station);
-    }
-    return maxFlow;
 }
 
 void Graph::edmondsKarpMultipleSources(Station* s){

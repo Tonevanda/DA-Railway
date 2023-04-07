@@ -250,13 +250,6 @@ public:
      * @note Time-complexity -> O(VE^2)
      */
     void printTopKMostAffected(string source, string target, stack<pair<string, string>> failedSegments, int k); //4.2
-
-    /**
-     * Iterates through every Station to check which ones only have 1 adjacent segment of a single line (meaning, no more than 2 adjacent segments of the same line).
-     *  @return Vector of Stations with no more than 1 adjacent segment of a line
-     *  @note Time-complexity -> O(V+E)
-     */
-    vector<Station*> oneGetAdj();
     /**
      * Iterates though every Station to check which ones, belonging to the line specified in the parameter, only have 1 adjacent segment of that line.
      * @param line
@@ -264,24 +257,9 @@ public:
      * @note Time-complexity -> O(E)
      */
     vector<Station*> oneGetAdjLine(string line);
-    /**
-     * Create a super-source linked to the Stations given in the parameter, with every segment having infinite capacity and 0 service.
-     * @param sources
-     * @note Time-complexity -> O(n)
-     */
-    void createSuperSource(vector<Station*> sources);
-    /**
-     * Removes the segments connected to the super-source followed by the removal of the super-source itself.
-     * @note Time-complexity -> O(n^3)
-     */
-    void removeSuperSource();
 
+    vector<Station*> oneGetAdj();
 
-    void createSuperSink(vector<Station*> sinks);
-    void removeSuperSink();
-    vector<Station*> findSinks(string source);
-
-    double edmondsKarpArea(string source);
     bool edmondsKarpBFSArea(Station* source, string* target);
     void testVisitArea(std::queue<Station*> &q, Segment* e, Station* w, double residual, bool* isEnd);
     double findMinResidualandUpdateFlowArea(Station* s, stack<Station*>* end);
