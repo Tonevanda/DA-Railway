@@ -17,9 +17,7 @@ Graph::Graph(const Graph &graph){
 
 Graph::~Graph() {
 }
-/*
- * Auxiliary function to find a Station with a given content.
- */
+
 Station* Graph::findStation(const string &name) const {
     for (auto v : StationSet)
         if (v->getName() == name)
@@ -27,9 +25,7 @@ Station* Graph::findStation(const string &name) const {
     return nullptr;
 }
 
-/*
- * Finds the index of the Station with a given content.
- */
+
 int Graph::findStationIdx(const string &name) const {
     for (unsigned i = 0; i < StationSet.size(); i++)
         if (StationSet[i]->getName() == name)
@@ -63,10 +59,7 @@ int Graph::getSegmentService(string source, string target) const {
     return -1;
 }
 
-/*
- *  Adds a Station with a given content or info (in) to a graph (this).
- *  Returns true if successful, and false if a Station with that content already exists.
- */
+
 bool Graph::addStation(const string &name, const string &district, const string &municipality, const string &township, const string &line) {
     if (findStation(name) != nullptr)
         return false;
@@ -81,11 +74,7 @@ bool Graph::removeStation(const string &name){
     StationSet.erase(StationSet.begin()+idx);
     return true;
 }
-/*
- * Adds a Segment to a graph (this), given the contents of the source and
- * destination vertices and the Segment weight (w).
- * Returns true if successful, and false if the source or destination Station does not exist.
- */
+
 bool Graph::addSegment(const string &sourc, const string &dest, double w, int serv) {
     auto v1 = findStation(sourc);
     auto v2 = findStation(dest);
@@ -486,8 +475,8 @@ void Graph::maxTrainsMinCost(string source, string target){
 
 
 void Graph::maxTrainsFailure(string source, string target, stack<pair<string, string>> failedSegments) {
-    stack<pair<string, string>> reallocateSegments; //copy failedSegments before removing them from the graph to add them later
-    stack<pair<int, int>> values; //vector to keep track of the values of the segments we remove
+    stack<pair<string, string>> reallocateSegments;
+    stack<pair<int, int>> values;
 
     while(!failedSegments.empty()){
         auto segment = failedSegments.top();
@@ -541,16 +530,16 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         station->setFlow(flow);
     }
 
-    /* Preservar o flow num vetor diferente para uma futura comparação*/
+
     vector<Station> mostAffected;
     mostAffected.reserve(StationSet.size());
     for(auto & i : StationSet){
         mostAffected.push_back(*i);
     }
 
-    /*Retirar os segmentos especificados do graph*/
-    stack<pair<string, string>> reallocateSegments; //copy failedSegments before removing them from the graph to add them later
-    stack<pair<int, int>> values; //vector to keep track of the values of the segments we remove
+
+    stack<pair<string, string>> reallocateSegments;
+    stack<pair<int, int>> values;
 
     while(!failedSegments.empty()){
         auto segment = failedSegments.top();
@@ -562,7 +551,6 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         removeBidirectionalSegment(segment.first,segment.second);
     }
 
-     /*Refazer o Edmonds-Karp geral, desta vez com o graph sem os segmentos especificados*/
 
     for(Station* station : StationSet){
         for(Segment *edge : station->getAdj()){
@@ -585,7 +573,7 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         station->setFlow(flow);
     }
 
-    /*Realocar os segmentos anteriormente retirados do graph de volta*/
+
     while(!reallocateSegments.empty()){
         auto segment = reallocateSegments.top();
         reallocateSegments.pop();
@@ -594,11 +582,11 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         addBidirectionalSegment(segment.first,segment.second,value.first,value.second);
     }
 
-    /*Comparar o flow de cada estação antes de retirar os segmentos e depois*/
-    for(int i = 0; i<StationSet.size();i++){ //get the difference between before and after the failed segments
+
+    for(int i = 0; i<StationSet.size();i++){
         mostAffected[i].setFlow(abs(mostAffected[i].getFlow() - StationSet[i]->getFlow()));
     }
-    /*Printar por ordem decrescente de flow*/
+
     sort(mostAffected.begin(), mostAffected.end(), compare);
 
     cout << "The top k most affected stations with the provided segment failures are:\n";
@@ -609,27 +597,6 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         count++;
     }
 }
-
-
-
-void deleteMatrix(int **m, int n) {
-    if (m != nullptr) {
-        for (int i = 0; i < n; i++)
-            if (m[i] != nullptr)
-                delete [] m[i];
-        delete [] m;
-    }
-}
-
-void deleteMatrix(double **m, int n) {
-    if (m != nullptr) {
-        for (int i = 0; i < n; i++)
-            if (m[i] != nullptr)
-                delete [] m[i];
-        delete [] m;
-    }
-}
-
 
 
 vector<Station*> Graph::oneGetAdjLine(string line){
@@ -671,11 +638,9 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
         Station* u = q.front();
         q.pop();
         for(auto e: u->getAdj()){
-            //if(e->getDest()->getLine()!=source->getLine())continue;
             testVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
         }
         for(auto edge : u->getIncoming()){
-            //if(edge->getOrig()->getLine()!=source->getLine())continue;
             testVisit(q, edge, edge->getOrig(), edge->getFlow());
         }
         if(q.empty() && *target==""){
