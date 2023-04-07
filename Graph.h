@@ -272,6 +272,13 @@ public:
      * @note Time-complexity -> O(VE^2)
      */
     void edmondsKarpMultipleSources(Station* s);
+    /**
+     * This function will verify if an entered segment is valid or not
+     * @param st1
+     * @param st2
+     * @return True if the segment entered exists
+     */
+    bool isValidSegment(string st1, string st2);
 protected:
     vector<pair<string, int>> districtBudget;
     vector<pair<string, int>> municipalityBudget;

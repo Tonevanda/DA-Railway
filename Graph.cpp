@@ -473,8 +473,14 @@ void Graph::maxTrainsMinCost(string source, string target){
     vector<Station*> res = dijkstra(source, target);
     stringstream ss;
     ss << "This is the following path:\n";
+    bool first = true;
     for(const auto v : res) {
-        ss << v->getName() << " - ";
+        if(first){
+            ss << v->getName();
+            first = false;
+            continue;
+        }
+        ss << " -> " << v->getName();
     }
     ss << " | Arrived at destination.";
     cout << ss.str() <<endl;
@@ -693,4 +699,12 @@ void Graph::edmondsKarpMultipleSources(Station* s){
         double bottleneck = findMinResidual(s, target);
         updateFlow(s, target, bottleneck);
     }
+}
+
+bool Graph::isValidSegment(string st1, string st2){
+    Station* st = findStation(st1);
+    for(auto adj : st->getAdj()){
+        if(adj->getDest()->getName() == st2) return true;
+    }
+    return false;
 }

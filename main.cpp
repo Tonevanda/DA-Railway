@@ -280,6 +280,10 @@ void menu(Graph& graph) {
                                     flag = false;
                                     break;
                                 }
+                                if(!graph.isValidSegment(segment1,segment2)){
+                                    cout << "The segment you entered doesn't exist!\n";
+                                    continue;
+                                }
                                 else{
                                     failedSegments.emplace(segment1, segment2);
                                 }
@@ -330,6 +334,10 @@ void menu(Graph& graph) {
                                 if(segment2=="done"){
                                     flag = false;
                                     break;
+                                }
+                                if(!graph.isValidSegment(segment1,segment2)){
+                                    cout << "The segment you entered doesn't exist!\n";
+                                    continue;
                                 }
                                 else{
                                     failedSegments.emplace(segment1,segment2);
