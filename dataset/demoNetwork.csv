@@ -1,0 +1,13 @@
+Station_A,Station_B,Capacity,Service
+Casa Branca,Monte das Flores,3,STANDARD
+Casa Branca,Ermidas-Sado,2,STANDARD
+Pombal,Casa Branca,6,ALFA
+Monte das Flores,Porto Campanhã,4,STANDARD
+Porto Campanhã,Viana do Castelo,6,STANDARD
+Ermidas-Sado,Porto Campanhã,2,STANDARD
+Ermidas-Sado,Monte das Flores,2,ALFA
+Monte das Flores,Faro,2,ALFA
+Faro,Viana do Castelo,2,ALFA
+Camarão,Ermidas-Sado,2,STANDARD
+Godim,Casa Branca,4,STANDARD
+Tunes,Viana do Castelo,5,ALFA

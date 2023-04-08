@@ -364,8 +364,8 @@ void menu(Graph& graph) {
 
 int main() {
     Graph graph;
-    readStations(&graph, "dataset/stations.csv");
-    readNetwork(&graph, "dataset/network.csv");
+    readStations(&graph, "dataset/demoStations.csv");
+    readNetwork(&graph, "dataset/demoNetwork.csv");
     menu(graph);
     return 0;
 }
