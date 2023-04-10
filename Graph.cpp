@@ -649,20 +649,11 @@ void Graph::updateFlowResidual(Station* source, Station* target, double bottlene
 
         if(e->getDest()==currentVertex){
             e->setFlow(e->getFlow() + bottleneck);
-            e->setResidual(e->getResidual()+bottleneck);
-
-            //e->getReverse()->setResidual(e->getReverse()->getResidual() + bottleneck);
-
-            //e->getReverse()->setResidual(e->getReverse()->getResidual()+bottleneck);
             currentVertex = e->getOrig();
             //cout << "New flow: " << e->getOrig()->getName() << " até " <<  e->getDest()->getName() <<": " << e->getFlow() << endl;
         }
         else{
-            e->setResidual(e->getResidual() - bottleneck);
-
-            //e->setResidual(e->getResidual() - bottleneck);
-            //e->getReverse()->setFlow(e->getReverse()->getFlow()-bottleneck);
-
+            e->setResidual(e->getResidual() + bottleneck);
             //e->setFlow(e->getFlow() - bottleneck);
             currentVertex = e->getDest();
             //cout << "New flow Residual: " << e->getOrig()->getName() << " até " << e->getDest()->getName() <<": " << e->getResidual() << endl;
@@ -680,7 +671,10 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     q.push(source);
     Station* tempTarget;
     bool firstIt = false;
-    if(*target==""){
+    if(*target != ""){
+        tempTarget = findStation(*target);
+    }
+    else{
         firstIt = true;
     }
     if(source->getAdj().size()==0&&source->getIncoming().size()==0){
@@ -691,21 +685,15 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     while(!q.empty()){
         Station* u = q.front();
         q.pop();
-
         for(auto e: u->getAdj()){
             int qsize=q.size();
             testVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
-            if(q.size()>qsize&&firstIt){
+            if(q.size()>qsize){
                 *target = e->getDest()->getName();
             }
         }
-
         for(auto edge : u->getIncoming()){
-            int qsize=q.size();
             testVisit(q, edge, edge->getOrig(), edge->getResidual());
-            if(q.size()>qsize&&firstIt){
-                *target = edge->getDest()->getName();
-            }
         }
     }
     tempTarget = findStation(*target);
