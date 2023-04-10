@@ -273,6 +273,18 @@ public:
      * @note Time-complexity -> O(1)
      */
     void setCost(double cost);
+    /**
+     * Getter method for the Residual field
+     * @return value of the residual flow of (this) segment
+     * @note Time-complexity -> O(1)
+     */
+    double getResidual();
+    /**
+     * Sets the residual field to correspond to the given parameter.
+     * @param residual
+     * @note Time-complexity -> O(1)
+     */
+    void setResidual(double residual);
 protected:
     Station* dest; // destination vertex
     double capacity; // edge weight, can also be used for capacity
@@ -282,6 +294,7 @@ protected:
     Segment *reverse = nullptr;
     int flow; // for flow-related problems
     double cost; // flow * service
+    double residual=0;
 };
 
 #endif //PROJETO_DA_1_STATIONSEGMENT_H

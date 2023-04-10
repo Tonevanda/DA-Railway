@@ -168,10 +168,12 @@ void Graph::updateFlow(Station* source, Station* target, double bottleneck){
         if(e->getDest()==currentVertex){
             e->setFlow(e->getFlow() + bottleneck);
             currentVertex = e->getOrig();
+            // cout << "New flow: " << e->getOrig()->getName() << " até " <<  e->getDest()->getName() <<": " << e->getFlow() << endl;
         }
         else{
             e->setFlow(e->getFlow() - bottleneck);
             currentVertex = e->getDest();
+            // cout << "New flow Residual: " << e->getOrig()->getName() << " até " << e->getDest()->getName() <<": " << e->getFlow() << endl;
         }
     }
 }
@@ -439,6 +441,7 @@ int Graph::maxTrainsInStation(string station) {
 
     vector<Station*> sourceStations;
 
+
     for(string line:lines){
         sourceStations = oneGetAdjLine(line);
         for(auto st : sourceStations){
@@ -510,6 +513,7 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
     for(Station* station : StationSet) {
         for (Segment *edge: station->getAdj()) {
             edge->setFlow(0.0);
+            edge->setResidual(0.0);
         }
     }
 
@@ -555,6 +559,7 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
     for(Station* station : StationSet){
         for(Segment *edge : station->getAdj()){
             edge->setFlow(0.0);
+            edge->setResidual(0.0);
         }
     }
 
@@ -615,6 +620,46 @@ vector<Station*> Graph::oneGetAdjLine(string line){
     }
     return sources;
 }
+double Graph::findMinResidualResidual(Station* source, Station* target){
+    double bottleneck = INF;
+    if(target==source){
+        return 0;
+    }
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
+
+        if(e->getDest()==currentVertex){
+            bottleneck = std::min(bottleneck, e->getCapacity() - e->getFlow());
+            currentVertex = e->getOrig();
+        }
+        else{
+            bottleneck = std::min(bottleneck, e->getResidual());
+            currentVertex = e->getDest();
+        }
+
+    }
+    return bottleneck;
+}
+
+void Graph::updateFlowResidual(Station* source, Station* target, double bottleneck){
+    Station* currentVertex = target;
+    while (currentVertex != source) {
+        Segment* e = currentVertex->getPath();
+
+        if(e->getDest()==currentVertex){
+            e->setFlow(e->getFlow() + bottleneck);
+            currentVertex = e->getOrig();
+            //cout << "New flow: " << e->getOrig()->getName() << " até " <<  e->getDest()->getName() <<": " << e->getFlow() << endl;
+        }
+        else{
+            e->setResidual(e->getResidual() + bottleneck);
+            //e->setFlow(e->getFlow() - bottleneck);
+            currentVertex = e->getDest();
+            //cout << "New flow Residual: " << e->getOrig()->getName() << " até " << e->getDest()->getName() <<": " << e->getResidual() << endl;
+        }
+    }
+};
 
 bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     for(auto st : StationSet){
@@ -625,8 +670,12 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     std::queue<Station* > q;
     q.push(source);
     Station* tempTarget;
+    bool firstIt = false;
     if(*target != ""){
         tempTarget = findStation(*target);
+    }
+    else{
+        firstIt = true;
     }
     if(source->getAdj().size()==0&&source->getIncoming().size()==0){
         *target = source->getName();
@@ -634,20 +683,20 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
     }
 
     while(!q.empty()){
-        bool isEnd = true;
         Station* u = q.front();
         q.pop();
         for(auto e: u->getAdj()){
+            int qsize=q.size();
             testVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
+            if(q.size()>qsize){
+                *target = e->getDest()->getName();
+            }
         }
         for(auto edge : u->getIncoming()){
-            testVisit(q, edge, edge->getOrig(), edge->getFlow());
-        }
-        if(q.empty() && *target==""){
-            *target = u->getName();
-            tempTarget = findStation(*target);
+            testVisit(q, edge, edge->getOrig(), edge->getResidual());
         }
     }
+    tempTarget = findStation(*target);
     return tempTarget->isVisited();
 }
 
@@ -659,8 +708,8 @@ void Graph::edmondsKarpMultipleSources(Station* s){
     string t;
     while(edmondsKarpBFSArea(s, &t)){
         Station* target = findStation(t);
-        double bottleneck = findMinResidual(s, target);
-        updateFlow(s, target, bottleneck);
+        double bottleneck = findMinResidualResidual(s, target);
+        updateFlowResidual(s, target, bottleneck);
     }
 }
 

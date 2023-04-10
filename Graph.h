@@ -256,6 +256,22 @@ public:
      */
     vector<Station*> oneGetAdjLine(string line);
     /**
+     * Iterates through the path between the source and the target to determine the bottleneck of said path, but uses the residual field of a segment instead of flow when using a residual edge
+     * @param source
+     * @param target
+     * @return Bottleneck of the path between the source and the target
+     * @note Time-complexity -> O(n)
+     */
+    double findMinResidualResidual(Station* source, Station* target);
+    /**
+     * Iterates over the path of the target Station until it reaches the source and adds the bottleneck to the flow of every segment of that path, but if that segment is a residual one, it will add the bottleneck to "residual" field of that segment instead.
+     * @param source
+     * @param target
+     * @param bottleneck
+     * @note Time-complexity -> O(n)
+     */
+    void updateFlowResidual(Station* source, Station* target, double bottleneck);
+    /**
      * The Breadth-First Search algorithm used in the implementation of the Edmonds-Karp Multiple Sources algorithm where it can be given (or not) a target. If it isn't given a target it will search for one and set it as a target
      * @param source
      * @param target

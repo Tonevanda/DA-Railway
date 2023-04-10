@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Graph.h"
 #include "reads.h"
-#include <chrono>
 
 using namespace std;
 void menu(Graph& graph) {
@@ -364,8 +363,8 @@ void menu(Graph& graph) {
 
 int main() {
     Graph graph;
-    readStations(&graph, "dataset/demoStations.csv");
-    readNetwork(&graph, "dataset/demoNetwork.csv");
+    readStations(&graph, "dataset/stations.csv");
+    readNetwork(&graph, "dataset/network.csv");
     menu(graph);
     return 0;
 }

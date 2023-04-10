@@ -1,8 +1,8 @@
 Name,District,Municipality,Township,Line
-Monte Real,PORTO,PORTO,Porto,Linha do Norte
-Porto Campanhã,PORTO,PORTO,Porto,Linha do Norte
-Lisboa Oriente,LISBOA,LISBOA,Parque das Nações,Linha do Norte
-Pombal,LEIRIA,POMBAL,Pombal,Linha do Norte
-Vila Nova de Gaia-Devesas,PORTO,VILA NOVA DE GAIA,Vila Nova de Gaia,Linha do Norte
-Vila Nova da Raínha,LISBOA,AZAMBUJA,Vila Nova da Rainha,Linha do Norte
-Estarreja,AVEIRO,ESTARREJA,Beduído e Veiros,Linha do Norte
+Monte Real,PORTO,ERMESINDE,Porto,Linha de Braga
+Porto Campanhã,PORTO,ERMESINDE,Porto,Linha de Braga
+Lisboa Oriente,PORTO,VALONGO,Parque das Nações,Linha do Sul
+Pombal,LISBOA,GONDOMAR,Pombal,Linha de Braga
+Tunes,LISBOA,GONDOMAR,Tunes,Linha de Braga
+Godim,COIMBRA,ESPARTA,Godim,Linha do Sul
+Estarreja,COIMBRA,ESPARTA,Estarreja,Linha de Braga

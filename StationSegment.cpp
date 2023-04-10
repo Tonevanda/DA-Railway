@@ -180,3 +180,12 @@ void Segment::setFlow(int flow) {
 void Segment::setCost(double cost) {
     this->cost = cost;
 }
+
+double Segment::getResidual() {
+    return residual;
+}
+
+void Segment::setResidual(double residual) {
+    this->residual=residual;
+}
+
