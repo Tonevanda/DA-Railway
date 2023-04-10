@@ -555,7 +555,6 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         removeBidirectionalSegment(segment.first,segment.second);
     }
 
-
     for(Station* station : StationSet){
         for(Segment *edge : station->getAdj()){
             edge->setFlow(0.0);
@@ -601,6 +600,7 @@ void Graph::printTopKMostAffected(stack<pair<string, string>> failedSegments, in
         if(count == k) return;
         count++;
     }
+
 }
 
 
@@ -688,7 +688,7 @@ bool Graph::edmondsKarpBFSArea(Station* source, string* target){
         for(auto e: u->getAdj()){
             int qsize=q.size();
             testVisit(q, e, e->getDest(), e->getCapacity() - e->getFlow());
-            if(q.size()>qsize){
+            if(q.size()>qsize&&firstIt){
                 *target = e->getDest()->getName();
             }
         }
